@@ -2,7 +2,7 @@
 
 **Project**: SPHEREx Explorer
 **Challenge**: 2026 NASA Space Apps Challenge
-**Status**: Schema Specification (Phase 2 Finalized)
+**Status**: Schema Specification (Phase 2 Finalized & Hardened)
 **Last Updated**: 2026-11-14
 
 ---
@@ -12,11 +12,14 @@
 This document specifies the exact JSON schema for `src/data/mockTargets.json`, the canonical dataset powering SPHEREx Explorer.
 
 ### Key Data Integrity Principles:
-1. **Separation of Verified Facts from Synthetic Data**:
-   - Astronomical object identity (designation, constellation, verified catalog coordinates, physical type) is sourced from factual reference catalogs (SIMBAD, NASA/IPAC, Gaia) and is **not** synthetic.
-   - Observation sequences (timestamps, observation sequence indices, and demonstration image assets) are synthetic and must carry an explicit `"isMock": true` flag.
-2. **No Invented Scientific Values**:
-   - The initial MVP observation schema intentionally omits physical measurements such as wavelength channels, exposure times, detector temperatures, or spectral fluxes. These are reserved for future real-data pipelines.
+1. **Layered Provenance (No Blanket Mock Flag)**:
+   - Target identities, designations, constellations, catalog coordinates, and physical types originate from verified astronomical databases (SIMBAD, Gaia DR3, NASA/IPAC WISE). They are **not** marked as synthetic.
+   - Do **not** place a blanket `isMock: true` on the target record.
+   - Observation timestamps, sequence indices, and demonstration image assets are synthetic and **must** carry an explicit `"isMock": true` flag.
+2. **No Fabricated Telemetry**:
+   - The initial MVP observation schema intentionally omits physical measurements such as wavelength channels, exposure times, detector temperatures, or spectral fluxes.
+3. **Explicit Field Coverage Configuration**:
+   - Target records include `fieldCoverageDegrees` representing the mock field coverage boundary used by the coordinate matching algorithm.
 
 ---
 
@@ -36,7 +39,7 @@ Represents a verified celestial object from the challenge specification:
 | `constellation` | `string` | Yes | Host constellation name. | Catalog Verified |
 | `objectType` | `string` | Yes | Astrophysical classification (e.g., `"Red Dwarf / High Proper Motion Star"`). | Catalog Verified |
 | `description` | `string` | Yes | Educational summary of the object's scientific interest. | Educational |
-| `fieldCoverageDegrees` | `number` | Yes | Angular radius (in degrees) representing mock demonstration coverage. | Pending Phase 4 |
+| `fieldCoverageDegrees` | `number` | Yes | Angular radius (in degrees) representing mock demonstration coverage. | Synthetic Config |
 | `coordinateSource` | `string` | Yes | Reference catalog authority (e.g., `"SIMBAD / Gaia DR3"`). | Factual Provenance |
 | `observations` | `Array<SyntheticObservation>` | Yes | Chronological sequence of demonstration observations (4 per target). | Synthetic MOCK |
 
@@ -48,22 +51,20 @@ Represents a single demonstration observation epoch within a target's timeline:
 | :--- | :--- | :--- | :--- |
 | `id` | `string` | Yes | Unique observation identifier (e.g., `"obs-barnard-01"`). |
 | `targetId` | `string` | Yes | Foreign key reference to parent `AstronomicalTarget.id`. |
-| `sequence` | `number` | Yes | Chronological sequence position (1, 2, 3, 4). |
+| `sequence` | `number` | Yes | Chronological sequence position ($1, 2, 3, 4$). |
 | `timestamp` | `string` | Yes | Synthetic UTC timestamp in ISO 8601 format (e.g., `"2026-03-01T12:00:00Z"`). Must be chronologically ascending. |
 | `imageUrl` | `string` | Yes | Relative path to local demo image asset (e.g., `"/images/demo/barnards_star_ep01.png"`). |
-| `isMock` | `boolean` | Yes | Must always be `true`. Explicitly identifies the image and epoch as synthetic. |
+| `isMock` | `boolean` | Yes | Must always be `true`. Explicitly identifies the observation frame and timestamp as synthetic. |
 
 ---
 
-## 3. The Five NASA Challenge Objects in Schema
-
-The dataset includes all five mandatory challenge objects:
+## 3. Representative JSON Schema Example
 
 ```json
 {
   "version": "1.0.0",
   "challenge": "2026 NASA Space Apps Challenge — SPHEREx Explorer",
-  "disclaimer": "Object positions and identities are verified astronomical catalog entries. Observation epochs, timestamps, and images are synthetic MOCK demonstrations.",
+  "disclaimer": "Target positions and identities are verified astronomical catalog entries. Observation epochs, timestamps, images, and field coverages are synthetic MOCK demonstration data.",
   "targets": [
     {
       "id": "barnards-star",
@@ -73,7 +74,7 @@ The dataset includes all five mandatory challenge objects:
       "dec": 4.693,
       "constellation": "Ophiuchus",
       "objectType": "Red Dwarf (M4.0V) / High Proper Motion Star",
-      "description": "Second-closest known star system to the Sun, famous for having the highest known proper motion of any star.",
+      "description": "Second-closest known star system to the Sun, exhibiting the highest known proper motion of any star.",
       "fieldCoverageDegrees": 1.0,
       "coordinateSource": "SIMBAD / Gaia DR3 (ICRS, Epoch J2016.0)",
       "observations": [
@@ -145,7 +146,7 @@ The dataset includes all five mandatory challenge objects:
       "dec": 30.40,
       "constellation": "Auriga",
       "objectType": "Young Binary T Tauri Variable Star",
-      "description": "T Tauri system exhibiting dramatic, multi-year dimming events attributed to circumstellar disk disruption and occulting dust streams.",
+      "description": "T Tauri system exhibiting dramatic, multi-year dimming events attributed to circumstellar disk disruption.",
       "fieldCoverageDegrees": 1.0,
       "coordinateSource": "SIMBAD / Gaia DR3 (ICRS)",
       "observations": []
@@ -158,7 +159,7 @@ The dataset includes all five mandatory challenge objects:
       "dec": 66.75,
       "constellation": "Draco",
       "objectType": "Mira-type Long-Period Pulsating Variable Star",
-      "description": "Classic oxygen-rich Mira variable star exhibiting extensive visual amplitude variations over a ~245-day cycle.",
+      "description": "Classic oxygen-rich Mira variable star exhibiting extensive visual amplitude variations.",
       "fieldCoverageDegrees": 1.0,
       "coordinateSource": "AAVSO / SIMBAD (ICRS)",
       "observations": []
@@ -171,12 +172,10 @@ The dataset includes all five mandatory challenge objects:
 
 ## 4. Fields Intentionally Omitted from MVP
 
-To prevent fabricating unverifiable engineering and scientific values, the following fields are **strictly excluded** from the MVP schema:
+To prevent fabricating unverifiable engineering and scientific values, the following fields are strictly excluded:
 - `wavelengthCenterMicrons`
 - `exposureTimeSeconds`
 - `spectralBand`
 - `filterTransmission`
 - `detectorTemperature`
 - `fluxCalibrations`
-
-These may be integrated in post-challenge releases when actual SPHEREx pipeline data products become publicly accessible via NASA/IPAC IRSA.

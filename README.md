@@ -84,17 +84,33 @@ npm run preview
 ```text
 spherex-explorer/
 │
+├── .agents/                      # Antigravity governance and agent skills
+│   ├── rules/                    # Focused engineering and quality rules
+│   │   ├── project-scope.md
+│   │   ├── architecture-boundaries.md
+│   │   ├── scientific-data-integrity.md
+│   │   ├── ui-ux-standards.md
+│   │   ├── engineering-standards.md
+│   │   ├── verification.md
+│   │   └── git-safety.md
+│   │
+│   └── skills/                   # Reusable engineering skills
+│       ├── documentation-audit/
+│       │   └── SKILL.md
+│       └── phase-gate-review/
+│           └── SKILL.md
+│
 ├── public/
 │   └── images/
-│       └── demo/             # 20 synthetic demo sky images (4 per challenge target)
+│       └── demo/                 # 20 synthetic demo sky images (4 per challenge target)
 │
 ├── src/
-│   ├── assets/               # Build-time static assets (logos, icons)
+│   ├── assets/                   # Build-time static assets (logos, icons)
 │   │
-│   ├── components/           # UI Presentation components
-│   │   ├── Header/           # Title and persistent mock data banner
-│   │   ├── SearchPanel/      # Coordinate inputs (RA / Dec) & 5 challenge buttons
-│   │   ├── SkyViewer/        # Sky image observation viewport
+│   ├── components/               # UI Presentation components
+│   │   ├── Header/               # Title and persistent mock data banner
+│   │   ├── SearchPanel/          # Coordinate inputs (RA / Dec) & 5 challenge buttons
+│   │   ├── SkyViewer/            # Sky image observation viewport
 │   │   ├── TimelineControls/ # Epoch navigation & playback controls (1200ms default)
 │   │   └── ObservationInfo/  # Target info (verified) vs observation metadata (mock)
 │   │
@@ -102,8 +118,9 @@ spherex-explorer/
 │   │   └── mockTargets.json  # Canonical dataset for 5 targets & 20 observations
 │   │
 │   ├── services/
+│   │   ├── observationService.js # Domain service: matching, target resolution, sorting
 │   │   └── providers/
-│   │       └── MockDataProvider.js # Single data provider module
+│   │       └── MockDataProvider.js # Data-access adapter: loads mockTargets.json
 │   │
 │   ├── hooks/
 │   │   └── useObservationExplorer.js # Application state coordinator hook
@@ -117,7 +134,7 @@ spherex-explorer/
 │   ├── App.jsx               # Application root component
 │   └── main.jsx              # React application entry point
 │
-├── docs/                     # Project specification & architectural docs
+├── docs/                         # Project specification & architectural docs
 │   ├── PRD.md
 │   ├── SRS.md
 │   ├── ARCHITECTURE.md
@@ -127,9 +144,10 @@ spherex-explorer/
 │   ├── TASKS.md
 │   ├── ACCEPTANCE_CRITERIA.md
 │   ├── GLOSSARY.md
-│   └── DATA_SOURCES.md
+│   ├── DATA_SOURCES.md
+│   └── DECISIONS.md
 │
-├── AGENTS.md                 # Agent and developer constraints & rules
+├── AGENTS.md                 # Primary project instruction document
 ├── README.md                 # Project introduction and setup guide
 ├── index.html                # HTML entry point
 ├── package.json              # Project metadata and dependencies
@@ -154,9 +172,10 @@ Comprehensive project documentation is maintained under the `docs/` folder:
 | [ACCEPTANCE_CRITERIA.md](docs/ACCEPTANCE_CRITERIA.md) | Quality gates and verification conditions |
 | [GLOSSARY.md](docs/GLOSSARY.md) | Astronomical and technical terminology |
 | [DATA_SOURCES.md](docs/DATA_SOURCES.md) | Catalog provenance for challenge targets and mock rules |
+| [DECISIONS.md](docs/DECISIONS.md) | Architecture Decision Records (ADRs 001 - 012) |
 
 ---
 
 ## Development Guidelines
 
-All contributors and AI agents must review and strictly observe [AGENTS.md](AGENTS.md).
+All contributors and AI agents must review and strictly observe [AGENTS.md](AGENTS.md) and the rule files under [.agents/rules/](.agents/rules/).

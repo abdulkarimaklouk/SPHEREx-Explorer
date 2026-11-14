@@ -2,7 +2,7 @@
 
 **Project**: SPHEREx Explorer
 **Challenge**: 2026 NASA Space Apps Challenge
-**Status**: Architecture Baseline (Phase 2 Finalized)
+**Status**: Architecture Baseline (Phase 2 Finalized & Hardened)
 **Last Updated**: 2026-11-14
 
 ---
@@ -11,6 +11,22 @@
 
 ```text
 spherex-explorer/
+│
+├── .agents/                      # Antigravity governance and agent skills
+│   ├── rules/                    # Focused engineering and quality rules
+│   │   ├── project-scope.md
+│   │   ├── architecture-boundaries.md
+│   │   ├── scientific-data-integrity.md
+│   │   ├── ui-ux-standards.md
+│   │   ├── engineering-standards.md
+│   │   ├── verification.md
+│   │   └── git-safety.md
+│   │
+│   └── skills/                   # Reusable engineering skills
+│       ├── documentation-audit/
+│       │   └── SKILL.md
+│       └── phase-gate-review/
+│           └── SKILL.md
 │
 ├── public/
 │   ├── images/
@@ -30,15 +46,16 @@ spherex-explorer/
 │   ├── data/
 │   │   └── mockTargets.json      # Canonical dataset for 5 challenge objects & 20 observations
 │   │
-│   ├── services/
+│   ├── services/                 # Domain business logic & data access
+│   │   ├── observationService.js # Domain service: matching, target resolution, sorting
 │   │   └── providers/
-│   │       └── MockDataProvider.js  # Single data provider module
+│   │       └── MockDataProvider.js # Data-access adapter: loads mockTargets.json
 │   │
 │   ├── hooks/
 │   │   └── useObservationExplorer.js # Application state coordinator hook
 │   │
 │   ├── utils/
-│   │   └── coordinates.js        # Coordinate domain validation and angular distance math
+│   │   └── coordinates.js        # Domain validation and angular distance math
 │   │
 │   ├── styles/
 │   │   └── index.css             # Design tokens and base stylesheet
@@ -46,7 +63,7 @@ spherex-explorer/
 │   ├── App.jsx                   # Application root shell connecting hook to UI
 │   └── main.jsx                  # React DOM mount entry point
 │
-├── docs/                         # Specifications, requirements & roadmap
+├── docs/                         # Specifications, requirements, architecture & decisions
 │   ├── PRD.md                    # Product objectives, scope, 5 challenge targets
 │   ├── SRS.md                    # Detailed functional & non-functional specifications
 │   ├── ARCHITECTURE.md           # System architecture, data flow & custom hook design
@@ -56,9 +73,10 @@ spherex-explorer/
 │   ├── TASKS.md                  # 6-phase implementation roadmap
 │   ├── ACCEPTANCE_CRITERIA.md    # Quality gates and verification criteria
 │   ├── GLOSSARY.md               # Astronomical and technical terminology
-│   └── DATA_SOURCES.md           # Factual provenance for 5 targets & mock attribution rules
+│   ├── DATA_SOURCES.md           # Factual provenance for 5 targets & mock attribution rules
+│   └── DECISIONS.md              # Architecture Decision Records (ADRs 001 - 012)
 │
-├── AGENTS.md                     # Contributor & agent operating rules
+├── AGENTS.md                     # Primary project instruction document
 ├── README.md                     # Project overview and run instructions
 ├── index.html                    # Single page HTML entry point
 ├── package.json                  # Dependencies and build scripts
@@ -76,41 +94,41 @@ spherex-explorer/
 - **Constraint**: All demonstration graphics must carry clear mock identification.
 
 ### `src/components/`
-Modular presentation components. Components receive data and emit actions via props; they **never** access the data provider or raw JSON directly:
-- `Header/`: Displays application branding, NASA challenge context, and a persistent `MOCK DATA` banner.
-- `SearchPanel/`: Renders numeric decimal inputs for RA and Dec, displays inline validation feedback, and provides quick-selection buttons for all five challenge objects.
-- `SkyViewer/`: Renders the synthetic sky image for the active observation sequence, handles image loading and error fallbacks, and displays an overlay tag with the observation sequence (e.g., `Observation 2 of 4`).
-- `TimelineControls/`: Interactive controls for time navigation: Step Backward, Step Forward, Scrubber range slider, and Play/Pause toggle with automatic stop on the final observation.
+Modular presentation components receiving data and emitting callbacks via props:
+- `Header/`: Application branding, challenge context, and persistent `MOCK DATA` banner.
+- `SearchPanel/`: Numeric decimal inputs for RA and Dec, inline validation feedback, and quick-select buttons for all five challenge objects.
+- `SkyViewer/`: Viewport for synthetic sky images, loading and error fallbacks, and sequence tag overlay (`Observation X of 4`).
+- `TimelineControls/`: Interactive controls: Step Backward, Step Forward, Scrubber range slider, and Play/Pause toggle with automatic stop on the final observation.
 - `ObservationInfo/`: Displays verified target information (name, constellation, reference coordinates) alongside synthetic observation metadata (timestamp, sequence number, mock status).
 
 ### `src/data/mockTargets.json`
-- Canonical JSON file defining all five challenge objects and their four demonstration observation epochs.
-- Enforces strict separation between verified astronomical facts (catalog coordinates and names) and synthetic observation data (marked `"isMock": true`).
+- Canonical JSON dataset containing factual catalog data for all five challenge targets, paired with synthetic demonstration observation sequences (4 per target, 20 total).
+
+### `src/services/observationService.js`
+- Domain service owning application logic.
+- Exposes:
+  - `getPresetTargets()`: Returns summary list of 5 challenge objects.
+  - `getTargetById(targetId)`: Resolves target record and ensures observations are sorted chronologically.
+  - `findTargetByCoordinates(raDeg, decDeg)`: Matches user coordinates against available target fields using configured coverage limits.
 
 ### `src/services/providers/MockDataProvider.js`
-- The single data provider module.
-- Exposes:
-  - `getPresetTargets()`: Returns the list of 5 challenge objects.
-  - `getTargetById(targetId)`: Returns target record with observations sorted in ascending chronological order.
-  - `findTargetByCoordinates(ra, dec)`: Resolves coordinates against documented per-target mock field coverage boundaries.
+- Local data-access adapter.
+- Exposes `loadTargets()` to import and return raw target records from `mockTargets.json`.
+- Maintains zero business logic, math calculations, or React state.
 
 ### `src/hooks/useObservationExplorer.js`
-- Coordinates application-level state: active target, current observation index, play/pause timer (1200ms default), and coordinate search state.
-- Ensures playback stops automatically when reaching the final observation.
+- Application state coordinator hook.
+- Manages active target, current observation index, play/pause interval timer (1200ms default), and search state.
 
 ### `src/utils/coordinates.js`
 - Pure mathematical functions:
-  - Validates coordinate bounds: $0.0 \le \text{RA} < 360.0$, $-90.0 \le \text{Dec} \le +90.0$.
-  - Calculates spherical angular separation (great-circle distance).
-  - Formats coordinates for display.
-
-### `src/styles/`
-- Central stylesheet (`index.css`) containing color tokens, typography, and responsive reset rules.
+  - `validateCoordinates(raDeg, decDeg)`: Boundary validation ($0 \le \text{RA} < 360$, $-90 \le \text{Dec} \le 90$).
+  - `angularSeparationDegrees(ra1Deg, dec1Deg, ra2Deg, dec2Deg)`: Numerically stable great-circle separation with RA wraparound handling.
 
 ---
 
-## 3. Placement & Development Conventions
+## 3. Automated Testing Structure
 
-1. **Strict Decoupling**: UI components must never import `src/data/` or `src/services/providers/`.
-2. **File Location Discipline**: All code must reside strictly within the approved directories above. Do not create unapproved top-level folders.
-3. **Phase Dependency**: No React components or CSS styling may be built until Phase 3 (Dedicated UI/UX Design) is formally completed and approved.
+- Pure JavaScript modules (`src/utils/coordinates.js` and `src/services/observationService.js`) are tested using the built-in Node.js test runner (`node --test`).
+- Tests are executed without adding external npm dependencies.
+- Component and visual interactions are verified via browser-based manual testing against `docs/ACCEPTANCE_CRITERIA.md`.

@@ -2,21 +2,22 @@
 
 **Project**: SPHEREx Explorer
 **Challenge**: 2026 NASA Space Apps Challenge
-**Status**: Architecture Baseline (Phase 2 Finalized)
+**Status**: Architecture Baseline (Phase 2 Finalized & Hardened)
 **Last Updated**: 2026-11-14
 
 ---
 
 ## 1. Architectural Overview
 
-SPHEREx Explorer is designed as a focused, modular client-side Single-Page Application (SPA) built on React 18 and Vite. It maintains strict decoupling between presentation components, state management, and data access.
+SPHEREx Explorer is designed as a modular client-side Single-Page Application (SPA) built on React 18 and Vite. It maintains strict decoupling between presentation components, state management, domain services, data adapters, and mathematical utilities.
 
 The core architectural layers are:
 1. **Presentation Layer (`src/components/`)**: Clean, independent UI components purely responsible for rendering and emitting user actions. UI components **never** access JSON datasets or coordinate math directly.
-2. **Application State Layer (`src/hooks/`)**: Centralized in the `useObservationExplorer` custom hook, coordinating active target selection, observation sequence indexing, timeline playback timers, and input validation without introducing unnecessary React Context.
-3. **Data Provider Layer (`src/services/providers/`)**: Consolidated in a single `MockDataProvider` module that imports local static JSON (`src/data/mockTargets.json`) and exposes clean, queryable accessor methods.
-4. **Utility Layer (`src/utils/`)**: Pure, stateless mathematical and formatting functions (`src/utils/coordinates.js`), including angular distance calculations and boundary checks.
-5. **Static Assets (`public/images/demo/`)**: Local static demonstration images representing synthetic observation epochs.
+2. **Application State Layer (`src/hooks/useObservationExplorer.js`)**: Centralized custom hook coordinating active target selection, observation sequence indexing, timeline playback timers, and search status without introducing unnecessary React Context.
+3. **Domain Service Layer (`src/services/observationService.js`)**: The application domain service owning target resolution, coordinate matching policies, and chronological observation sorting.
+4. **Data Provider Layer (`src/services/providers/MockDataProvider.js`)**: The local data-access adapter isolating the application from physical JSON storage (`src/data/mockTargets.json`).
+5. **Utility Layer (`src/utils/coordinates.js`)**: Pure, stateless mathematical functions, including numerically stable great-circle angular separation and boundary checks.
+6. **Static Assets (`public/images/demo/`)**: Local static demonstration images representing synthetic observation epochs.
 
 ---
 
@@ -37,12 +38,16 @@ graph TD
         useObservationExplorer["useObservationExplorer Hook<br/>- Coordinates active target, epoch index, playback timer<br/>- Coordinates requested vs target coordinates"]
     end
 
-    subgraph DomainUtils ["Utility Math Layer"]
-        coordUtils["src/utils/coordinates.js<br/>- Domain validation (RA: 0-360, Dec: ±90)<br/>- Great-circle angular separation calculation"]
+    subgraph DomainService ["Domain Service Layer"]
+        observationService["src/services/observationService.js<br/>- getPresetTargets()<br/>- getTargetById(targetId)<br/>- findTargetByCoordinates(raDeg, decDeg)"]
     end
 
-    subgraph ServiceLayer ["Data Provider Layer"]
-        MockDataProvider["src/services/providers/MockDataProvider.js<br/>- getPresetTargets()<br/>- getTargetById(targetId)<br/>- findTargetByCoordinates(ra, dec)"]
+    subgraph DataAdapter ["Data Provider Layer (Adapter)"]
+        MockDataProvider["src/services/providers/MockDataProvider.js<br/>- loadTargets()"]
+    end
+
+    subgraph DomainUtils ["Utility Math Layer"]
+        coordUtils["src/utils/coordinates.js<br/>- validateCoordinates(raDeg, decDeg)<br/>- angularSeparationDegrees(ra1Deg, dec1Deg, ra2Deg, dec2Deg)"]
     end
 
     subgraph DataStore ["Static Datasets & Assets"]
@@ -58,17 +63,19 @@ graph TD
 
     App --> useObservationExplorer
 
-    useObservationExplorer --> MockDataProvider
+    useObservationExplorer --> observationService
     useObservationExplorer --> coordUtils
 
+    observationService --> MockDataProvider
+    observationService --> coordUtils
+
     MockDataProvider --> MockTargetsJSON
-    MockDataProvider --> coordUtils
     SkyViewer -.-> DemoImages
 ```
 
 ---
 
-## 3. Data Flow & State Lifecycle
+## 3. Data Flow & Sequence
 
 ```mermaid
 sequenceDiagram
@@ -76,6 +83,7 @@ sequenceDiagram
     actor User
     participant SearchPanel as SearchPanel UI
     participant Hook as useObservationExplorer
+    participant Service as observationService
     participant Utils as coordinates.js
     participant Provider as MockDataProvider
     participant Viewer as SkyViewer & Timeline
@@ -84,28 +92,32 @@ sequenceDiagram
     SearchPanel->>Hook: handleSearch(ra, dec) or handleSelectPreset(targetId)
 
     alt Preset Challenge Target Selected
-        Hook->>Provider: getTargetById(targetId)
-        Provider-->>Hook: Target object with 4 sorted observations
+        Hook->>Service: getTargetById(targetId)
+        Service->>Provider: loadTargets()
+        Provider-->>Service: Raw target records
+        Service-->>Hook: Target with 4 chronologically sorted observations
     else Coordinate Search Submitted
-        Hook->>Utils: validateCoordinates(ra, dec)
+        Hook->>Utils: validateCoordinates(raDeg, decDeg)
         alt Invalid Bounds
             Utils-->>Hook: Validation Error (Out of Bounds)
             Hook-->>SearchPanel: Display inline validation message
         else Valid Bounds
-            Hook->>Provider: findTargetByCoordinates(ra, dec)
-            Provider->>Utils: calculateAngularDistance(ra1, dec1, ra2, dec2)
-            alt Within Target Field Coverage Boundary
-                Provider-->>Hook: Matched Target (with coverage details)
+            Hook->>Service: findTargetByCoordinates(raDeg, decDeg)
+            Service->>Provider: loadTargets()
+            Provider-->>Service: Raw target records
+            Service->>Utils: angularSeparationDegrees(ra1, dec1, ra2, dec2)
+            alt Within Configured Target Field Coverage
+                Service-->>Hook: Match Result (Target, separation, center coordinates)
             else Outside All Mock Field Coverage
-                Provider-->>Hook: null (No observation field found)
+                Service-->>Hook: null (No observation field found)
             end
         end
     end
 
     alt Target Matched / Loaded
-        Hook->>Hook: Reset epoch index to 0, stop playback
-        Hook-->>Viewer: Active observation, sequence (1/4), playback state
-        Hook-->>SearchPanel: Update coordinates (show requested vs target center)
+        Hook->>Hook: Reset observation index to 0, stop playback
+        Hook-->>Viewer: Active observation frame (1 of 4), playback state
+        Hook-->>SearchPanel: Display requested coordinates vs catalog center coordinates
     else No Match
         Hook-->>SearchPanel: Set status: "No mock observation in this field"
     end
@@ -114,7 +126,7 @@ sequenceDiagram
         User->>Viewer: Click Play
         Viewer->>Hook: togglePlay()
         loop Every 1200ms
-            Hook->>Hook: Increment epoch index
+            Hook->>Hook: Increment observation index
             alt Reached Final Observation (Index === 3)
                 Hook->>Hook: Clear timer, set isPlaying = false (Stop)
             end
@@ -125,39 +137,44 @@ sequenceDiagram
 
 ---
 
-## 4. Component & Module Responsibilities
+## 4. Module Responsibilities & Contracts
 
-### 4.1 `src/services/providers/MockDataProvider.js`
-The single authoritative data access module. Responsibilities:
-- `getPresetTargets()`: Returns an array of the five NASA challenge objects (`id`, `name`, `ra`, `dec`, `constellation`, `description`, `fieldCoverageDegrees`).
-- `getTargetById(targetId)`: Retrieves the target record and ensures its observations are sorted in ascending chronological order by `timestamp`.
-- `findTargetByCoordinates(ra, dec)`: Iterates through mock target fields, computes great-circle celestial separation against target center coordinates, and returns the target if the separation is within that target's documented coverage boundary. Returns `null` if outside all target coverage.
+### 4.1 Data Provider: `src/services/providers/MockDataProvider.js`
+The physical data-access adapter.
+- **Contract**: `loadTargets()`: Asynchronously or synchronously imports and returns raw target objects from `src/data/mockTargets.json`.
+- **Restrictions**: Does not perform math, coordinate matching, filtering, sorting, or business rule evaluations.
 
-### 4.2 `src/utils/coordinates.js`
-Pure, stateless utility functions:
-- `validateCoordinates(ra, dec)`: Checks that RA and Dec are valid numbers and satisfy $0.0 \le \text{RA} < 360.0$ and $-90.0 \le \text{Dec} \le +90.0$.
-- `calculateAngularDistance(ra1, dec1, ra2, dec2)`: Computes angular separation $\Delta\theta$ using the spherical law of cosines:
+### 4.2 Domain Service: `src/services/observationService.js`
+The application domain logic owner.
+- `getPresetTargets()`: Returns the five challenge target summaries for quick-select buttons.
+- `getTargetById(targetId)`: Resolves target record and ensures observations are sorted in ascending chronological order by `timestamp`.
+- `findTargetByCoordinates(raDeg, decDeg)`:
+  - Iterates through available target fields.
+  - Calls `angularSeparationDegrees(raDeg, decDeg, target.ra, target.dec)`.
+  - Evaluates whether separation $\le \text{target.fieldCoverageDegrees}$.
+  - If multiple fields match, selects the target with the minimum angular separation.
+  - Returns a structured match object: `{ target, separationDegrees, requestedCoordinates: { ra: raDeg, dec: decDeg }, targetCenterCoordinates: { ra: target.ra, dec: target.dec } }`.
+  - Returns `null` if no target field covers the requested coordinates.
+
+### 4.3 Coordinate Utilities: `src/utils/coordinates.js`
+Pure mathematical utility functions:
+- `validateCoordinates(raDeg, decDeg)`: Ensures $0.0 \le \text{raDeg} < 360.0$ and $-90.0 \le \text{decDeg} \le +90.0$.
+- `angularSeparationDegrees(ra1Deg, dec1Deg, ra2Deg, dec2Deg)`:
+  Computes great-circle separation using a numerically stable spherical law of cosines formula:
   $$\Delta\theta = \arccos\left(\sin(\delta_1)\sin(\delta_2) + \cos(\delta_1)\cos(\delta_2)\cos(\alpha_1 - \alpha_2)\right)$$
-- `formatCoordinates(ra, dec)`: Standardizes coordinates for human-readable display.
+  Correctly handles RA wraparound across the $0^\circ / 360^\circ$ boundary.
 
-### 4.3 `src/hooks/useObservationExplorer.js`
-The central coordinator hook. It encapsulates:
-- `activeTarget`: Currently selected challenge target or `null`.
-- `currentObservationIndex`: Integer pointer ($0 \le \text{index} < N$, default 0).
-- `isPlaying`: Boolean state controlling the automated playback interval timer.
-- `searchCoordinates`: Object tracking requested coordinates `{ ra, dec }`.
-- `searchError`: Message when coordinates are invalid or outside coverage.
-- **Timer Management**: Handles `setInterval` at 1200ms, automatically clearing the timer and pausing when reaching the last observation index.
-
-### 4.4 Presentation Components (`src/components/`)
-- All components receive data and action callbacks via props from `App.jsx`.
-- Components maintain no independent data caching, external state subscriptions, or timer side-effects.
+### 4.4 Custom Hook: `src/hooks/useObservationExplorer.js`
+The central state coordinator:
+- Manages `activeTarget`, `currentObservationIndex`, `isPlaying`, `searchCoordinates`, `matchDetails`, and `searchError`.
+- Manages the 1200ms auto-playback interval and automatically clears it on observation 4.
+- No direct JSON access or embedded mathematical formulas.
 
 ---
 
-## 5. Architectural Boundaries & Guardrails
+## 5. Architectural Guardrails
 
-1. **Decoupled UI**: Presentation components remain agnostic of JSON file paths, providers, and mathematical formulas.
-2. **Transparent Coordinate Display**: The interface must visibly distinguish user requested coordinates from target field center coordinates whenever an observation is displayed.
-3. **Zero Backend / Serverless**: No backend endpoints or remote storage.
-4. **No Premature Context**: For this focused single-screen application, standard React hook composition in `App.jsx` prevents unnecessary Context re-render performance costs.
+1. **Strict Service / Provider Partition**: Providers only read storage; services only execute domain rules.
+2. **Coordinate Transparency**: The UI visibly displays requested coordinates alongside matched target center coordinates.
+3. **Zero Backend**: All operations execute locally in the browser.
+4. **No Premature Global Context**: Single-view application avoids React Context boilerplate.

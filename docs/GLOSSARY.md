@@ -2,7 +2,7 @@
 
 **Project**: SPHEREx Explorer
 **Challenge**: 2026 NASA Space Apps Challenge
-**Status**: Reference Terminology (Phase 2 Finalized)
+**Status**: Reference Terminology (Phase 2 Finalized & Hardened)
 **Last Updated**: 2026-11-14
 
 ---
@@ -47,6 +47,12 @@ A specific timestamp and sequence index representing an astronomical observation
 
 ## 2. Technical & Architectural Terminology
 
+### Domain Service
+The software layer (`src/services/observationService.js`) responsible for encapsulating application domain rules: target resolution, coordinate matching, and chronological observation sequencing.
+
+### Data Access Adapter
+The abstraction layer (`src/services/providers/MockDataProvider.js`) whose sole responsibility is loading and returning raw dataset records from physical storage (`mockTargets.json`) without embedding domain rules or math.
+
 ### Mock Data
 Simulated, synthetic demonstration data (images, timestamps, sequence numbers) having no physical or observational reality, explicitly marked as MOCK.
 
@@ -56,5 +62,5 @@ Astronomical target names, classifications, and catalog coordinates originating 
 ### Single-Page Application (SPA)
 A web application architecture loading a single HTML page and updating content dynamically via client-side JavaScript.
 
-### Component Decoupling
-An architectural design pattern wherein presentation components are kept strictly separated from data access mechanisms and mathematical logic.
+### Architecture Decision Record (ADR)
+A document capturing an important architectural decision made on a project along with its context and consequences (see `docs/DECISIONS.md`).
