@@ -1,72 +1,81 @@
 # Ordered Implementation Tasks — SPHEREx Explorer
 
-**Project**: SPHEREx Explorer  
-**Challenge**: 2026 NASA Space Apps Challenge  
-**Status**: Roadmap & Task Breakdown  
-**Last Updated**: 2026-11-14  
+**Project**: SPHEREx Explorer
+**Challenge**: 2026 NASA Space Apps Challenge
+**Status**: Roadmap & Task Breakdown (Phase 2 Finalized)
+**Last Updated**: 2026-11-14
 
 ---
 
-## Phase 1: Project Setup & Initialization (Current Phase)
+## Phase 1 — Project Foundation (Completed)
 
 - [x] **TASK-101**: Initialize Vite React application with JavaScript template.
 - [x] **TASK-102**: Configure project directory structure according to approved layout.
 - [x] **TASK-103**: Define project governance and agent constraints in `AGENTS.md`.
-- [x] **TASK-104**: Author initial documentation suite under `docs/` (PRD, SRS, Architecture, etc.).
+- [x] **TASK-104**: Author initial documentation suite under `docs/`.
 - [x] **TASK-105**: Configure root `index.html`, `package.json`, and base styling reset.
 - [x] **TASK-106**: Verify clean production build (`npm run build`) and repository structure.
+- [x] **TASK-107**: Initialize Git repository on `main` branch.
 
 ---
 
-## Phase 2: Mock Datasets & Data Providers
+## Phase 2 — Requirements & Architecture (Current Phase)
 
-- [ ] **TASK-201**: Construct initial mock celestial targets JSON dataset (`src/data/mockTargets.json`) adhering to `docs/DATA_SCHEMA.md`.
-- [ ] **TASK-202**: Populate static demo sky observation images under `public/images/demo/` with clear mock watermarks/labels.
-- [ ] **TASK-203**: Implement `MockDataProvider` in `src/services/providers/MockDataProvider.js` to load, query, and filter observation sequences.
-- [ ] **TASK-204**: Create coordinate math and validation utility helpers (`src/utils/coordinates.js`).
-- [ ] **TASK-205**: Unit test coordinate matching and boundary conditions ($0 \le \text{RA} < 360$, $-90 \le \text{Dec} \le 90$).
-
----
-
-## Phase 3: Presentation UI Components
-
-- [ ] **TASK-301**: Implement `Header` component with Space Apps Challenge branding and persistent `MOCK DATA ONLY` banner.
-- [ ] **TASK-302**: Implement `SearchPanel` component with RA and Dec inputs, validation messaging, and preset demo target pills.
-- [ ] **TASK-303**: Implement `SkyViewer` component with responsive image container, loading state, error boundary, and epoch tag overlay.
-- [ ] **TASK-304**: Implement `TimelineControls` component with Step (Prev/Next), Play/Pause, and scrubber slider.
-- [ ] **TASK-305**: Implement `ObservationInfo` component with structured tabular readout of metadata.
+- [x] **TASK-201**: Review challenge objectives and resolve all technical decisions (decimal degrees, pause-at-end, 1200ms default, single provider).
+- [x] **TASK-202**: Mandate the five NASA challenge objects in specifications (Barnard's Star, Epsilon Indi B, WISE 0855, RW Aurigae, R Draconis).
+- [x] **TASK-203**: Establish data schema separating verified target facts from synthetic observation sequences.
+- [x] **TASK-204**: Define single `MockDataProvider` interface and `useObservationExplorer` custom hook architecture.
+- [x] **TASK-205**: Update and synchronize all documentation files across `docs/` and `AGENTS.md`.
 
 ---
 
-## Phase 4: State Management & Timeline Logic
+## Phase 3 — Dedicated UI/UX Design
 
-- [ ] **TASK-401**: Implement `useCoordinates` custom hook in `src/hooks/useCoordinates.js` to manage coordinate inputs, active target state, and validation.
-- [ ] **TASK-402**: Implement `useTimeline` custom hook in `src/hooks/useTimeline.js` to manage epoch index, boundary checks, and automated playback timers.
-- [ ] **TASK-403**: Integrate `useTimeline` with `SkyViewer`, `TimelineControls`, and `ObservationInfo`.
-- [ ] **TASK-404**: Implement keyboard shortcuts for timeline navigation (ArrowLeft for previous, ArrowRight for next, Space for play/pause).
+> [!IMPORTANT]
+> **No application UI implementation is allowed during this phase.**
+> UI/UX design must be completed and formally approved before frontend implementation begins.
 
----
-
-## Phase 5: Integration, Styling & Error Handling
-
-- [ ] **TASK-501**: Assemble components inside `App.jsx` with responsive grid/flex layout.
-- [ ] **TASK-502**: Apply cohesive space-themed CSS styling tokens in `src/styles/`.
-- [ ] **TASK-503**: Implement empty states (initial load before search) and not-found states (coordinates without mock data).
-- [ ] **TASK-504**: Verify responsive layout behavior across desktop ($>1024\text{px}$) and mobile ($<768\text{px}$) viewports.
-
----
-
-## Phase 6: Final Verification & Review
-
-- [ ] **TASK-601**: Complete accessibility review (ARIA labels, keyboard focus rings, WCAG 2.1 AA contrast).
-- [ ] **TASK-602**: Execute production build verification (`npm run build`) and test output preview (`npm run preview`).
-- [ ] **TASK-603**: Confirm all displayed data and imagery are explicitly identified as MOCK.
-- [ ] **TASK-604**: Update documentation with final operational notes and submission materials.
+- [ ] **TASK-301**: **UX Research & User Personas**: Document user goals, mental models for celestial navigation, and Space Apps evaluator priorities.
+- [ ] **TASK-302**: **User Flows & Journeys**: Map end-to-end flows for coordinate searching, preset challenge selection, and timeline playback.
+- [ ] **TASK-303**: **Information Architecture**: Define visual hierarchy for header, coordinate inputs, sky image viewer, metadata panel, and timeline controls.
+- [ ] **TASK-304**: **Wireframes (Low/Mid-Fidelity)**: Create structural wireframes covering desktop, tablet, and mobile breakpoints.
+- [ ] **TASK-305**: **Visual Identity & Theme**: Establish dark-space palette, accessible contrast ratios, NASA-aligned typography, and iconography standards.
+- [ ] **TASK-306**: **Design System & Components**: Define button states, input validation styling, scrubber interactions, and the persistent `MOCK DATA` banner.
+- [ ] **TASK-307**: **High-Fidelity Interface Design**: Create detailed visual mockups of the complete application across all states (empty, matched, outside coverage).
+- [ ] **TASK-308**: **Interaction Design**: Specify motion rules for playback stepping, timeline scrubber drag behavior, and coordinate validation transitions.
+- [ ] **TASK-309**: **Responsive Design Specifications**: Formalize layout collapse, touch target sizes ($\ge 44\times 44\text{px}$), and viewport stacking rules.
+- [ ] **TASK-310**: **Design Review & Approval Gate**: Present complete design artifacts for formal sign-off before proceeding to development.
 
 ---
 
-## Tasks Requiring Confirmation
+## Phase 4 — Mock Data Preparation
 
-> [!NOTE]
-> 1. Confirmation of exact demo target coordinates for TASK-201 [Requires Confirmation].
-> 2. Confirmation of whether automated playback loops or pauses at final epoch for TASK-402 [Requires Confirmation].
+- [ ] **TASK-401**: **Verify Five Challenge Targets**: Extract and document catalog coordinates, constellations, and reference citations for Barnard's Star, Epsilon Indi B, WISE 0855, RW Aurigae, and R Draconis.
+- [ ] **TASK-402**: **Define Mock Field Coverage**: Formulate justified angular coverage boundaries (`fieldCoverageDegrees`) for each target.
+- [ ] **TASK-403**: **Generate Synthetic Demonstration Images**: Create 4 distinct observation frames per target (20 images total) under `public/images/demo/` with explicit mock watermarks.
+- [ ] **TASK-404**: **Assemble `src/data/mockTargets.json`**: Construct canonical dataset adhering strictly to `docs/DATA_SCHEMA.md` with `"isMock": true` on all observations.
+- [ ] **TASK-405**: **Dataset Validation**: Validate JSON syntax, chronological timestamp ordering, coordinate boundaries, and image path resolutions.
+
+---
+
+## Phase 5 — Frontend Development
+
+- [ ] **TASK-501**: **Coordinate Math Utility**: Implement `src/utils/coordinates.js` (domain validation, spherical angular distance calculation).
+- [ ] **TASK-502**: **Mock Data Provider**: Implement `src/services/providers/MockDataProvider.js` (`getPresetTargets`, `getTargetById`, `findTargetByCoordinates`).
+- [ ] **TASK-503**: **Application State Hook**: Implement `src/hooks/useObservationExplorer.js` (coordinates, target matching, 1200ms playback, auto-stop).
+- [ ] **TASK-504**: **Header Component**: Implement `src/components/Header/` with Space Apps branding and prominent `MOCK DATA` banner.
+- [ ] **TASK-505**: **SearchPanel Component**: Implement `src/components/SearchPanel/` with decimal inputs, validation, and 5 challenge object quick-select pills.
+- [ ] **TASK-506**: **SkyViewer Component**: Implement `src/components/SkyViewer/` with responsive viewport, sequence overlay, and error fallback.
+- [ ] **TASK-507**: **TimelineControls Component**: Implement `src/components/TimelineControls/` with Step (Prev/Next), Scrubber slider, and Play/Pause toggle.
+- [ ] **TASK-508**: **ObservationInfo Component**: Implement `src/components/ObservationInfo/` displaying verified target info vs synthetic observation metadata.
+- [ ] **TASK-509**: **Application Shell Assembly**: Connect components in `src/App.jsx` using the Phase 3 design system and `src/styles/index.css`.
+
+---
+
+## Phase 6 — Integration & QA
+
+- [ ] **TASK-601**: **End-to-End Functional Verification**: Verify search matching, preset loading, timeline stepping, auto-playback stop at final observation, and scrubber accuracy.
+- [ ] **TASK-602**: **Coordinate Transparency Audit**: Ensure user requested coordinates are clearly distinguished from target center coordinates.
+- [ ] **TASK-603**: **Scientific Integrity & Mock Data Audit**: Verify that all 20 demonstration images and timestamps are explicitly labeled as MOCK.
+- [ ] **TASK-604**: **Cross-Device & Accessibility Testing**: Verify mobile responsiveness, keyboard operability (`Tab`, `Space`, `Enter`, Arrows), and WCAG 2.1 AA contrast.
+- [ ] **TASK-605**: **Production Build Verification**: Run `npm run build` and test production bundle via `npm run preview`.

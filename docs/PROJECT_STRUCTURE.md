@@ -1,9 +1,9 @@
 # Project Structure & File Responsibilities — SPHEREx Explorer
 
-**Project**: SPHEREx Explorer  
-**Challenge**: 2026 NASA Space Apps Challenge  
-**Status**: Initial Project Specification  
-**Last Updated**: 2026-11-14  
+**Project**: SPHEREx Explorer
+**Challenge**: 2026 NASA Space Apps Challenge
+**Status**: Architecture Baseline (Phase 2 Finalized)
+**Last Updated**: 2026-11-14
 
 ---
 
@@ -14,108 +14,103 @@ spherex-explorer/
 │
 ├── public/
 │   ├── images/
-│   │   └── demo/                 # Static demo sky images for mock observations
+│   │   └── demo/                 # Static demo sky images (20 synthetic images, 4 per object)
 │   └── vite.svg                  # Vite standard favicon
 │
 ├── src/
-│   ├── assets/                   # Bundled static assets (logos, icons)
+│   ├── assets/                   # Build-time static assets (logos, icons)
 │   │
-│   ├── components/               # Presentation UI components
-│   │   ├── Header/               # Application header and mission branding
-│   │   ├── SearchPanel/          # RA/Dec coordinate inputs and preset buttons
-│   │   ├── SkyViewer/            # Canvas/viewport for current epoch sky image
-│   │   ├── TimelineControls/     # Scrubber, play/pause, step controls
-│   │   └── ObservationInfo/      # Metadata display panel for current observation
+│   ├── components/               # Presentation UI components (stateless/visual)
+│   │   ├── Header/               # App branding, title, persistent MOCK DATA banner
+│   │   ├── SearchPanel/          # RA/Dec inputs and 5 challenge target buttons
+│   │   ├── SkyViewer/            # Celestial image viewport & sequence overlay
+│   │   ├── TimelineControls/     # Step controls, scrubber, and 1200ms play/pause
+│   │   └── ObservationInfo/      # Target info (verified) vs observation metadata (mock)
 │   │
-│   ├── data/                     # Static JSON mock datasets
+│   ├── data/
+│   │   └── mockTargets.json      # Canonical dataset for 5 challenge objects & 20 observations
 │   │
-│   ├── services/                 # Business logic and data access
-│   │   └── providers/            # Data provider modules (MockDataProvider)
+│   ├── services/
+│   │   └── providers/
+│   │       └── MockDataProvider.js  # Single data provider module
 │   │
-│   ├── hooks/                    # Custom React hooks (useTimeline, useCoordinates)
+│   ├── hooks/
+│   │   └── useObservationExplorer.js # Application state coordinator hook
 │   │
-│   ├── utils/                    # Coordinate math, validation, and date formatters
+│   ├── utils/
+│   │   └── coordinates.js        # Coordinate domain validation and angular distance math
 │   │
-│   ├── styles/                   # CSS style sheets and design variables
+│   ├── styles/
+│   │   └── index.css             # Design tokens and base stylesheet
 │   │
-│   ├── App.jsx                   # Root application component shell
+│   ├── App.jsx                   # Application root shell connecting hook to UI
 │   └── main.jsx                  # React DOM mount entry point
 │
-├── docs/                         # Project specifications and documentation
-│   ├── PRD.md                    # Product objectives, users, scope, features
-│   ├── SRS.md                    # Functional and non-functional requirements
-│   ├── ARCHITECTURE.md           # Architecture and client-side data flow
+├── docs/                         # Specifications, requirements & roadmap
+│   ├── PRD.md                    # Product objectives, scope, 5 challenge targets
+│   ├── SRS.md                    # Detailed functional & non-functional specifications
+│   ├── ARCHITECTURE.md           # System architecture, data flow & custom hook design
 │   ├── PROJECT_STRUCTURE.md      # Directory layout and file responsibilities
-│   ├── DATA_SCHEMA.md            # Mock object and observation schema definitions
-│   ├── UI_SPECIFICATION.md       # UI layout, sections, and behavior
-│   ├── TASKS.md                  # Ordered implementation tasks
-│   ├── ACCEPTANCE_CRITERIA.md    # Acceptance conditions for completed work
+│   ├── DATA_SCHEMA.md            # Verified target & synthetic observation schema definitions
+│   ├── UI_SPECIFICATION.md       # Layout wireframe, component states & transparency rules
+│   ├── TASKS.md                  # 6-phase implementation roadmap
+│   ├── ACCEPTANCE_CRITERIA.md    # Quality gates and verification criteria
 │   ├── GLOSSARY.md               # Astronomical and technical terminology
-│   └── DATA_SOURCES.md           # Data provenance and NASA references
+│   └── DATA_SOURCES.md           # Factual provenance for 5 targets & mock attribution rules
 │
-├── AGENTS.md                     # Non-negotiable contributor & agent rules
-├── README.md                     # Getting started and project introduction
+├── AGENTS.md                     # Contributor & agent operating rules
+├── README.md                     # Project overview and run instructions
 ├── index.html                    # Single page HTML entry point
 ├── package.json                  # Dependencies and build scripts
 ├── vite.config.js                # Vite build configuration
-└── .gitignore                    # Version control ignore rules
+└── .gitignore                    # Version control ignore patterns
 ```
 
 ---
 
-## 2. Directory Responsibilities
+## 2. Directory & Module Responsibilities
 
 ### `public/images/demo/`
-- Holds static mock sky images (PNG, JPEG, WebP) representing observation frames.
-- Served directly by the browser under the root path `/images/demo/<filename>`.
-- **Constraint**: All images placed here must be labeled or documented as mock graphics.
+- Contains static synthetic demonstration images representing observation epochs for the five challenge targets (4 images per target, 20 images total).
+- Served directly by the browser under the path `/images/demo/<filename>`.
+- **Constraint**: All demonstration graphics must carry clear mock identification.
 
 ### `src/components/`
-Contains modular, reusable UI components. Each component resides in its own dedicated directory:
-- `Header/`: Renders application title, mission banner, and prominent "MOCK DATA ONLY" badge.
-- `SearchPanel/`: Handles coordinate input fields, format validation, submission triggers, and demo coordinate quick-select pills.
-- `SkyViewer/`: Displays the observation image for the active epoch, with loading and error fallbacks.
-- `TimelineControls/`: Contains the interactive scrubber, epoch index indicators, and playback buttons.
-- `ObservationInfo/`: Displays the metadata table/readout for the currently selected observation.
+Modular presentation components. Components receive data and emit actions via props; they **never** access the data provider or raw JSON directly:
+- `Header/`: Displays application branding, NASA challenge context, and a persistent `MOCK DATA` banner.
+- `SearchPanel/`: Renders numeric decimal inputs for RA and Dec, displays inline validation feedback, and provides quick-selection buttons for all five challenge objects.
+- `SkyViewer/`: Renders the synthetic sky image for the active observation sequence, handles image loading and error fallbacks, and displays an overlay tag with the observation sequence (e.g., `Observation 2 of 4`).
+- `TimelineControls/`: Interactive controls for time navigation: Step Backward, Step Forward, Scrubber range slider, and Play/Pause toggle with automatic stop on the final observation.
+- `ObservationInfo/`: Displays verified target information (name, constellation, reference coordinates) alongside synthetic observation metadata (timestamp, sequence number, mock status).
 
-### `src/data/`
-- Contains static `.json` files representing mock astronomical targets and observation records.
-- No network requests are made; these files are imported or read by the services layer.
+### `src/data/mockTargets.json`
+- Canonical JSON file defining all five challenge objects and their four demonstration observation epochs.
+- Enforces strict separation between verified astronomical facts (catalog coordinates and names) and synthetic observation data (marked `"isMock": true`).
 
-### `src/services/providers/`
-- Implements provider abstractions to query target observations by coordinate or ID.
-- Keeps data parsing and filtering out of UI components.
+### `src/services/providers/MockDataProvider.js`
+- The single data provider module.
+- Exposes:
+  - `getPresetTargets()`: Returns the list of 5 challenge objects.
+  - `getTargetById(targetId)`: Returns target record with observations sorted in ascending chronological order.
+  - `findTargetByCoordinates(ra, dec)`: Resolves coordinates against documented per-target mock field coverage boundaries.
 
-### `src/hooks/`
-- Contains reusable React custom hooks.
-- Examples: `useCoordinates` (input handling and validation), `useTimeline` (epoch state, interval-based auto playback).
+### `src/hooks/useObservationExplorer.js`
+- Coordinates application-level state: active target, current observation index, play/pause timer (1200ms default), and coordinate search state.
+- Ensures playback stops automatically when reaching the final observation.
 
-### `src/utils/`
-- Pure utility functions:
-  - Coordinate format conversions (decimal degrees, sexagesimal formatting).
-  - Astronomical boundary validation.
-  - Timestamp formatting (UTC ISO strings to readable formats).
+### `src/utils/coordinates.js`
+- Pure mathematical functions:
+  - Validates coordinate bounds: $0.0 \le \text{RA} < 360.0$, $-90.0 \le \text{Dec} \le +90.0$.
+  - Calculates spherical angular separation (great-circle distance).
+  - Formats coordinates for display.
 
 ### `src/styles/`
-- Centralized CSS stylesheets, CSS custom properties (color palette, spacing, typography), and resets.
-
-### `docs/`
-- Living documentation tracking specifications, requirements, architecture, and verification records.
+- Central stylesheet (`index.css`) containing color tokens, typography, and responsive reset rules.
 
 ---
 
-## 3. Placement Conventions
+## 3. Placement & Development Conventions
 
-1. **New UI features** must be created inside `src/components/<ComponentName>/`.
-2. **Business logic & calculation helpers** must be placed in `src/utils/` or `src/services/`.
-3. **Stateful behavioral hooks** must be placed in `src/hooks/`.
-4. **Mock data assets** must reside in `src/data/` (for JSON) and `public/images/demo/` (for images).
-5. Never place business logic directly in top-level `App.jsx`.
-
----
-
-## 4. Items Requiring Confirmation
-
-> [!NOTE]
-> 1. Confirm whether components should use CSS Modules (`ComponentName.module.css`) or standard scoped class naming [Requires Confirmation].
-> 2. Confirm whether additional asset formats (e.g., SVG overlays for sky grids) will be placed in `src/assets/` [Requires Confirmation].
+1. **Strict Decoupling**: UI components must never import `src/data/` or `src/services/providers/`.
+2. **File Location Discipline**: All code must reside strictly within the approved directories above. Do not create unapproved top-level folders.
+3. **Phase Dependency**: No React components or CSS styling may be built until Phase 3 (Dedicated UI/UX Design) is formally completed and approved.

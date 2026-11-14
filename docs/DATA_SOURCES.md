@@ -1,56 +1,50 @@
-# Data Sources & Provenance — SPHEREx Explorer
+# Data Sources & Target Provenance — SPHEREx Explorer
 
-**Project**: SPHEREx Explorer  
-**Challenge**: 2026 NASA Space Apps Challenge  
-**Status**: Provenance & Reference Standards  
-**Last Updated**: 2026-11-14  
-
----
-
-## 1. Official Mission References
-
-The SPHEREx Explorer project is inspired by and aligned with NASA's SPHEREx mission. Official public resources include:
-
-1. **NASA Mission Page**:  
-   [https://www.nasa.gov/mission/spherex/](https://www.nasa.gov/mission/spherex/)  
-   Overview of mission goals, launch timeline, instrument architecture, and science themes.
-
-2. **Caltech / JPL SPHEREx Project Site**:  
-   [https://spherex.caltech.edu/](https://spherex.caltech.edu/)  
-   Detailed instrument parameters, survey strategy, and science working groups.
-
-3. **NASA/IPAC Infrared Science Archive (IRSA)**:  
-   [https://irsa.ipac.caltech.edu/](https://irsa.ipac.caltech.edu/)  
-   The designated repository and distribution center for future SPHEREx public science data releases.
+**Project**: SPHEREx Explorer
+**Challenge**: 2026 NASA Space Apps Challenge
+**Status**: Provenance Baseline (Phase 2 Finalized)
+**Last Updated**: 2026-11-14
 
 ---
 
-## 2. Current Data Provenance & Mock Data Policy
+## 1. Verified Astronomical Provenance for the Five Challenge Objects
 
-### Current Phase (Phase 1 / Inception)
-- **All observation datasets, celestial coordinates, timestamps, and sky images used in this project are 100% synthetic MOCK DATA**.
-- Mock imagery is generated or sourced solely for client interface demonstration and must never be depicted as genuine mission science products.
-- Mock datasets are stored locally under `src/data/` in JSON format.
-- Demonstration image assets are stored locally under `public/images/demo/`.
+To protect scientific integrity, astronomical target identities and sky coordinates must **never be fabricated**. Factual coordinates and classifications are sourced from peer-reviewed astronomical catalogs:
 
-### Provenance Rules
-1. **Explicit Tagging**: All mock data records in code and JSON must contain `"isMock": true`.
-2. **Clear Attribution**: Demonstrations, screenshots, and visual outputs must feature a visible `MOCK DATA ONLY` banner.
-3. **No Fabrication of Scientific Findings**: The application will not claim detections of cosmic water ice, galaxy redshifts, or primordial non-Gaussianity based on mock data.
+| Challenge Object | Catalog Designation | Constellation | Object Type | Catalog Reference Source |
+| :--- | :--- | :--- | :--- | :--- |
+| **Barnard's Star** | GJ 699, HIP 87937, BD+04 3561a | Ophiuchus | Red Dwarf (M4.0V) / High Proper Motion | [SIMBAD / Gaia DR3](http://simbad.u-strasbg.fr/simbad/sim-id?Ident=Barnard%27s+star) |
+| **Epsilon Indi B** | eps Ind B, GJ 845 B | Indus | Cold Brown Dwarf Binary (T1 + T6) | [SIMBAD / IPAC](http://simbad.u-strasbg.fr/simbad/sim-id?Ident=eps+Ind+B) |
+| **WISE 0855** | WISE J085510.83−071442.5 | Hydra | Ultra-Cool Sub-stellar Brown Dwarf (Y-type) | [NASA/IPAC WISE / Luhman (2014)](https://irsa.ipac.caltech.edu/) |
+| **RW Aurigae** | RW Aur, HD 283572 | Auriga | Young Binary T Tauri Variable Star | [SIMBAD / Gaia DR3](http://simbad.u-strasbg.fr/simbad/sim-id?Ident=RW+Aur) |
+| **R Draconis** | R Dra, HD 149214 | Draco | Mira-type Long-Period Pulsating Variable | [AAVSO / SIMBAD](http://simbad.u-strasbg.fr/simbad/sim-id?Ident=R+Dra) |
 
----
-
-## 3. Future Real Data Integration Considerations
-
-Should future milestones expand SPHEREx Explorer to connect to live or archived mission data:
-- Data must be accessed through authenticated or public NASA/IPAC endpoints (e.g., IRSA TAP/VO services).
-- FITS format handling or client-side HiPS (Hierarchical Progressive Surveys) rendering libraries must be evaluated.
-- Provenance metadata (Data Release version, processing pipeline level, observation DOI) must be preserved and rendered in the observation metadata panel.
+> [!IMPORTANT]
+> **Data Integrity Boundary**:
+> - **Verified Catalog Data**: Object names, physical classifications, and catalog coordinates (RA and Dec) are factual astronomical data sourced from the references above. They are **not** marked as synthetic.
+> - **Synthetic Observation Data**: The demonstration sky images, observation timestamps, sequence numbers, and mock field coverage are synthetic demonstration assets and **must always be explicitly labeled as MOCK**.
 
 ---
 
-## 4. Items Requiring Confirmation
+## 2. Official SPHEREx Mission References
 
-> [!NOTE]
-> 1. Confirmation of potential IRSA public API or mock API endpoint availability during later challenge phases [Requires Confirmation].
-> 2. Specific licensing attribution for third-party astronomical illustration assets utilized as demo mock images [Requires Confirmation].
+1. **NASA SPHEREx Mission Overview**:
+   [https://www.nasa.gov/mission/spherex/](https://www.nasa.gov/mission/spherex/)
+   Primary mission objectives: mapping the large-scale structure of the universe, measuring cosmic light, and surveying biogenic ices.
+
+2. **Caltech / JPL SPHEREx Instrument Site**:
+   [https://spherex.caltech.edu/](https://spherex.caltech.edu/)
+   Instrument architecture, telescope design, and scientific working groups.
+
+3. **NASA/IPAC Infrared Science Archive (IRSA)**:
+   [https://irsa.ipac.caltech.edu/](https://irsa.ipac.caltech.edu/)
+   Official archival center for future SPHEREx public science data releases.
+
+---
+
+## 3. Mock Data Policy & Attribution Guidelines
+
+1. **Transparent Labeling**: Every synthetic image and observation sequence must carry prominent `MOCK DATA` indicators in code (`"isMock": true`) and in the user interface.
+2. **No False Attribution**: Under no circumstances shall mock demonstration graphics be presented as authentic SPHEREx observatory observations.
+3. **No Fabricated Telemetry**: In the MVP, the application does not simulate detector temperatures, instrument telemetry, or exposure times.
+4. **Coordinate Transparency**: When matching user coordinates against a mock field, the interface must explicitly display both the user's requested coordinates and the catalog center coordinates.

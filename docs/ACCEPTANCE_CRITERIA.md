@@ -1,58 +1,70 @@
 # Acceptance Criteria — SPHEREx Explorer
 
-**Project**: SPHEREx Explorer  
-**Challenge**: 2026 NASA Space Apps Challenge  
-**Status**: Verification Quality Standards  
-**Last Updated**: 2026-11-14  
+**Project**: SPHEREx Explorer
+**Challenge**: 2026 NASA Space Apps Challenge
+**Status**: Quality Gates Baseline (Phase 2 Finalized)
+**Last Updated**: 2026-11-14
 
 ---
 
 ## 1. Quality Gates & Definition of Done
 
-A task is considered **Done** and acceptable only when all of the following conditions are met:
-1. **Scope Adherence**: Only requested features are implemented. No unrequested capabilities or unauthorized dependencies are introduced.
-2. **Scientific & Data Integrity**: All data and images are marked as MOCK. No simulated data is presented as real observation findings.
-3. **Build Cleanliness**: `npm run build` succeeds with zero errors and zero warnings.
-4. **Architectural Separation**: UI components do not query data files directly; business and timeline logic are isolated in services and hooks.
-5. **Responsiveness & Usability**: Layout functions cleanly on mobile and desktop viewports without horizontal overflow or clipping.
+A phase is considered **Done and Accepted** only when all quality criteria for that phase are completely met:
+
+1. **Strict Scope Control**: No unrequested features, no backend, no databases, no external live APIs, and no third-party UI framework dependencies.
+2. **Scientific & Data Integrity**: Verified astronomical target coordinates have documented factual catalog sources. Synthetic observation images and timestamps are explicitly labeled as MOCK.
+3. **Phased Governance**: No code or mock assets may be created prior to the completion and approval of the preceding phase. **UI/UX Design (Phase 3) must be approved before Frontend Development (Phase 5) commences.**
+4. **Build Cleanliness**: `npm run build` succeeds with zero errors and zero warnings.
 
 ---
 
 ## 2. Phase-by-Phase Acceptance Criteria
 
-### Phase 1: Project Initialization
+### Phase 1: Project Foundation (Accepted)
 - [x] Vite React project initialized with clean JavaScript template.
-- [x] Directory structure matches approved tree specification exactly.
-- [x] `AGENTS.md` exists at repository root with all 14 mandatory operating rules.
-- [x] All 10 documentation templates created under `docs/` with descriptive headings and unresolved items flagged.
-- [x] Application builds cleanly (`npm run build`) without errors.
-- [x] Zero unnecessary dependencies added (only React, Vite, ESLint dev tools).
+- [x] Approved directory structure established.
+- [x] `AGENTS.md` active with all 14 non-negotiable rules.
+- [x] Documentation suite initialized in `docs/`.
+- [x] Application builds cleanly (`npm run build`).
+- [x] Git repository initialized on `main` branch.
 
-### Phase 2: Mock Data & Providers
-- [ ] Mock datasets strictly validate against `docs/DATA_SCHEMA.md`.
-- [ ] Every target and observation record includes `"isMock": true`.
-- [ ] Images referenced in datasets exist in `public/images/demo/`.
-- [ ] Provider queries handle coordinate matches and boundary queries correctly.
+### Phase 2: Requirements & Architecture (Accepted)
+- [x] Decimal degree input and validation confirmed ($0.0 \le \text{RA} < 360.0$, $-90.0 \le \text{Dec} \le +90.0$).
+- [x] All five NASA challenge objects mandated: Barnard's Star, Epsilon Indi B, WISE 0855, RW Aurigae, R Draconis.
+- [x] Planning target of four demonstration observations per target (20 images total) established as an internal planning target.
+- [x] Separation of verified target coordinates from synthetic observation records enforced.
+- [x] Single `MockDataProvider.js` and `useObservationExplorer.js` architecture established.
+- [x] Universal 2.0° threshold rejected in favor of justified per-target field coverage boundaries.
+- [x] Timeline end-of-sequence rule: Playback stops automatically on the final observation (no infinite looping).
+- [x] Dedicated UI/UX Design Phase mandated as Phase 3 before frontend implementation.
 
-### Phase 3 & 4: UI Components & Timeline Navigation
-- [ ] **Coordinate Search**: Rejects RA $< 0^\circ$ or $\ge 360^\circ$ and Dec $< -90^\circ$ or $> +90^\circ$ with clear user guidance.
-- [ ] **Sky Viewer**: Displays active epoch image; shows loading and error states appropriately; clearly displays current epoch index.
-- [ ] **Timeline Navigation**:
-  - Clicking "Next" advances to subsequent epoch; disabled on final epoch.
-  - Clicking "Previous" returns to preceding epoch; disabled on initial epoch.
-  - "Play/Pause" toggles automated forward stepping at the designated interval.
-  - Scrubber slider directly navigates to the selected epoch index.
-- [ ] **Observation Info**: Readout matches the active epoch's timestamp, spectral band, and coordinates accurately.
-- [ ] **Disclaimer**: Persistent "MOCK DATA ONLY" banner remains visible across all views.
+### Phase 3: Dedicated UI/UX Design (Approval Gate)
+- [ ] User personas, journey maps, and information architecture documented.
+- [ ] Low- and mid-fidelity wireframes produced covering mobile, tablet, and desktop viewports.
+- [ ] Visual identity defined: dark space aesthetic, accessible color tokens, typography hierarchy.
+- [ ] Design system completed: button states, input validation, scrubber styling, persistent `MOCK DATA` banner.
+- [ ] High-fidelity interface designs completed for all states: Initial/Empty, Target Matched, and Outside Coverage.
+- [ ] Coordinate transparency clearly established: UI visibly distinguishes Requested Coordinates from Target Center Coordinates.
+- [ ] **Gate**: Formal sign-off and approval on design artifacts before any frontend development begins.
 
-### Phase 5 & 6: Integration, Performance & Accessibility
-- [ ] Keyboard navigation: All controls accessible via `Tab`, `Enter`, `Space`, and Arrow keys.
-- [ ] Color contrast: Text meets WCAG AA standards (minimum contrast ratio of 4.5:1 against backgrounds).
-- [ ] No console errors or memory leaks during prolonged timeline auto-playback.
+### Phase 4: Mock Data Preparation
+- [ ] Factual target metadata (names, constellations, catalog coordinates) verified against official references (SIMBAD, Gaia, WISE).
+- [ ] Mock field coverage boundaries (`fieldCoverageDegrees`) documented with clear justification.
+- [ ] 20 synthetic observation images (4 per target) created in `public/images/demo/` with visible mock identification.
+- [ ] `src/data/mockTargets.json` assembled strictly adhering to `docs/DATA_SCHEMA.md` with `"isMock": true` on all observations.
+- [ ] Timestamps sorted in strictly ascending chronological order.
 
----
+### Phase 5: Frontend Development
+- [ ] `src/utils/coordinates.js` implements domain validation and great-circle angular distance math.
+- [ ] `src/services/providers/MockDataProvider.js` implements `getPresetTargets`, `getTargetById`, and `findTargetByCoordinates`.
+- [ ] `src/hooks/useObservationExplorer.js` coordinates state, target resolution, and 1200ms playback with automatic stop at the final frame.
+- [ ] Presentation components (`Header`, `SearchPanel`, `SkyViewer`, `TimelineControls`, `ObservationInfo`) built strictly according to Phase 3 designs.
+- [ ] Zero direct coupling between presentation components and `MockDataProvider`.
 
-## 3. Items Requiring Confirmation
-
-> [!NOTE]
-> 1. Confirmation of automated test runner requirements (e.g., Vitest) if automated unit testing is mandated in later phases [Requires Confirmation].
+### Phase 6: Integration & QA
+- [ ] Clicking any of the 5 challenge object buttons instantly loads the target and its 4 demonstration observations.
+- [ ] Manual RA/Dec search within a target's coverage loads the target while displaying both requested and center coordinates.
+- [ ] Timeline navigation allows manual stepping (Prev/Next), automated playback (1200ms, stops at observation 4), and direct scrubber jumping.
+- [ ] All interactive elements accessible via keyboard (`Tab`, `Space`, `Enter`, Arrow keys).
+- [ ] Text meets WCAG AA contrast standards.
+- [ ] Production build (`npm run build`) generates clean static assets.
