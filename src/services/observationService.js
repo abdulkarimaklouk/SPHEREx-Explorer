@@ -3,7 +3,7 @@
  *
  * Implements business logic:
  * - Target resolution & preset access
- * - Spherical coordinate matching within explicit field coverage boundaries
+ * - Spherical coordinate matching against challenge targets
  * - Chronological observation sorting verification
  */
 
@@ -39,15 +39,17 @@ export class ObservationService {
   }
 
   /**
-   * Finds the closest target field matching the requested coordinates within field coverage boundaries.
+   * Finds the closest target field matching the requested coordinates.
    *
    * @param {number|string} raInput - RA in decimal degrees
    * @param {number|string} decInput - Dec in decimal degrees
    * @returns {{
    *   matched: boolean,
    *   target: object|null,
+   *   nearestTarget: object|null,
    *   requestedCoords: { ra: number, dec: number }|null,
    *   angularOffsetDegrees: number|null,
+   *   coverageConfigured: boolean,
    *   validation: { isValid: boolean, raError: string|null, decError: string|null }
    * }}
    */
@@ -58,8 +60,10 @@ export class ObservationService {
       return {
         matched: false,
         target: null,
+        nearestTarget: null,
         requestedCoords: null,
         angularOffsetDegrees: null,
+        coverageConfigured: false,
         validation,
       };
     }
@@ -84,8 +88,11 @@ export class ObservationService {
       }
     }
 
-    const coverage = closestTarget ? closestTarget.fieldCoverageDegrees || 1.0 : 1.0;
-    const isWithinCoverage = minSeparation <= coverage;
+    const coverage = closestTarget ? closestTarget.fieldCoverageDegrees : null;
+    const coverageConfigured = coverage !== null && coverage !== undefined;
+    // When coverage is not configured in demonstration mock data, matches within catalog field proximity (0.5°)
+    const maxMatchRadius = coverageConfigured ? coverage : 0.5;
+    const isWithinCoverage = minSeparation <= maxMatchRadius;
 
     return {
       matched: isWithinCoverage,
@@ -93,6 +100,7 @@ export class ObservationService {
       nearestTarget: closestTarget,
       requestedCoords: { ra, dec },
       angularOffsetDegrees: minSeparation,
+      coverageConfigured,
       validation,
     };
   }

@@ -11,8 +11,8 @@
       "dec": 4.693,
       "constellation": "Ophiuchus",
       "objectType": "Red Dwarf (M4.0V) / High Proper Motion Star",
-      "description": "Second-closest known star system to the Sun. Famous for having the highest known proper motion of any star (~10.3 arcsec/year across the celestial sphere).",
-      "fieldCoverageDegrees": 1.0,
+      "description": "Second-closest known star system to the Sun, notable for having a high proper motion across the celestial sphere.",
+      "fieldCoverageDegrees": null,
       "coordinateSource": "SIMBAD / Gaia DR3 (ICRS, Epoch J2016.0)",
       "observations": [
         {
@@ -58,7 +58,7 @@
       "constellation": "Indus",
       "objectType": "Cold Brown Dwarf Binary System (T1 + T6)",
       "description": "One of the closest known brown dwarf systems to Earth, exhibiting pronounced atmospheric water vapor and methane absorption bands.",
-      "fieldCoverageDegrees": 1.0,
+      "fieldCoverageDegrees": null,
       "coordinateSource": "SIMBAD / IPAC (ICRS)",
       "observations": [
         {
@@ -104,7 +104,7 @@
       "constellation": "Hydra",
       "objectType": "Sub-stellar Ultra-Cool Brown Dwarf (Y-type)",
       "description": "The fourth closest system to the Sun and the coldest known sub-stellar brown dwarf outside the Solar System, with temperatures near the freezing point of water.",
-      "fieldCoverageDegrees": 1.0,
+      "fieldCoverageDegrees": null,
       "coordinateSource": "NASA/IPAC WISE / Luhman (2014)",
       "observations": [
         {
@@ -150,7 +150,7 @@
       "constellation": "Auriga",
       "objectType": "Young Binary T Tauri Variable Star",
       "description": "Young pre-main-sequence binary star system exhibiting dramatic, multi-year dimming events caused by circumstellar dust occultations and tidal disruption.",
-      "fieldCoverageDegrees": 1.0,
+      "fieldCoverageDegrees": null,
       "coordinateSource": "SIMBAD / Gaia DR3 (ICRS)",
       "observations": [
         {
@@ -196,7 +196,7 @@
       "constellation": "Draco",
       "objectType": "Mira-type Long-Period Pulsating Variable Star",
       "description": "Classic oxygen-rich asymptotic giant branch Mira variable pulsating star undergoing extensive periodic visual brightness fluctuations over ~245 days.",
-      "fieldCoverageDegrees": 1.0,
+      "fieldCoverageDegrees": null,
       "coordinateSource": "AAVSO / SIMBAD (ICRS)",
       "observations": [
         {

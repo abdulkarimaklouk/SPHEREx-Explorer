@@ -6,6 +6,9 @@
  * Target identities, catalog designations, physical types, and coordinates
  * originate from peer-reviewed astronomical databases (SIMBAD, Gaia DR3, NASA/IPAC WISE, AAVSO).
  * They are factual catalog records and are NOT synthetic.
+ *
+ * NOTE ON FIELD COVERAGE:
+ * Field coverage boundaries for synthetic demonstration imagery are not configured in this release.
  */
 
 export const CHALLENGE_TARGETS = [
@@ -19,7 +22,8 @@ export const CHALLENGE_TARGETS = [
     dec: 4.693,
     coordinateSource: 'SIMBAD / Gaia DR3 (ICRS, Epoch J2016.0)',
     description:
-      'Second-closest known star system to the Sun. Famous for having the highest known proper motion of any star (~10.3 arcsec/year across the celestial sphere).',
+      'Second-closest known star system to the Sun, notable for having a high proper motion across the celestial sphere.',
+    fieldCoverageDegrees: null,
     isCatalogVerified: true,
   },
   {
@@ -33,6 +37,7 @@ export const CHALLENGE_TARGETS = [
     coordinateSource: 'SIMBAD / IPAC (ICRS)',
     description:
       'One of the closest known brown dwarf systems to Earth, exhibiting pronounced atmospheric water vapor and methane absorption bands.',
+    fieldCoverageDegrees: null,
     isCatalogVerified: true,
   },
   {
@@ -48,6 +53,7 @@ export const CHALLENGE_TARGETS = [
     coordinateSource: 'NASA/IPAC WISE / Luhman (2014)',
     description:
       'The fourth closest system to the Sun and the coldest known sub-stellar brown dwarf outside the Solar System, with temperatures near the freezing point of water.',
+    fieldCoverageDegrees: null,
     isCatalogVerified: true,
   },
   {
@@ -61,6 +67,7 @@ export const CHALLENGE_TARGETS = [
     coordinateSource: 'SIMBAD / Gaia DR3 (ICRS)',
     description:
       'Young pre-main-sequence binary star system exhibiting dramatic, multi-year dimming events caused by circumstellar dust occultations and tidal disruption.',
+    fieldCoverageDegrees: null,
     isCatalogVerified: true,
   },
   {
@@ -74,6 +81,7 @@ export const CHALLENGE_TARGETS = [
     coordinateSource: 'AAVSO / SIMBAD (ICRS)',
     description:
       'Classic oxygen-rich asymptotic giant branch Mira variable pulsating star undergoing extensive periodic visual brightness fluctuations over ~245 days.',
+    fieldCoverageDegrees: null,
     isCatalogVerified: true,
   },
 ];

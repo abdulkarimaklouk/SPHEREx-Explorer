@@ -11,28 +11,28 @@
   --color-surface-raised: #222832;
   --color-surface-inset: #0c0e12;
 
-  /* Typography Colors */
+  /* Typography Colors — Audited for WCAG AA Contrast (>= 4.5:1) */
   --color-text-primary: #f5f4ef;
-  --color-text-secondary: #b2b1a8;
-  --color-text-muted: #787e87;
+  --color-text-secondary: #c0c0b8;
+  --color-text-muted: #959ba5;
 
   /* Accent & Provenance Signals */
   --color-accent-amber: #e59324;
   --color-accent-amber-hover: #f0a238;
   --color-accent-amber-bg: rgba(229, 147, 36, 0.12);
-  --color-accent-amber-border: rgba(229, 147, 36, 0.35);
+  --color-accent-amber-border: rgba(229, 147, 36, 0.4);
 
   --color-accent-sage: #739481;
   --color-accent-sage-bg: rgba(115, 148, 129, 0.15);
-  --color-accent-sage-border: rgba(115, 148, 129, 0.4);
+  --color-accent-sage-border: rgba(115, 148, 129, 0.45);
 
-  --color-error: #e05252;
-  --color-error-bg: rgba(224, 82, 82, 0.15);
-  --color-error-border: rgba(224, 82, 82, 0.4);
+  --color-error: #e55353;
+  --color-error-bg: rgba(229, 83, 83, 0.15);
+  --color-error-border: rgba(229, 83, 83, 0.45);
 
   /* Borders & Dividers */
-  --color-border-subtle: #2a323d;
-  --color-border-strong: #3f4a59;
+  --color-border-subtle: #2d3642;
+  --color-border-strong: #445163;
   --color-focus-ring: #f0a238;
 
   /* Typography Stacks */
@@ -43,9 +43,10 @@
   --radius-xs: 2px;
   --radius-sm: 4px;
 
-  /* Spacing Grid */
+  /* Spacing Grid (Consistent 4px/8px modular rhythm) */
   --space-2: 2px;
   --space-4: 4px;
+  --space-6: 6px;
   --space-8: 8px;
   --space-12: 12px;
   --space-16: 16px;
@@ -53,7 +54,7 @@
   --space-24: 24px;
   --space-32: 32px;
 
-  /* Standard Transitions */
+  /* Transitions */
   --transition-fast: 100ms ease-out;
 }
 
@@ -94,7 +95,7 @@ html, body {
 .mono-nums {
   font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
 }
 
 /* Buttons Base Reset */

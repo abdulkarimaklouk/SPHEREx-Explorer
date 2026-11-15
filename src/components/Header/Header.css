@@ -5,7 +5,7 @@
   padding: var(--space-12) var(--space-20);
   background-color: var(--color-surface-deck);
   border-bottom: 1px solid var(--color-border-subtle);
-  min-height: 56px;
+  min-height: 58px;
   position: relative;
   z-index: 10;
 }
@@ -26,6 +26,7 @@
 .header-titles {
   display: flex;
   flex-direction: column;
+  gap: 2px;
 }
 
 .header-title {
@@ -41,9 +42,9 @@
 
 .header-version-tag {
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: 0.74rem;
   font-weight: 500;
-  padding: 1px 5px;
+  padding: 1px 6px;
   background-color: var(--color-surface-raised);
   border: 1px solid var(--color-border-subtle);
   border-radius: var(--radius-xs);
@@ -52,21 +53,21 @@
 }
 
 .header-subtitle {
-  font-size: 0.78rem;
+  font-size: 0.80rem;
   color: var(--color-text-secondary);
-  letter-spacing: 0.02em;
+  letter-spacing: 0.01em;
 }
 
 .header-mock-badge {
   display: inline-flex;
   align-items: center;
   gap: var(--space-8);
-  padding: var(--space-4) var(--space-12);
+  padding: var(--space-6) var(--space-12);
   background-color: var(--color-accent-amber-bg);
   border: 1px solid var(--color-accent-amber-border);
   border-radius: var(--radius-xs);
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: 0.78rem;
   font-weight: 600;
   letter-spacing: 0.04em;
   color: var(--color-accent-amber);
@@ -93,7 +94,7 @@
   .header-mock-badge {
     width: 100%;
     justify-content: center;
-    font-size: 0.72rem;
-    padding: var(--space-4) var(--space-8);
+    font-size: 0.74rem;
+    padding: var(--space-6) var(--space-8);
   }
 }

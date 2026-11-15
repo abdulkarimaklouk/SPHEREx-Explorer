@@ -14,7 +14,7 @@ export function ObservationInfo({
         <div className="obs-section-header">
           <h2 className="obs-section-title">Observation Details</h2>
         </div>
-        <p style={{ color: 'var(--color-text-secondary)', fontSize: '0.8rem' }}>
+        <p style={{ color: 'var(--color-text-secondary)', fontSize: '0.85rem' }}>
           Awaiting verified catalog data.
         </p>
       </aside>
@@ -56,7 +56,7 @@ export function ObservationInfo({
           </div>
 
           <div className="obs-fact-row">
-            <span className="obs-fact-label">Catalog Center (ICRS / J2000)</span>
+            <span className="obs-fact-label">Catalog Center (ICRS)</span>
             <span className="obs-fact-value mono-nums">
               RA {selectedTarget.ra.toFixed(4)}°, Dec {selectedTarget.dec >= 0 ? '+' : ''}{selectedTarget.dec.toFixed(4)}°
             </span>
@@ -104,6 +104,13 @@ export function ObservationInfo({
             <span className="transparency-label">Angular Offset (Δθ):</span>
             <span className="transparency-val mono-nums transparency-offset-highlight">
               {angularOffset !== null ? `${angularOffset.toFixed(4)}° (${(angularOffset * 60).toFixed(2)}′)` : '0.0000°'}
+            </span>
+          </div>
+
+          <div className="transparency-row">
+            <span className="transparency-label">Demo Field Coverage:</span>
+            <span className="transparency-val" style={{ color: 'var(--color-text-secondary)', fontStyle: 'italic' }}>
+              Not configured
             </span>
           </div>
 

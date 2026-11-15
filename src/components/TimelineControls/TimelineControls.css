@@ -5,7 +5,7 @@
   padding: var(--space-12) var(--space-20);
   background-color: var(--color-surface-deck);
   border-top: 1px solid var(--color-border-subtle);
-  min-height: 84px;
+  min-height: 88px;
   position: relative;
   z-index: 10;
   gap: var(--space-24);
@@ -23,16 +23,16 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-4);
+  gap: var(--space-6);
   padding: var(--space-8) var(--space-16);
   background-color: var(--color-surface-raised);
   border: 1px solid var(--color-border-subtle);
   border-radius: var(--radius-xs);
   color: var(--color-text-primary);
-  font-size: 0.82rem;
+  font-size: 0.84rem;
   font-weight: 600;
   transition: all var(--transition-fast);
-  min-height: 38px;
+  min-height: 42px;
 }
 
 .btn-transport:hover:not(:disabled) {
@@ -44,7 +44,7 @@
   background-color: var(--color-accent-amber);
   color: #0b0f19;
   border-color: var(--color-accent-amber);
-  min-width: 90px;
+  min-width: 95px;
 }
 
 .btn-transport-play:hover:not(:disabled) {
@@ -108,11 +108,13 @@
   align-items: center;
   background: none;
   cursor: pointer;
+  padding: 2px;
+  min-width: 44px;
 }
 
 .timeline-node-circle {
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   background-color: var(--color-surface-raised);
   border: 2px solid var(--color-border-subtle);
@@ -120,7 +122,7 @@
   align-items: center;
   justify-content: center;
   font-family: var(--font-mono);
-  font-size: 0.74rem;
+  font-size: 0.80rem;
   font-weight: 700;
   color: var(--color-text-secondary);
   transition: all var(--transition-fast);
@@ -140,12 +142,12 @@
   background-color: var(--color-accent-amber);
   border-color: var(--color-accent-amber);
   color: #0b0f19;
-  box-shadow: 0 0 10px rgba(229, 147, 36, 0.4);
+  box-shadow: 0 0 12px rgba(229, 147, 36, 0.4);
 }
 
 .timeline-node-timestamp {
   font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-size: 0.74rem;
   color: var(--color-text-muted);
   margin-top: 4px;
   white-space: nowrap;
@@ -164,15 +166,16 @@
   gap: var(--space-4);
   flex-shrink: 0;
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: 0.76rem;
 }
 
 .timeline-autostop-pill {
-  padding: 2px 8px;
+  padding: 3px 8px;
   background-color: var(--color-surface-raised);
   border: 1px solid var(--color-border-subtle);
   border-radius: var(--radius-xs);
   color: var(--color-text-secondary);
+  font-weight: 500;
 }
 
 .timeline-autostop-pill.halted {
@@ -189,7 +192,7 @@
   .timeline-controls-container {
     flex-direction: column;
     align-items: stretch;
-    padding: var(--space-12);
+    padding: var(--space-12) var(--space-16);
     gap: var(--space-12);
     min-height: auto;
   }

@@ -36,7 +36,7 @@ export function SearchPanel({
         </div>
 
         <div className="target-list" role="tablist" aria-label="5 Challenge Targets">
-          {targets.map((target) => {
+          {targets.map((target, idx) => {
             const isSelected = target.id === selectedTargetId && searchStatus !== 'no-match';
             return (
               <button
@@ -48,7 +48,10 @@ export function SearchPanel({
                 onClick={() => onSelectTarget(target.id)}
               >
                 <div className="target-card-top">
-                  <span className="target-card-name">{target.name}</span>
+                  <div className="target-card-title-group">
+                    <span className="target-card-index mono-nums">{idx + 1}</span>
+                    <span className="target-card-name">{target.name}</span>
+                  </div>
                   {isSelected && <span className="target-card-indicator">Active</span>}
                 </div>
                 <div className="target-card-meta">
@@ -143,10 +146,10 @@ export function SearchPanel({
       <div className="coverage-guidance">
         <div className="coverage-guidance-title">
           <span>🔭</span>
-          <span>Demonstration Coverage Policy</span>
+          <span>Demo field coverage: Not configured</span>
         </div>
         <p>
-          This demonstration matches queried celestial coordinates against the five approved NASA Space Apps challenge objects within simulated field boundaries (1.0°).
+          Target coordinate search matches queried positions against the catalog centers of the five approved NASA Space Apps challenge objects. Numerical mock field coverage boundaries are not configured in this prototype.
         </p>
       </div>
     </aside>
