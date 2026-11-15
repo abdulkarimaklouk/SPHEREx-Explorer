@@ -9,11 +9,7 @@ export function SkyViewer({
   currentObservation,
   searchStatus,
   requestedCoords,
-  angularOffset,
-  nearestTarget,
   onSelectTarget,
-  onSearchArchive,
-  targets = [],
   // Authentic FITS & WiseView-inspired controls
   activeFitsData = null,
   allFitsData = [],

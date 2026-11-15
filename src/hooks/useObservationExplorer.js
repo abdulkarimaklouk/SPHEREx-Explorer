@@ -282,6 +282,21 @@ export function useObservationExplorer() {
       setAngularOffset(0);
       setCurrentFrameIndex(0);
       setIsPlaying(false);
+
+      if (targetName && targetName !== 'SPHEREx Calibration Field (DR1)') {
+        const customTarget = ObservationService.createCustomTarget({
+          name: targetName,
+          ra: result.requestedCoords.ra,
+          dec: result.requestedCoords.dec,
+          fovArcsec: fov,
+          observations: result.observations,
+        });
+        setCustomTargets((prev) => {
+          const filtered = prev.filter((t) => t.id !== customTarget.id);
+          return [...filtered, customTarget];
+        });
+        setSelectedTargetId(customTarget.id);
+      }
     } else {
       setSearchStatus('no-match');
       setIsPlaying(false);

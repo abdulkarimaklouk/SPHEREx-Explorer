@@ -77,6 +77,13 @@ export function ObservationInfo({
               Source: {selectedTarget.coordinateSource}
             </span>
           </div>
+
+          <div className="obs-fact-row">
+            <span className="obs-fact-label">Archived Observations</span>
+            <span className="obs-fact-value mono-nums">
+              {totalFrames > 0 ? `${totalFrames} frames (Frame ${currentFrameIndex + 1} active)` : '0 in pilot strip'}
+            </span>
+          </div>
         </div>
       </section>
 
@@ -97,6 +104,13 @@ export function ObservationInfo({
                 <span className="transparency-label">Observation ID:</span>
                 <span className="transparency-val mono-nums">
                   {currentObservation?.id || activeFitsData?.obsId || '2025W19_2B_0007_1'}
+                </span>
+              </div>
+
+              <div className="transparency-row">
+                <span className="transparency-label">Sequence Frame:</span>
+                <span className="transparency-val mono-nums">
+                  Frame {currentFrameIndex + 1} of {totalFrames}
                 </span>
               </div>
 

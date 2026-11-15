@@ -21,6 +21,11 @@ export function App() {
     setBlinkIntervalMs,
     searchCoords,
     setSearchCoords,
+    fovArcsec,
+    setFovArcsec,
+    timeRange,
+    setTimeRange,
+    isSearchStale,
     searchStatus,
     searchError,
     requestedCoords,
@@ -33,6 +38,7 @@ export function App() {
     viewMode,
     setViewMode,
     archiveSearchResults,
+    sia2Status,
     stretch,
     setStretch,
     invertColormap,
@@ -70,12 +76,18 @@ export function App() {
           onSelectTarget={selectTarget}
           searchCoords={searchCoords}
           onCoordsChange={setSearchCoords}
+          fovArcsec={fovArcsec}
+          onFovChange={setFovArcsec}
+          timeRange={timeRange}
+          onTimeRangeChange={setTimeRange}
+          isSearchStale={isSearchStale}
           onSearch={executeSearch}
           onSearchArchive={searchArchive}
           onReset={resetToCenter}
           searchStatus={searchStatus}
           searchError={searchError}
           archiveSearchResults={archiveSearchResults}
+          sia2Status={sia2Status}
         />
 
         {/* Center Stage: Dominant Astronomical Sky Viewer */}
@@ -114,6 +126,7 @@ export function App() {
           onTogglePlay={togglePlay}
           blinkIntervalMs={blinkIntervalMs}
           setBlinkIntervalMs={setBlinkIntervalMs}
+          sia2Status={sia2Status}
         />
 
         {/* Right Rail: Metadata & Provenance Inspector */}
@@ -125,6 +138,7 @@ export function App() {
           requestedCoords={requestedCoords}
           angularOffset={angularOffset}
           activeFitsData={activeFitsData}
+          sia2Status={sia2Status}
         />
       </div>
 

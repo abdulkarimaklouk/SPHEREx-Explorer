@@ -12,7 +12,7 @@ export function TimelineControls({
   cadenceMs = 800,
 }) {
   const isAtFirst = currentFrameIndex === 0;
-  const isAtLast = currentFrameIndex >= totalFrames - 1;
+  const isAtLast = totalFrames === 0 ? true : currentFrameIndex >= totalFrames - 1;
 
   // Calculate width percentage for progress line
   const progressPercent = totalFrames > 1 ? (currentFrameIndex / (totalFrames - 1)) * 100 : 0;
@@ -56,7 +56,7 @@ export function TimelineControls({
           type="button"
           className="btn-transport"
           onClick={onPrev}
-          disabled={isAtFirst}
+          disabled={totalFrames === 0 || isAtFirst}
           aria-label="Previous observation frame"
           title="Step to previous observation"
         >
@@ -68,26 +68,31 @@ export function TimelineControls({
           type="button"
           className={`btn-transport btn-transport-play ${isPlaying ? 'is-playing' : ''} ${isAtLast && !isPlaying ? 'btn-replay' : ''}`}
           onClick={onTogglePlay}
+          disabled={totalFrames === 0}
           aria-label={
-            isPlaying
+            totalFrames === 0
+              ? 'No observation frames available'
+              : isPlaying
               ? 'Pause timeline playback'
               : (isAtLast ? 'Replay timeline sequence from beginning' : 'Play timeline sequence')
           }
           title={
-            isPlaying
+            totalFrames === 0
+              ? 'No frames available'
+              : isPlaying
               ? 'Pause sequence'
               : (isAtLast ? 'Replay sequence from beginning' : 'Play sequence across epochs')
           }
         >
-          <span>{isPlaying ? '⏸' : (isAtLast ? '↺' : '▶')}</span>
-          <span>{isPlaying ? 'Pause' : (isAtLast ? 'Replay' : 'Blink')}</span>
+          <span>{isPlaying ? '⏸' : (isAtLast && totalFrames > 0 ? '↺' : '▶')}</span>
+          <span>{isPlaying ? 'Pause' : (isAtLast && totalFrames > 0 ? 'Replay' : 'Blink')}</span>
         </button>
 
         <button
           type="button"
           className="btn-transport"
           onClick={onNext}
-          disabled={isAtLast}
+          disabled={totalFrames === 0 || isAtLast}
           aria-label="Next observation frame"
           title="Step to next observation"
         >
@@ -98,39 +103,45 @@ export function TimelineControls({
 
       {/* 2. Scrubber Track */}
       <div className="timeline-scrubber-center">
-        <div className="timeline-scrubber-track-wrap" role="group" aria-label="Observation Epoch Stepper">
-          {/* Background Track */}
-          <div className="timeline-track-bar" aria-hidden="true" />
-          {/* Active Progress Bar */}
-          <div
-            className="timeline-track-progress"
-            style={{ width: `calc((100% - 40px) * ${progressPercent / 100})` }}
-            aria-hidden="true"
-          />
+        {totalFrames === 0 ? (
+          <div className="timeline-empty-message">
+            <span>0 Observations Available (Archive Search Pending)</span>
+          </div>
+        ) : (
+          <div className="timeline-scrubber-track-wrap" role="group" aria-label="Observation Epoch Stepper">
+            {/* Background Track */}
+            <div className="timeline-track-bar" aria-hidden="true" />
+            {/* Active Progress Bar */}
+            <div
+              className="timeline-track-progress"
+              style={{ width: `calc((100% - 40px) * ${progressPercent / 100})` }}
+              aria-hidden="true"
+            />
 
-          {/* Interactive Nodes */}
-          {Array.from({ length: totalFrames }).map((_, idx) => {
-            const obs = observations[idx];
-            const isActive = idx === currentFrameIndex;
-            const isCompleted = idx < currentFrameIndex;
+            {/* Interactive Nodes */}
+            {Array.from({ length: totalFrames }).map((_, idx) => {
+              const obs = observations[idx];
+              const isActive = idx === currentFrameIndex;
+              const isCompleted = idx < currentFrameIndex;
 
-            return (
-              <button
-                key={idx}
-                type="button"
-                className={`timeline-step-node ${isActive ? 'active' : ''} ${isCompleted ? 'completed' : ''}`}
-                onClick={() => onJumpToFrame(idx)}
-                aria-label={`Jump to Observation ${idx + 1} of ${totalFrames}`}
-                aria-current={isActive ? 'step' : undefined}
-              >
-                <div className="timeline-node-circle">{idx + 1}</div>
-                <span className="timeline-node-timestamp mono-nums">
-                  {formatNodeLabel(obs, idx)}
-                </span>
-              </button>
-            );
-          })}
-        </div>
+              return (
+                <button
+                  key={idx}
+                  type="button"
+                  className={`timeline-step-node ${isActive ? 'active' : ''} ${isCompleted ? 'completed' : ''}`}
+                  onClick={() => onJumpToFrame(idx)}
+                  aria-label={`Jump to Observation ${idx + 1} of ${totalFrames}`}
+                  aria-current={isActive ? 'step' : undefined}
+                >
+                  <div className="timeline-node-circle">{idx + 1}</div>
+                  <span className="timeline-node-timestamp mono-nums">
+                    {formatNodeLabel(obs, idx)}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        )}
 
         {/* Temporal Interval Badge for Authentic FITS Data */}
         {isRealData && intervalText && (
@@ -145,7 +156,11 @@ export function TimelineControls({
       {/* 3. Cadence and Auto-Stop Indicators */}
       <div className="timeline-meta-right">
         <div className={`timeline-autostop-pill ${isAtLast ? 'halted' : ''}`}>
-          {isAtLast ? '● Sequence End (Halted)' : `Auto-stop: Frame ${totalFrames}`}
+          {totalFrames === 0
+            ? '○ 0 Frames Available'
+            : isAtLast
+            ? '● Sequence End (Halted)'
+            : `Auto-stop: Frame ${totalFrames}`}
         </div>
         <div className="timeline-cadence-label mono-nums">
           Cadence: {cadenceMs}ms / blink

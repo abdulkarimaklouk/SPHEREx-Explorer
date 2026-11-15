@@ -76,6 +76,20 @@
   gap: var(--space-8);
 }
 
+.timeline-empty-message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-8) var(--space-16);
+  background-color: var(--color-surface-raised);
+  border: 1px dashed var(--color-border-subtle);
+  border-radius: var(--radius-xs);
+  color: var(--color-text-secondary);
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  letter-spacing: 0.02em;
+}
+
 .timeline-scrubber-track-wrap {
   position: relative;
   display: flex;
