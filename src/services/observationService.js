@@ -3,14 +3,9 @@
  *
  * Implements business logic:
  * - Target resolution & preset access
- * - Spherical coordinate matching against challenge targets
+ * - Exact catalog-center coordinate matching
+ * - Explicit field coverage boundary matching
  * - Chronological observation sorting verification
- *
- * COORDINATE COVERAGE POLICY (TASK-304.1):
- * - A valid mock field match strictly requires an explicitly configured coverage boundary.
- * - If coverage is unconfigured (null), field matching remains unavailable (matched: false).
- * - No universal or arbitrary fallback radius is permitted.
- * - Closest target is returned solely as a suggestion (nearestTarget).
  */
 
 import { MockDataProvider } from './providers/MockDataProvider.js';
@@ -18,6 +13,18 @@ import {
   validateCoordinates,
   calculateAngularSeparation,
 } from '../utils/coordinates.js';
+
+/**
+ * Numerical floating-point epsilon for exact catalog-center matching.
+ * Value: 0.0001 degrees (~0.36 arcseconds).
+ *
+ * POLICY (TASK-501.1):
+ * This epsilon accounts strictly for IEEE 754 floating-point rounding in
+ * spherical trigonometric functions (Math.sin, Math.cos, Math.acos) and
+ * parsed string-to-float conversions. It is NOT an astronomical field coverage
+ * radius or search tolerance.
+ */
+export const EXACT_CENTER_EPSILON_DEG = 0.0001;
 
 export class ObservationService {
   /**
@@ -56,14 +63,22 @@ export class ObservationService {
   }
 
   /**
-   * Evaluates requested celestial coordinates against challenge targets.
-   * Enforces strict coverage policy: matches only when an explicit coverage
-   * boundary is configured on the target.
+   * Evaluates requested celestial coordinates against challenge targets using the
+   * following strict resolution order (TASK-501.1):
+   *
+   * 1. Validate RA and Dec boundaries.
+   * 2. Calculate angular separation against available catalog targets.
+   * 3. Check whether requested coordinates exactly match a target's catalog center.
+   * 4. If an exact center match exists, return a successful exact-coordinate match (offset = 0).
+   * 5. If no exact match exists, evaluate explicitly configured field coverage.
+   * 6. If coverage is null or unavailable, do not claim a valid field match (matched = false).
+   * 7. Return the nearest target only as a suggestion.
    *
    * @param {number|string} raInput - RA in decimal degrees
    * @param {number|string} decInput - Dec in decimal degrees
    * @returns {{
    *   matched: boolean,
+   *   matchType: 'exact_center' | 'field_coverage' | null,
    *   target: object|null,
    *   nearestTarget: object|null,
    *   requestedCoords: { ra: number, dec: number }|null,
@@ -73,11 +88,13 @@ export class ObservationService {
    * }}
    */
   static findTargetByCoordinates(raInput, decInput) {
+    // 1. Validate RA and Dec
     const validation = validateCoordinates(raInput, decInput);
 
     if (!validation.isValid) {
       return {
         matched: false,
+        matchType: null,
         target: null,
         nearestTarget: null,
         requestedCoords: null,
@@ -90,6 +107,7 @@ export class ObservationService {
     const { ra, dec } = validation;
     const targets = this.getPresetTargets();
 
+    // 2. Calculate angular separation against available catalog targets
     let closestTarget = null;
     let minSeparation = Infinity;
 
@@ -107,19 +125,73 @@ export class ObservationService {
       }
     }
 
-    const coverage = closestTarget ? closestTarget.fieldCoverageDegrees : null;
+    if (!closestTarget) {
+      return {
+        matched: false,
+        matchType: null,
+        target: null,
+        nearestTarget: null,
+        requestedCoords: { ra, dec },
+        angularOffsetDegrees: null,
+        coverageConfigured: false,
+        validation,
+      };
+    }
+
+    // 3. Check whether the requested coordinates exactly match a target's catalog center
+    const raDiff = Math.abs(ra - closestTarget.ra);
+    const normalizedRaDiff = Math.min(raDiff, 360 - raDiff);
+    const decDiff = Math.abs(dec - closestTarget.dec);
+
+    const isExactCenterMatch =
+      minSeparation <= EXACT_CENTER_EPSILON_DEG ||
+      (normalizedRaDiff <= EXACT_CENTER_EPSILON_DEG && decDiff <= EXACT_CENTER_EPSILON_DEG);
+
+    // 4. If an exact center match exists, return a successful exact-coordinate match
+    if (isExactCenterMatch) {
+      const coverage = closestTarget.fieldCoverageDegrees;
+      const coverageConfigured =
+        coverage !== null && coverage !== undefined && typeof coverage === 'number';
+
+      return {
+        matched: true,
+        matchType: 'exact_center',
+        target: closestTarget,
+        nearestTarget: closestTarget,
+        requestedCoords: { ra, dec },
+        angularOffsetDegrees: 0, // Formatted as exactly zero for catalog center match
+        coverageConfigured,
+        validation,
+      };
+    }
+
+    // 5. If no exact match exists, evaluate explicitly configured field coverage
+    const coverage = closestTarget.fieldCoverageDegrees;
     const coverageConfigured =
       coverage !== null && coverage !== undefined && typeof coverage === 'number';
 
-    // Strict coverage matching:
-    // Only match if coverage is explicitly configured AND angular separation is within that coverage.
-    // Unconfigured coverage remains unavailable (matched = false).
     const isWithinCoverage = coverageConfigured && minSeparation <= coverage;
 
+    if (isWithinCoverage) {
+      return {
+        matched: true,
+        matchType: 'field_coverage',
+        target: closestTarget,
+        nearestTarget: closestTarget,
+        requestedCoords: { ra, dec },
+        angularOffsetDegrees: minSeparation,
+        coverageConfigured: true,
+        validation,
+      };
+    }
+
+    // 6. If coverage is null or unavailable, do not claim a valid field match
+    // 7. Return the nearest target only as a suggestion
     return {
-      matched: isWithinCoverage,
-      target: isWithinCoverage ? closestTarget : null,
-      nearestTarget: closestTarget, // Returned only as a suggestion
+      matched: false,
+      matchType: null,
+      target: null,
+      nearestTarget: closestTarget, // Suggestion only
       requestedCoords: { ra, dec },
       angularOffsetDegrees: minSeparation,
       coverageConfigured,

@@ -82,18 +82,19 @@ export function SearchPanel({
               <span>Right Ascension (RA)</span>
               <span className="coord-bounds-hint">0.0° – 359.9999°</span>
             </label>
-            <div className="coord-input-wrapper">
+            <div className={`coord-input-wrapper ${searchStatus === 'error' && searchError?.includes('Ascension') ? 'input-error' : ''}`}>
               <input
                 id="ra-input"
-                type="number"
-                step="any"
-                className={`coord-input ${searchStatus === 'error' && searchError?.includes('Ascension') ? 'input-error' : ''}`}
+                type="text"
+                inputMode="decimal"
+                dir="ltr"
+                className="coord-input"
                 value={searchCoords.ra}
                 onChange={handleRaChange}
                 placeholder="e.g. 269.452"
                 aria-describedby="ra-unit"
               />
-              <span id="ra-unit" className="coord-unit">deg</span>
+              <span id="ra-unit" className="coord-unit-suffix">deg</span>
             </div>
           </div>
 
@@ -103,18 +104,19 @@ export function SearchPanel({
               <span>Declination (Dec)</span>
               <span className="coord-bounds-hint">-90.0° – +90.0°</span>
             </label>
-            <div className="coord-input-wrapper">
+            <div className={`coord-input-wrapper ${searchStatus === 'error' && searchError?.includes('Declination') ? 'input-error' : ''}`}>
               <input
                 id="dec-input"
-                type="number"
-                step="any"
-                className={`coord-input ${searchStatus === 'error' && searchError?.includes('Declination') ? 'input-error' : ''}`}
+                type="text"
+                inputMode="decimal"
+                dir="ltr"
+                className="coord-input"
                 value={searchCoords.dec}
                 onChange={handleDecChange}
                 placeholder="e.g. +4.693"
                 aria-describedby="dec-unit"
               />
-              <span id="dec-unit" className="coord-unit">deg</span>
+              <span id="dec-unit" className="coord-unit-suffix">deg</span>
             </div>
           </div>
 

@@ -153,41 +153,60 @@
 }
 
 .coord-input-wrapper {
-  position: relative;
   display: flex;
   align-items: center;
-}
-
-.coord-input {
-  width: 100%;
-  padding: var(--space-8) 36px var(--space-8) var(--space-12);
   background-color: var(--color-surface-inset);
   border: 1px solid var(--color-border-subtle);
   border-radius: var(--radius-xs);
-  color: var(--color-text-primary);
-  font-family: var(--font-mono);
-  font-size: 0.88rem;
   min-height: 38px;
-  transition: border-color var(--transition-fast);
+  transition: border-color var(--transition-fast), background-color var(--transition-fast);
 }
 
-.coord-input:focus {
+.coord-input-wrapper:focus-within {
   border-color: var(--color-focus-ring);
   background-color: #080a0e;
 }
 
-.coord-input.input-error {
+.coord-input-wrapper.input-error {
   border-color: var(--color-error);
   background-color: var(--color-error-bg);
 }
 
-.coord-unit {
-  position: absolute;
-  right: var(--space-10);
+.coord-input {
+  flex: 1;
+  min-width: 0;
+  background: transparent;
+  border: none;
+  outline: none;
+  direction: ltr;
+  text-align: left;
+  padding: var(--space-8) var(--space-8) var(--space-8) var(--space-12);
+  color: var(--color-text-primary);
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+  min-height: 36px;
+}
+
+.coord-input::-webkit-outer-spin-button,
+.coord-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.coord-input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.coord-unit-suffix {
   font-family: var(--font-mono);
   font-size: 0.78rem;
   color: var(--color-text-muted);
+  padding-right: var(--space-12);
+  padding-left: var(--space-4);
+  flex-shrink: 0;
+  user-select: none;
   pointer-events: none;
+  text-align: right;
 }
 
 .coord-error-message {

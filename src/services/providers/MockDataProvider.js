@@ -5,7 +5,7 @@
  * Contains no business logic, coordinate mathematics, or React state.
  */
 
-import mockData from '../../data/mockTargets.json';
+import mockData from '../../data/mockTargets.json' with { type: 'json' };
 
 export class MockDataProvider {
   /**
