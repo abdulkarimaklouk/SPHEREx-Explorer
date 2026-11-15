@@ -64,17 +64,28 @@ spherex-explorer/
 │   └── main.jsx                  # React DOM mount entry point
 │
 ├── docs/                         # Specifications, requirements, architecture & decisions
+│   ├── research/                 # Deep scientific research & technical guides (TASK-601)
+│   │   ├── SOURCE_REGISTRY.md    # Permanent scientific source & citation registry
+│   │   ├── SPHEREX_FITS_GUIDE.md # Multi-Extension FITS (6 HDUs), WCS, 102 channels guide
+│   │   ├── IRSA_ARCHIVE_ACCESS.md# SIA2, TAP/ADQL, IBE, Cutout Tool, and S3 guide
+│   │   ├── DATA_INGESTION_ARCHITECTURE.md # Ingestion options (A, B, C) & workflow
+│   │   ├── WISEVIEW_INTERACTION_ANALYSIS.md # Interaction inspiration from Backyard Worlds
+│   │   └── REAL_DATA_IMPLEMENTATION_ROADMAP.md # Future Phases A through I roadmap
 │   ├── PRD.md                    # Product objectives, scope, 5 challenge targets
 │   ├── SRS.md                    # Detailed functional & non-functional specifications
 │   ├── ARCHITECTURE.md           # System architecture, data flow & custom hook design
 │   ├── PROJECT_STRUCTURE.md      # Directory layout and file responsibilities
 │   ├── DATA_SCHEMA.md            # Verified target & synthetic observation schema definitions
 │   ├── UI_SPECIFICATION.md       # Layout wireframe, component states & transparency rules
-│   ├── TASKS.md                  # 6-phase implementation roadmap
+│   ├── TASKS.md                  # Implementation roadmap & task breakdown
 │   ├── ACCEPTANCE_CRITERIA.md    # Quality gates and verification criteria
 │   ├── GLOSSARY.md               # Astronomical and technical terminology
 │   ├── DATA_SOURCES.md           # Factual provenance for 5 targets & mock attribution rules
-│   └── DECISIONS.md              # Architecture Decision Records (ADRs 001 - 012)
+│   └── DECISIONS.md              # Architecture Decision Records (ADRs 001 - 014)
+│
+├── test/                         # Pure JavaScript unit and integration contract tests
+│   ├── observationService.test.js# Coordinate matching and exact center unit tests
+│   └── integrationContracts.test.js# Schema, normalization, math, and timeline contracts
 │
 ├── AGENTS.md                     # Primary project instruction document
 ├── README.md                     # Project overview and run instructions

@@ -178,3 +178,22 @@ The central state coordinator:
 2. **Coordinate Transparency**: The UI visibly displays requested coordinates alongside matched target center coordinates.
 3. **Zero Backend**: All operations execute locally in the browser.
 4. **No Premature Global Context**: Single-view application avoids React Context boilerplate.
+
+---
+
+## 6. Real-Data Transition & Ingestion Pipeline (Phase 6 Architecture Alignment)
+
+To transition from the current verified demonstration prototype toward authentic SPHEREx data products without compromising performance, the architecture establishes a client-side ingestion model backed by an offline scientific oracle (documented in `docs/research/DATA_INGESTION_ARCHITECTURE.md` and ADR-013):
+
+1. **Core Client-Side FITS Ingestion & Inspection (Web Worker Architecture)**:
+   - The application supports direct client-side upload of authentic SPHEREx Level 2 Multi-Extension FITS (MEF) files (7 HDUs total: Primary Header HDU 0 + 6 extensions HDU 1 to 6) via `File` / `FileReader` / `ArrayBuffer`.
+   - All computationally intensive parsing, big-endian IEEE 754 Float32 decoding, Asinh/ZScale normalization, and quality bitmask unpacking are offloaded to dedicated Web Workers (`fitsWorker.js`) using Transferable `ArrayBuffer` objects, ensuring the UI main thread never stutters or drops frames.
+   - The application supports inspecting scientific image data (`IMAGE`), uncertainty fields (`VARIANCE`), quality flags (`FLAGS`), zodiacal foreground models (`ZODI`), and nominal wavelength lookup tables (`WCS-WAVE`).
+2. **Offline Python/Astropy Validation Oracle & Pre-Packaged Baseline**:
+   - A standalone Python script (`scripts/validate_fits_reference.py`) using `astropy.io.fits` and `astropy.wcs` acts as the scientific reference oracle, calculating ground-truth pixel statistics, coordinate bounds, and nominal wavelength mappings to verify browser Web Worker numerical parity.
+   - Pre-packaged baseline demonstration cutouts are stored in `public/fits/spherex/` to enable immediate exploration without requiring user-provided FITS files upfront.
+3. **Strict Separation of Spectral Channels vs. Observation Epochs**:
+   - In accordance with ADR-014, the 102 nominal spectral channels (0.75–5.00 µm across 6 detector bands) represent wavelength bandpasses, while the timeline represents temporal observation epochs. Coverage varies with ecliptic latitude (from ~4 passes near the equator to hundreds near ecliptic poles).
+4. **Physical Limits of In-App Spectral Extraction**:
+   - Single-pixel queries read the nominal central wavelength and bandpass from the `WCS-WAVE` lookup table for that pixel's physical coordinate on the Linear Variable Filter.
+   - The UI clearly discloses that an authentic source spectrum requires multi-pointing, dithered aperture photometry across all 6 detector arrays with background subtraction, not a single-pixel extraction.

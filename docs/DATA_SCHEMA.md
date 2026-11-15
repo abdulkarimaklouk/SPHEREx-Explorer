@@ -170,12 +170,40 @@ Represents a single demonstration observation epoch within a target's timeline:
 
 ---
 
-## 4. Fields Intentionally Omitted from MVP
+## 4. Fields Intentionally Omitted from Mock MVP Baseline
 
-To prevent fabricating unverifiable engineering and scientific values, the following fields are strictly excluded:
+To prevent fabricating unverifiable engineering and scientific values, the mock MVP baseline schema strictly excluded:
 - `wavelengthCenterMicrons`
 - `exposureTimeSeconds`
 - `spectralBand`
 - `filterTransmission`
 - `detectorTemperature`
 - `fluxCalibrations`
+
+---
+
+## 5. Real SPHEREx Scientific Data Schema (Phase 6 Research Extension)
+
+As documented in `docs/research/SPHEREX_FITS_GUIDE.md`, authentic SPHEREx Level 2 data products follow the Multi-Extension FITS (MEF) architecture and future manifests (`spherexTargets.json`) will document authentic metadata:
+
+### 5.1 Authentic Observation Manifest Schema (`ScientificObservation`)
+When real SPHEREx data is ingested, observation records extend with verified pipeline parameters:
+
+| Field | Type | Description | Scientific Provenance |
+| :--- | :--- | :--- | :--- |
+| `observationId` | `string` | Unique SPHEREx observation ID (`OBSID`). | FITS Header (`OBSID`) |
+| `band` | `string` | Active detector band (`BAND1` to `BAND6`). | FITS Header (`INSTRUME`) |
+| `channelRange` | `string` | Channel subset within band (e.g., `Channels 1-17`). | FITS LVF Layout |
+| `wavelengthRangeMicrons` | `[number, number]` | Physical bandpass range (e.g., `[0.75, 1.11]`). | Calibration Table |
+| `exposureTimeSeconds` | `number` | Authentic exposure duration in seconds. | FITS Header (`EXPTIME`) |
+| `timestampUtc` | `string` | Authentic start timestamp in ISO-8601. | FITS Header (`DATE-OBS`) |
+| `surfaceBrightnessUnit`| `string` | Always `"MJy/sr"`. | `IMAGE` Extension (`BUNIT`) |
+| `varianceUnit` | `string` | Always `"(MJy/sr)^2"`. | `VARIANCE` Extension (`BUNIT`)|
+| `fitsPath` | `string` | Relative path to local archived FITS cutout. | Storage (`public/fits/`) |
+| `displayImagePath` | `string` | Relative path to normalized WebP/PNG asset. | Display (`public/images/`)|
+| `isMock` | `boolean` | Set to `false` when displaying authentic observations. | Provenance Governance |
+
+### 5.2 Mandatory Separation: Spectral Channels vs. Observation Epochs
+- **102 Spectral Channels**: Near-infrared wavelengths from 0.75 µm to 5.00 µm across 6 detector bands.
+- **Observation Epochs**: Distinct temporal survey passes separated by approximately 6 months.
+- The schema strictly forbids merging or confusing these two dimensions.

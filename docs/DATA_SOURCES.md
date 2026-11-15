@@ -26,19 +26,27 @@ To protect scientific integrity, astronomical target identities and sky coordina
 
 ---
 
-## 2. Official SPHEREx Mission References
+## 2. Official SPHEREx Mission References & Scientific Source Registry
 
-1. **NASA SPHEREx Mission Overview**:
-   [https://www.nasa.gov/mission/spherex/](https://www.nasa.gov/mission/spherex/)
-   Primary mission objectives: mapping the large-scale structure of the universe, measuring cosmic light, and surveying biogenic ices.
+For complete technical specifications, access protocols, and tutorial references, consult the canonical **[SPHEREx Source Registry](file:///c:/Users/Star/Desktop/nasa/docs/research/SOURCE_REGISTRY.md)**.
 
-2. **Caltech / JPL SPHEREx Instrument Site**:
-   [https://spherex.caltech.edu/](https://spherex.caltech.edu/)
-   Instrument architecture, telescope design, and scientific working groups.
+Key primary official archives:
+1. **NASA/IPAC Infrared Science Archive (IRSA) — SPHEREx Home**:
+   [https://irsa.ipac.caltech.edu/Missions/spherex.html](https://irsa.ipac.caltech.edu/Missions/spherex.html)
+   Official archive center serving public SPHEREx data releases (DR1, QR3), spectral images, and all-sky cubes.
 
-3. **NASA/IPAC Infrared Science Archive (IRSA)**:
-   [https://irsa.ipac.caltech.edu/](https://irsa.ipac.caltech.edu/)
-   Official archival center for future SPHEREx public science data releases.
+2. **SPHEREx Data Explorer Interactive Application**:
+   [https://irsa.ipac.caltech.edu/applications/spherex](https://irsa.ipac.caltech.edu/applications/spherex)
+   Web-based interactive tool for searching, viewing, and extracting cutouts from SPHEREx Spectral Images.
+
+3. **SPHEREx Tutorial Notebook Suite (Caltech-IPAC)**:
+   [https://caltech-ipac.github.io/irsa-tutorials/](https://caltech-ipac.github.io/irsa-tutorials/)
+   Official interactive tutorials including `spherex-intro`, `spherex-cutouts`, `spherex-psf`, `spherex-source-discovery-tool-demo`, `spherex-mosaic`, and `spherex-hipscube`.
+
+4. **Comparative & Astrometric References**:
+   - **Gaia DR3** ([https://archive.stsci.edu/missions-and-data/gaia](https://archive.stsci.edu/missions-and-data/gaia)): Astrometric coordinates, parallaxes, and proper motions (Epoch J2016.0).
+   - **WiseView** ([http://byw.tools/wiseview](http://byw.tools/wiseview)): Interaction design inspiration for multi-epoch blinking and motion comparison (*WiseView does NOT host SPHEREx data*).
+   - **CSA NEOSSat / CADC** ([https://www.asc-csa.gc.ca/eng/satellites/neossat/](https://www.asc-csa.gc.ca/eng/satellites/neossat/)): Comparative partner reference for orbital time-series FITS archives (*does not host SPHEREx data*).
 
 ---
 

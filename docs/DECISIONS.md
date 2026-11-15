@@ -23,6 +23,8 @@ This document logs all fundamental technical, architectural, and governance deci
 - [ADR-010: Automated Testing Policy Without External Dependencies](#adr-010-automated-testing-policy-without-external-dependencies)
 - [ADR-011: Dedicated UI/UX Phase Separation](#adr-011-dedicated-uiux-phase-separation)
 - [ADR-012: Git Safety and Antigravity Agent Governance](#adr-012-git-safety-and-antigravity-agent-governance)
+- [ADR-013: SPHEREx Real Data Ingestion & Preprocessing Architecture](#adr-013-spherex-real-data-ingestion--preprocessing-architecture)
+- [ADR-014: Strict Distinction Between 102 Spectral Channels and Multi-Epoch Observation Time Series](#adr-014-strict-distinction-between-102-spectral-channels-and-multi-epoch-observation-time-series)
 
 ---
 
@@ -178,3 +180,43 @@ This document logs all fundamental technical, architectural, and governance deci
 - **Rationale**: Enforces consistent, safe, and verifiable behavior across all agent turns.
 - **Consequences**: All agent actions are constrained by documented governance rules.
 - **Related Documentation**: `AGENTS.md`, `.agents/rules/`, `.agents/skills/`.
+
+---
+
+### ADR-013: Client-Side FITS Upload & Processing Architecture with Python Reference Validation
+
+- **Status**: **Proposed** (Aligned under TASK-601.1; awaiting final human approval before TASK-602 implementation)
+- **Context**: SPHEREx Explorer requires supporting authentic SPHEREx Level 2 Multi-Extension FITS (MEF) files. A critical product requirement is that users must be able to upload authentic FITS files directly into the web application, programmatically inspect all Header Data Units (HDUs), render scientific images in the Sky Viewer, inspect metadata and quality/uncertainty flags, extract nominal spectral coordinates, and explore multi-epoch observations. We must decide how to architect this capability in a client-side Single-Page Application without violating the prohibition against backend servers or crashing browser tabs with ~100MB files.
+- **Alternatives Considered**:
+  1. *Pure Client-Side In-Browser FITS Ingestion (Web Worker)*: User selects authentic FITS/MEF files via file picker or drag-and-drop; parsing, array decompression, and normalization are offloaded to a dedicated Web Worker; UI displays scientific arrays and metadata directly.
+  2. *Offline Preprocessing Only (Python/Astropy Pipeline)*: Pre-converting all files to static WebP and JSON manifests. While performant for fixed demonstration targets, this completely fails the core requirement to allow user-initiated in-app FITS file uploads.
+  3. *Hybrid Architecture (Core In-Browser FITS Upload + Curated Static Fallbacks & Astropy Validation)*:
+     - In-browser FITS upload and inspection is a **first-class, core user workflow**: users can upload and inspect authentic SPHEREx MEF files directly in the browser via Web Workers without a backend server.
+     - Curated static demonstration targets (the 5 challenge objects) remain available as pre-packaged baseline datasets for instant orientation.
+     - Offline Python/Astropy scripts serve as the scientific reference implementation to validate client-side parsing accuracy, verify WCS mathematics, and generate reference data products.
+- **Decision**: Adopt the **Hybrid Architecture with First-Class In-Browser FITS Upload**:
+  1. **Core In-App Capability**: Implement direct browser-based FITS/MEF file selection, drag-and-drop, and programmatic parsing as a primary application feature.
+  2. **Dedicated Web Worker (`src/workers/fitsWorker.js`)**: All FITS binary parsing, HDU inspection (Primary HDU + 6 extensions), float32 array extraction (`IMAGE`, `FLAGS`, `VARIANCE`), and visual normalization (Asinh / ZScale stretching) are executed off the main UI thread. Parsed buffers are transferred back via zero-copy transferable `ArrayBuffer` objects, ensuring the UI remains 100% responsive.
+  3. **Component Synchronization**:
+     - `SkyViewer`: Renders the calibrated scientific array (`IMAGE`) with interactive contrast controls and reticle overlays.
+     - `ObservationInfo`: Exposes authentic FITS header metadata, units ($\text{MJy/sr}$), data flags (`FLAGS`), and uncertainty metrics (`VARIANCE`).
+     - Spectral Readout: Extracts nominal central wavelength $\lambda$ and bandwidth $\Delta\lambda$ from `WCS-WAVE` for hovered pixels.
+     - `TimelineControls`: If multiple observation files (epochs) are uploaded, populates the timeline sequence with independent observation epochs.
+  4. **Python Reference Role**: Astropy and Python are retained exclusively as an offline scientific reference tool for ground-truth validation of the browser parser's numerical accuracy and for curated baseline dataset generation. Python does NOT replace the in-app upload workflow.
+- **Rationale**: Directly fulfills the mandatory product requirement; provides complete user autonomy to inspect newly released or private SPHEREx files; eliminates backend server dependencies; isolates memory and compute bottlenecks inside Web Workers; and uses Astropy to ensure peer-reviewed mathematical fidelity.
+- **Consequences**: Requires implementing a lightweight, standards-compliant FITS parser inside a Web Worker. TASK-602 is defined as an isolated technical spike to prove Web Worker performance and memory bounds before integrating into the main dashboard.
+- **Related Documentation**: `docs/research/DATA_INGESTION_ARCHITECTURE.md`, `docs/research/SPHEREX_FITS_GUIDE.md`, `docs/research/REAL_DATA_IMPLEMENTATION_ROADMAP.md`.
+
+---
+
+### ADR-014: Strict Distinction Between 102 Spectral Channels and Multi-Epoch Observation Time Series
+
+- **Status**: **Accepted**
+- **Context**: SPHEREx maps the sky in 102 nominal spectral channels across six detector bands (0.75–5.00 µm) using Linear Variable Filters, while surveying the sky in 6-month passes (~4 epochs over 2 years). Early discussions revealed potential confusion between the 102 spectral channels and observation time points.
+- **Decision**:
+  1. Decouple the **Spectral Wavelength Dimension** (102 nominal color channels, microns) from the **Temporal Dimension** (observation epochs, timestamps).
+  2. Strictly prohibit displaying spectral channel indices as observation timeline epochs in the UI or data schema.
+  3. Clearly label single-pixel nominal wavelength values (`WCS-WAVE`) as quick-look approximations, explicitly distinguishing them from complete multi-exposure source spectrophotometry.
+- **Rationale**: Preserves scientific accuracy and conforms strictly to official NASA/IPAC IRSA calibration documentation.
+- **Consequences**: The timeline controls exclusively navigate temporal observation epochs, while spectral inspection is reserved for a dedicated spectral readout panel.
+- **Related Documentation**: `docs/research/SPHEREX_FITS_GUIDE.md`, `docs/research/DATA_INGESTION_ARCHITECTURE.md`.
