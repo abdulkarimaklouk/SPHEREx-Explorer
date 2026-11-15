@@ -21,3 +21,6 @@ trigger: model_decision
 4. **Coordinate Transparency**:
    - When a mock target field is displayed, the UI must never imply that the image is centered on the user's requested coordinates unless they match exactly.
    - Always distinguish *Requested Coordinates* from the *Target Catalog Center*.
+5. **Decouple Spectral Channels from Observation Epochs**:
+   - The 102 nominal SPHEREx spectral channels represent wavelength bandpasses (0.75–5.00 µm) across 6 detector bands, NOT observation time epochs.
+   - Never merge, confuse, or represent spectral channel indices as chronological timeline steps (ADR-014).

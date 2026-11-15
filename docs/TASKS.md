@@ -60,26 +60,41 @@
 
 ---
 
-## Phase 5 — Frontend Development
+## Phase 5 — Frontend Development (Completed & Verified)
 
-- [ ] **TASK-501**: **Coordinate Math Utility**: Implement `src/utils/coordinates.js` (`validateCoordinates`, `angularSeparationDegrees`).
-- [ ] **TASK-502**: **Data Access Adapter**: Implement `src/services/providers/MockDataProvider.js` (`loadTargets`).
-- [ ] **TASK-503**: **Domain Service**: Implement `src/services/observationService.js` (`getPresetTargets`, `getTargetById`, `findTargetByCoordinates`).
-- [ ] **TASK-504**: **Pure JS Automated Unit Tests**: Create unit test suite using Node.js built-in test runner (`node --test`) covering boundary validation, RA wraparound, great-circle separation, and target matching.
-- [ ] **TASK-505**: **Application State Hook**: Implement `src/hooks/useObservationExplorer.js` (coordinates, target matching, 1200ms playback, auto-stop).
-- [ ] **TASK-506**: **Header Component**: Implement `src/components/Header/` with Space Apps branding and prominent `MOCK DATA` banner.
-- [ ] **TASK-507**: **SearchPanel Component**: Implement `src/components/SearchPanel/` with decimal inputs, validation, and 5 challenge object quick-select pills.
-- [ ] **TASK-508**: **SkyViewer Component**: Implement `src/components/SkyViewer/` with responsive viewport, sequence overlay, and error fallback.
-- [ ] **TASK-509**: **TimelineControls Component**: Implement `src/components/TimelineControls/` with Step (Prev/Next), Scrubber slider, and Play/Pause toggle.
-- [ ] **TASK-510**: **ObservationInfo Component**: Implement `src/components/ObservationInfo/` displaying verified target info vs synthetic observation metadata.
-- [ ] **TASK-511**: **Application Shell Assembly**: Connect components in `src/App.jsx` using the Phase 3 design system and `src/styles/index.css`.
+- [x] **TASK-501**: Implement `src/utils/coordinates.js`, `MockDataProvider.js`, and `observationService.js`.
+- [x] **TASK-501.1**: Fix exact catalog center matching and refactor coordinate input UI.
+- [x] **TASK-502**: Core frontend finalization, integration readiness, dynamic timeline playback (auto-stop & replay), and 28 automated integration tests.
 
 ---
 
-## Phase 6 — Integration & QA
+## Phase 6 — Scientific Research Context & Real Data Integration
 
-- [ ] **TASK-601**: **End-to-End Functional Verification**: Verify search matching, preset loading, timeline stepping, auto-playback stop at final observation, and scrubber accuracy.
-- [ ] **TASK-602**: **Coordinate Transparency Audit**: Ensure user requested coordinates are clearly distinguished from target center coordinates.
-- [ ] **TASK-603**: **Scientific Integrity & Mock Data Audit**: Verify that all 20 demonstration images and timestamps are explicitly labeled as MOCK.
-- [ ] **TASK-604**: **Cross-Device & Accessibility Testing**: Verify mobile responsiveness, keyboard operability (`Tab`, `Space`, `Enter`, Arrows), and WCAG 2.1 AA contrast.
-- [ ] **TASK-605**: **Production Build & Test Verification**: Execute `npm run build` and run Node unit tests to confirm clean static delivery.
+- [x] **TASK-601**: **SPHEREx Scientific Research Context Integration**:
+  - Author `docs/research/SOURCE_REGISTRY.md` compiling official NASA/IPAC IRSA documents, tutorials, and comparative references.
+  - Author `docs/research/SPHEREX_FITS_GUIDE.md` detailing Multi-Extension FITS (7 HDUs total), WCS spatial/spectral transformations, and 102 channels vs epochs.
+  - Author `docs/research/IRSA_ARCHIVE_ACCESS.md` detailing SIA2, TAP/ADQL, IBE, Cutout Tool, and S3 access protocols.
+  - Author `docs/research/DATA_INGESTION_ARCHITECTURE.md` comparing Options A, B, and C, defining the 12-step user workflow, and establishing scientific processing boundaries.
+  - Author `docs/research/WISEVIEW_INTERACTION_ANALYSIS.md` analyzing interaction inspirations from Backyard Worlds: Planet 9.
+  - Author `docs/research/REAL_DATA_IMPLEMENTATION_ROADMAP.md` organizing future work from Phase A through Phase I.
+  - Author ADR-013 (Data Ingestion Architecture) and ADR-014 (102 Spectral Channels vs Multi-Epoch Time Series) in `docs/DECISIONS.md`.
+- [x] **TASK-601.1**: **Architecture Alignment Before FITS Implementation**:
+  - Reassess ADR-013 to establish in-browser Web Worker FITS upload & inspection as a mandatory core product requirement (Option A).
+  - Reposition Python/Astropy pipeline (Option C) as an offline reference validation oracle and baseline asset generator.
+  - Correct MEF structure across all research documents: 7 HDUs in total (Primary Header HDU 0 + 6 Extensions HDU 1 to 6).
+  - Detail physical roles, interpretations, and scientific limits of all 8 SPHEREx data products (PRIMARY, IMAGE, FLAGS, VARIANCE, ZODI, EPSF, WCS-WAVE, CWAVE/CBAND).
+  - Clarify strict distinction between single-pixel nominal LVF wavelength lookup (`WCS-WAVE`) vs. true multi-pointing source spectrophotometry.
+  - Correct observation epoch claims: coverage varies with ecliptic latitude (from ~4 at equator to hundreds near ecliptic poles) rather than a uniform 4 passes.
+  - Update `docs/research/REAL_DATA_IMPLEMENTATION_ROADMAP.md`, `docs/TASKS.md`, `docs/ACCEPTANCE_CRITERIA.md`, and `docs/ARCHITECTURE.md`.
+- [ ] **TASK-602**: **In-Browser Web Worker FITS Upload & Parsing Technical Spike (with Astropy Reference Validation)**:
+  - Implement a dedicated prototype Web Worker to ingest and parse authentic SPHEREx Level 2 MEF FITS files directly in the browser via `File` / `FileReader` / `ArrayBuffer`.
+  - Validate reading of all 7 HDUs (Primary + 6 extensions), extracting `IMAGE` Float32 array, `FLAGS` bitmask, `VARIANCE` uncertainties, and `WCS-WAVE` binary table metadata.
+  - Measure memory consumption (< 250 MB peak heap) and processing latency (< 1.5s) on standard hardware.
+  - Author an offline Python/Astropy reference validation script (`scripts/validate_fits_reference.py`) to extract pixel statistics, WCS bounds, and header keywords for exact numerical comparison.
+- [ ] **TASK-603**: **Data Ingestion Architecture & Spike Sign-Off Gate**: Review spike performance, memory limits, and numerical parity with Python oracle; obtain human sign-off before dashboard UI integration.
+- [ ] **TASK-604**: **Client-Side FITS Processing & Sky Viewer Integration**: Integrate Web Worker FITS parser into application data layer, connect image buffer with Asinh/ZScale canvas rendering, and provide multi-HDU layer toggling (IMAGE, FLAGS, VARIANCE, ZODI).
+- [ ] **TASK-605**: **In-App FITS Upload UI & Pre-Packaged Scientific Baselines**: Build drag-and-drop FITS upload interface with validation feedback, coupled with pre-packaged authentic SPHEREx demonstration datasets for the 5 challenge targets.
+- [ ] **TASK-606**: **Multi-Epoch Dynamic Timeline & Observation Comparison**: Connect multi-epoch observation metadata to timeline, enable dynamic cadence navigation across variable ecliptic epochs, and support epoch difference visualization.
+- [ ] **TASK-607**: **Spectral Metadata & Nominal Wavelength Inspector**: Implement interactive 102-channel LVF bandpass inspector, cursor-driven `WCS-WAVE` nominal wavelength readout, and spectral point visualization with explicit scientific disclosures.
+- [ ] **TASK-608**: **Source Astrometry & Multi-Catalog Alignment**: Overlay Gaia DR3 proper motion vectors, catalog center reticles, and sub-pixel coordinate alignment on authentic FITS image data.
+- [ ] **TASK-609**: **End-to-End QA & Scientific Integrity Sign-Off**: Comprehensive acceptance audit, zero console errors, clean static production build, and verification of scientific disclosures across all modes.

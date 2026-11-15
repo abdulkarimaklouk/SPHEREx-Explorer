@@ -40,35 +40,49 @@ A phase is considered **Done and Accepted** only when all quality criteria for t
 - [x] Architecture Decision Records (ADRs 001 - 012) authored in `docs/DECISIONS.md`.
 - [x] Antigravity rules deployed in `.agents/rules/` and skills deployed in `.agents/skills/`.
 
-### Phase 3: Dedicated UI/UX Design (Approval Gate)
-- [ ] User personas, journey maps, and information architecture documented.
-- [ ] Low- and mid-fidelity wireframes produced covering mobile, tablet, and desktop viewports.
-- [ ] Visual identity defined: dark space aesthetic, accessible color tokens, typography hierarchy.
-- [ ] Design system completed: button states, input validation, scrubber styling, persistent `MOCK DATA` banner.
-- [ ] High-fidelity interface designs completed for all states: Initial/Empty, Target Matched, and Outside Coverage.
-- [ ] Coordinate transparency clearly established: UI visibly distinguishes Requested Coordinates from Target Center Coordinates.
-- [ ] **Gate**: Formal sign-off and approval on design artifacts before any frontend development begins.
+### Phase 3: Dedicated UI/UX Design (Accepted)
+- [x] Observatory Field Desk visual identity and Asymmetric Workbench layout designed and approved.
+- [x] Low-, mid-, and high-fidelity wireframes produced covering mobile, tablet, and desktop viewports.
+- [x] Design system completed: accessible color tokens (WCAG AA), tabular numbers, persistent `MOCK DATA` banner.
+- [x] Coordinate transparency established: Requested vs. Target Center coordinates.
 
-### Phase 4: Mock Data Preparation
-- [ ] Factual target metadata (names, constellations, catalog coordinates) verified against official references (SIMBAD, Gaia, WISE).
-- [ ] Mock field coverage boundaries (`fieldCoverageDegrees`) documented with clear justification based on Phase 3 framing.
-- [ ] 20 synthetic observation images (4 per target) created in `public/images/demo/` with visible mock identification.
-- [ ] `src/data/mockTargets.json` assembled strictly adhering to `docs/DATA_SCHEMA.md` with `"isMock": true` on all observations and factual metadata on targets.
-- [ ] Timestamps sorted in strictly ascending chronological order.
+### Phase 4: Mock Data Preparation (Accepted)
+- [x] Factual target metadata verified against SIMBAD, Gaia DR3, and NASA/IPAC WISE catalogs.
+- [x] `src/data/mockTargets.json` assembled strictly adhering to layered data integrity (no blanket mock flag on targets; `"isMock": true` on observations).
+- [x] Timestamps sorted in ascending chronological order.
 
-### Phase 5: Frontend Development
-- [ ] `src/utils/coordinates.js` implements domain validation and great-circle angular distance math (`angularSeparationDegrees`).
-- [ ] `src/services/providers/MockDataProvider.js` implements `loadTargets()`.
-- [ ] `src/services/observationService.js` implements `getPresetTargets()`, `getTargetById()`, and `findTargetByCoordinates()`.
-- [ ] Pure JavaScript unit tests executed and passing via Node.js built-in test runner (`node --test`) without external dependencies.
-- [ ] `src/hooks/useObservationExplorer.js` coordinates state, target resolution, and 1200ms playback with automatic stop at the final frame.
-- [ ] Presentation components (`Header`, `SearchPanel`, `SkyViewer`, `TimelineControls`, `ObservationInfo`) built strictly according to Phase 3 designs.
-- [ ] Zero direct coupling between presentation components and `MockDataProvider`.
+### Phase 5: Frontend Development (Accepted)
+- [x] `src/utils/coordinates.js` implements domain validation, spherical distance, and sexagesimal conversion.
+- [x] `src/services/providers/MockDataProvider.js` and `src/services/observationService.js` implemented with clean domain/data partitioning.
+- [x] 28 pure JavaScript unit and integration contract tests passing via Node.js built-in test runner (`node --test`).
+- [x] `src/hooks/useObservationExplorer.js` coordinates state, 1200ms playback, auto-stop on final frame, and replay restart.
+- [x] Presentation components (`Header`, `SearchPanel`, `SkyViewer`, `TimelineControls`, `ObservationInfo`) implemented with full responsiveness.
 
-### Phase 6: Integration & QA
-- [ ] Clicking any of the 5 challenge object buttons instantly loads the target and its 4 demonstration observations.
-- [ ] Manual RA/Dec search within a target's coverage loads the target while displaying both requested and center coordinates.
-- [ ] Timeline navigation allows manual stepping (Prev/Next), automated playback (1200ms, stops at observation 4), and direct scrubber jumping.
-- [ ] All interactive elements accessible via keyboard (`Tab`, `Space`, `Enter`, Arrow keys).
-- [ ] Text meets WCAG AA contrast standards.
-- [ ] Production build (`npm run build`) generates clean static assets.
+### Phase 6: Scientific Research Context & Real Data Integration (In Progress)
+- [x] **TASK-601 Quality Gate**:
+  - [x] Permanent Scientific Source Registry (`docs/research/SOURCE_REGISTRY.md`) created with verified URLs, organizations, and citation guidelines.
+  - [x] SPHEREx Multi-Extension FITS Technical Guide (`docs/research/SPHEREX_FITS_GUIDE.md`) authored detailing WCS spatial/spectral mappings, physical units ($\text{MJy/sr}$), and data flags.
+  - [x] Strict scientific separation established: 102 spectral channels (wavelengths) vs. observation epochs (time points).
+  - [x] IRSA Archive Access Guide (`docs/research/IRSA_ARCHIVE_ACCESS.md`) authored covering SIA2, TAP/ADQL, IBE, Cutout Tool, and S3 protocols.
+  - [x] Data Ingestion Architecture Analysis (`docs/research/DATA_INGESTION_ARCHITECTURE.md`) authored evaluating Options A, B, and C with 12-step user journey.
+  - [x] WiseView Interaction Analysis (`docs/research/WISEVIEW_INTERACTION_ANALYSIS.md`) authored defining blinking and difference viewing adaptations.
+  - [x] Real Data Implementation Roadmap (`docs/research/REAL_DATA_IMPLEMENTATION_ROADMAP.md`) authored organizing Phases A through I.
+  - [x] ADR-013 and ADR-014 recorded in `docs/DECISIONS.md`.
+  - [x] Zero modification to React components or application source files; production build and tests pass.
+- [x] **TASK-601.1 Quality Gate (Architecture Alignment Before FITS Implementation)**:
+  - [x] ADR-013 revised in `docs/DECISIONS.md`: In-browser Web Worker FITS upload & inspection established as mandatory core product requirement; Python/Astropy repositioned as offline reference validation oracle and baseline asset generator.
+  - [x] MEF structure corrected across all research documents: 7 HDUs in total (Primary Header HDU 0 + 6 Extensions HDU 1 to 6).
+  - [x] Physical roles and limitations documented for all 8 data products (`PRIMARY`, `IMAGE`, `FLAGS`, `VARIANCE`, `ZODI`, `EPSF`, `WCS-WAVE`, `CWAVE`/`CBAND`).
+  - [x] Scientific limitation documented: Single-pixel nominal LVF wavelength lookup (`WCS-WAVE`) strictly distinguished from authentic multi-pointing spectrophotometry.
+  - [x] Variable observation epoch cadence by ecliptic latitude (from ~4 at equator to hundreds near poles) documented, replacing uniform 4-epoch assumption.
+  - [x] Zero network transfer advantage and CORS risks analyzed for in-browser file upload vs. direct archive API access.
+  - [x] All Phase 6 research documents, roadmaps, task lists, and `docs/ARCHITECTURE.md` updated and synchronized.
+  - [x] Zero modification to React components or application source code; production build and tests pass.
+- [ ] **TASK-602 Quality Gate**: In-Browser Web Worker FITS Upload & Parsing Technical Spike with Astropy Reference Validation.
+- [ ] **TASK-603 Quality Gate**: Data Ingestion Architecture & Spike Sign-Off Gate (Human approval on ADR-013 and spike benchmarks).
+- [ ] **TASK-604 Quality Gate**: Client-Side FITS Processing & Sky Viewer Integration (Asinh/ZScale canvas rendering, multi-HDU layer inspector).
+- [ ] **TASK-605 Quality Gate**: In-App FITS Upload UI & Pre-Packaged Scientific Baselines (Drag-and-drop file ingestion and curated target cutouts).
+- [ ] **TASK-606 Quality Gate**: Multi-Epoch Dynamic Timeline & Observation Comparison (Dynamic timeline navigation and epoch difference mode).
+- [ ] **TASK-607 Quality Gate**: Spectral Metadata & Nominal Wavelength Inspector (102-channel LVF indicator and nominal wavelength inspector with scientific disclosures).
+- [ ] **TASK-608 Quality Gate**: Source Astrometry & Multi-Catalog Alignment (Gaia DR3 proper motion vectors and sub-pixel astrometric reticle).
+- [ ] **TASK-609 Quality Gate**: Final QA & Scientific Integrity Sign-Off.

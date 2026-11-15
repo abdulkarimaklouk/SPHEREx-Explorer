@@ -21,6 +21,7 @@ This file outlines the non-negotiable architectural rules, engineering standards
 13. **Do not modify unrelated files**: Confine changes to files directly relevant to the assigned prompt or feature ticket. Do not touch unrelated configurations or documentation without cause.
 14. **Do not create backend or database functionality**: SPHEREx Explorer is designed as a standalone, client-side web application. Do not create backend servers (Node, Express, Python, etc.), databases, or server-side endpoints.
 15. **Report any missing or ambiguous requirements instead of inventing them**: When encountering gaps or ambiguities in project specifications, clearly document and report them as items requiring confirmation rather than making unverified assumptions.
+16. **Strict Separation of Spectral Channels and Observation Epochs**: The 102 nominal SPHEREx spectral channels represent wavelength bandpasses (0.75–5.00 µm) across 6 detector bands, NOT observation time epochs. Never merge, confuse, or represent spectral channel indices as chronological timeline steps. Refer to `docs/research/SPHEREX_FITS_GUIDE.md` and ADR-014.
 
 ---
 
@@ -40,4 +41,4 @@ This file outlines the non-negotiable architectural rules, engineering standards
 - **Mission**: NASA SPHEREx (Spectro-Photometer for the History of the Universe, Epoch of Reionization, and Ices Explorer).
 - **Challenge**: 2026 NASA Space Apps Challenge.
 - **The Five Mandatory Objects**: Barnard's Star, Epsilon Indi B, WISE 0855, RW Aurigae, and R Draconis.
-- **Data Integrity**: SPHEREx is a planned/active NASA astrophysics mission. Accuracy regarding the distinction between real mission assets and mock demonstration data is paramount.
+- **Data Integrity**: SPHEREx is a planned/active NASA astrophysics mission. Accuracy regarding the distinction between real mission assets and mock demonstration data is paramount. All scientific research context is anchored in `docs/research/SOURCE_REGISTRY.md`.
