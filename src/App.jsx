@@ -56,6 +56,7 @@ export function App() {
         <SkyViewer
           selectedTarget={selectedTarget}
           currentFrameIndex={currentFrameIndex}
+          totalFrames={totalFrames}
           currentObservation={currentObservation}
           searchStatus={searchStatus}
           requestedCoords={requestedCoords}
@@ -69,6 +70,7 @@ export function App() {
         <ObservationInfo
           selectedTarget={selectedTarget}
           currentFrameIndex={currentFrameIndex}
+          totalFrames={totalFrames}
           currentObservation={currentObservation}
           requestedCoords={requestedCoords}
           angularOffset={angularOffset}

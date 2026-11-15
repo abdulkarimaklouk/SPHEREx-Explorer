@@ -43,13 +43,21 @@ export function TimelineControls({
 
         <button
           type="button"
-          className={`btn-transport btn-transport-play ${isPlaying ? 'is-playing' : ''}`}
+          className={`btn-transport btn-transport-play ${isPlaying ? 'is-playing' : ''} ${isAtLast && !isPlaying ? 'btn-replay' : ''}`}
           onClick={onTogglePlay}
-          aria-label={isPlaying ? 'Pause timeline playback' : 'Play timeline sequence'}
-          title={isPlaying ? 'Pause sequence' : 'Play sequence across epochs'}
+          aria-label={
+            isPlaying
+              ? 'Pause timeline playback'
+              : (isAtLast ? 'Replay timeline sequence from beginning' : 'Play timeline sequence')
+          }
+          title={
+            isPlaying
+              ? 'Pause sequence'
+              : (isAtLast ? 'Replay sequence from beginning' : 'Play sequence across epochs')
+          }
         >
-          <span>{isPlaying ? '⏸' : '▶'}</span>
-          <span>{isPlaying ? 'Pause' : 'Play'}</span>
+          <span>{isPlaying ? '⏸' : (isAtLast ? '↺' : '▶')}</span>
+          <span>{isPlaying ? 'Pause' : (isAtLast ? 'Replay' : 'Play')}</span>
         </button>
 
         <button
@@ -73,7 +81,7 @@ export function TimelineControls({
           {/* Active Progress Bar */}
           <div
             className="timeline-track-progress"
-            style={{ width: `calc(${progressPercent}% * 0.9)` }}
+            style={{ width: `calc((100% - 40px) * ${progressPercent / 100})` }}
             aria-hidden="true"
           />
 
@@ -105,7 +113,7 @@ export function TimelineControls({
       {/* 3. Cadence and Auto-Stop Indicators */}
       <div className="timeline-meta-right">
         <div className={`timeline-autostop-pill ${isAtLast ? 'halted' : ''}`}>
-          {isAtLast ? '● End of Sequence (Halted)' : 'Auto-stop: Frame 4'}
+          {isAtLast ? '● End of Sequence (Halted)' : `Auto-stop: Frame ${totalFrames}`}
         </div>
         <div className="timeline-cadence-label">
           Cadence: {cadenceMs}ms / step

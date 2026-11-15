@@ -4,6 +4,7 @@ import { formatSexagesimal } from '../../utils/coordinates.js';
 export function ObservationInfo({
   selectedTarget,
   currentFrameIndex = 0,
+  totalFrames = 4,
   currentObservation,
   requestedCoords,
   angularOffset = 0,
@@ -133,7 +134,14 @@ export function ObservationInfo({
           <div className="transparency-row">
             <span className="transparency-label">Sequence Frame:</span>
             <span className="transparency-val mono-nums">
-              Observation {currentFrameIndex + 1} of 4
+              Observation {currentFrameIndex + 1} of {totalFrames}
+            </span>
+          </div>
+
+          <div className="transparency-row">
+            <span className="transparency-label">Observation ID:</span>
+            <span className="transparency-val mono-nums">
+              {currentObservation?.id || currentObservation?.observationId || 'N/A'}
             </span>
           </div>
 
@@ -143,6 +151,13 @@ export function ObservationInfo({
               {currentObservation
                 ? currentObservation.timestamp.replace('T', ' ').replace('Z', ' UTC')
                 : 'Simulated Epoch'}
+            </span>
+          </div>
+
+          <div className="transparency-row">
+            <span className="transparency-label">Image Asset:</span>
+            <span className="transparency-val mono-nums" style={{ fontSize: '0.74rem' }}>
+              {currentObservation?.imageUrl || currentObservation?.imagePath || 'Placeholder Mode'}
             </span>
           </div>
 

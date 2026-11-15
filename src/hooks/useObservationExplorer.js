@@ -1,11 +1,11 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { ObservationService } from '../services/observationService.js';
 
-const TOTAL_FRAMES = 4;
+const DEFAULT_TOTAL_FRAMES = 4;
 const DEFAULT_CADENCE_MS = 1200;
 
 export function useObservationExplorer() {
-  const targets = ObservationService.getPresetTargets();
+  const targets = useMemo(() => ObservationService.getPresetTargets(), []);
   const initialTarget = targets[0] || null;
 
   const [selectedTargetId, setSelectedTargetId] = useState(
@@ -29,25 +29,32 @@ export function useObservationExplorer() {
 
   const timerRef = useRef(null);
 
-  const selectedTarget =
-    ObservationService.getTargetById(selectedTargetId) || targets[0];
-  const currentObservation =
-    selectedTarget && selectedTarget.observations
-      ? selectedTarget.observations[currentFrameIndex] || null
-      : null;
+  const selectedTarget = useMemo(
+    () => targets.find((t) => t.id === selectedTargetId) || targets[0] || null,
+    [targets, selectedTargetId],
+  );
 
-  // Step Next
+  const totalFrames = selectedTarget?.observations?.length || DEFAULT_TOTAL_FRAMES;
+
+  const currentObservation = useMemo(() => {
+    if (!selectedTarget?.observations || selectedTarget.observations.length === 0) {
+      return null;
+    }
+    const safeIndex = Math.min(Math.max(0, currentFrameIndex), selectedTarget.observations.length - 1);
+    return selectedTarget.observations[safeIndex] || null;
+  }, [selectedTarget, currentFrameIndex]);
+
+  // Step Next (stops at final frame without wrapping)
   const stepNext = useCallback(() => {
     setCurrentFrameIndex((prev) => {
-      if (prev < TOTAL_FRAMES - 1) {
+      if (prev < totalFrames - 1) {
         return prev + 1;
       }
-      setIsPlaying(false);
       return prev;
     });
-  }, []);
+  }, [totalFrames]);
 
-  // Step Previous
+  // Step Previous (stops at index 0 without wrapping)
   const stepPrev = useCallback(() => {
     setCurrentFrameIndex((prev) => {
       if (prev > 0) {
@@ -57,50 +64,45 @@ export function useObservationExplorer() {
     });
   }, []);
 
-  // Jump to specific frame index (0..3)
+  // Jump to specific frame index
   const jumpToFrame = useCallback((index) => {
-    if (index >= 0 && index < TOTAL_FRAMES) {
+    if (index >= 0 && index < totalFrames) {
       setCurrentFrameIndex(index);
     }
-  }, []);
+  }, [totalFrames]);
 
-  // Toggle Play / Pause with wrap-to-0 if at the end
+  // Toggle Play / Pause with replay support from the final observation
   const togglePlay = useCallback(() => {
     setIsPlaying((prevPlaying) => {
       if (!prevPlaying) {
-        if (currentFrameIndex >= TOTAL_FRAMES - 1) {
+        // If user initiates playback at the final frame, replay from the beginning
+        if (currentFrameIndex >= totalFrames - 1) {
           setCurrentFrameIndex(0);
         }
         return true;
       }
       return false;
     });
-  }, [currentFrameIndex]);
+  }, [currentFrameIndex, totalFrames]);
 
-  // Handle Playback Interval with strict auto-stop at the final frame (index 3)
+  // Playback Interval Management (cleanly decoupled from state updaters)
   useEffect(() => {
-    if (isPlaying) {
-      timerRef.current = setInterval(() => {
-        setCurrentFrameIndex((prevIndex) => {
-          if (prevIndex >= TOTAL_FRAMES - 1) {
-            setIsPlaying(false);
-            if (timerRef.current) clearInterval(timerRef.current);
-            return prevIndex;
-          }
-          const nextIndex = prevIndex + 1;
-          if (nextIndex >= TOTAL_FRAMES - 1) {
-            setIsPlaying(false);
-            if (timerRef.current) clearInterval(timerRef.current);
-          }
-          return nextIndex;
-        });
-      }, DEFAULT_CADENCE_MS);
-    } else {
+    if (!isPlaying) {
       if (timerRef.current) {
         clearInterval(timerRef.current);
         timerRef.current = null;
       }
+      return undefined;
     }
+
+    timerRef.current = setInterval(() => {
+      setCurrentFrameIndex((prevIndex) => {
+        if (prevIndex >= totalFrames - 1) {
+          return prevIndex;
+        }
+        return prevIndex + 1;
+      });
+    }, DEFAULT_CADENCE_MS);
 
     return () => {
       if (timerRef.current) {
@@ -108,11 +110,18 @@ export function useObservationExplorer() {
         timerRef.current = null;
       }
     };
-  }, [isPlaying]);
+  }, [isPlaying, totalFrames]);
+
+  // Strict auto-stop at the final observation frame
+  useEffect(() => {
+    if (isPlaying && currentFrameIndex >= totalFrames - 1) {
+      setIsPlaying(false);
+    }
+  }, [isPlaying, currentFrameIndex, totalFrames]);
 
   // Select Target Preset Action
   const selectTarget = useCallback((targetId) => {
-    const target = ObservationService.getTargetById(targetId);
+    const target = targets.find((t) => t.id === targetId);
     if (!target) return;
 
     setSelectedTargetId(targetId);
@@ -131,7 +140,7 @@ export function useObservationExplorer() {
     setSearchStatus('matched');
     setSearchError(null);
     setNearestTarget(target);
-  }, []);
+  }, [targets]);
 
   // Execute Coordinate Search Action
   const executeSearch = useCallback((raInput, decInput) => {
@@ -172,7 +181,7 @@ export function useObservationExplorer() {
     selectedTargetId,
     currentFrameIndex,
     currentObservation,
-    totalFrames: TOTAL_FRAMES,
+    totalFrames,
     isPlaying,
     cadenceMs: DEFAULT_CADENCE_MS,
     searchCoords,

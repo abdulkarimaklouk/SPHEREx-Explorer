@@ -56,6 +56,17 @@
   background-color: #d17d15;
 }
 
+.btn-transport-play.btn-replay {
+  background-color: var(--color-surface-raised);
+  border-color: var(--color-accent-amber);
+  color: var(--color-accent-amber);
+}
+
+.btn-transport-play.btn-replay:hover:not(:disabled) {
+  background-color: var(--color-accent-amber-bg);
+  color: var(--color-accent-amber-hover);
+}
+
 /* Timeline Center: Scrubber Track */
 .timeline-scrubber-center {
   flex: 1;
