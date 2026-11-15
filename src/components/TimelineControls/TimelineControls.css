@@ -195,6 +195,33 @@
   background-color: var(--color-accent-amber-bg);
 }
 
+.timeline-interval-pill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 4px;
+  font-size: 0.72rem;
+  background-color: rgba(43, 122, 120, 0.2);
+  border: 1px solid rgba(43, 122, 120, 0.4);
+  border-radius: var(--radius-xs);
+  padding: 2px 8px;
+  color: #78c2ad;
+}
+
+.timeline-interval-pill .interval-tag {
+  color: var(--color-text-secondary);
+}
+
+.timeline-interval-pill .interval-val {
+  font-weight: 700;
+  color: #a8ebd9;
+}
+
+.timeline-interval-pill .interval-desc {
+  color: var(--color-text-muted);
+}
+
 .timeline-cadence-label {
   color: var(--color-text-muted);
 }

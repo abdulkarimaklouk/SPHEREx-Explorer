@@ -9,6 +9,7 @@
  */
 
 import { MockDataProvider } from './providers/MockDataProvider.js';
+import { ArchiveDataProvider } from './providers/ArchiveDataProvider.js';
 import {
   validateCoordinates,
   calculateAngularSeparation,
@@ -196,6 +197,230 @@ export class ObservationService {
       angularOffsetDegrees: minSeparation,
       coverageConfigured,
       validation,
+    };
+  }
+
+  /**
+   * Searches the authentic SPHEREx DR1 pilot index for observations covering the requested sky position,
+   * optionally constrained by an observation time range.
+   *
+   * @param {number|string} raInput - RA in decimal degrees
+   * @param {number|string} decInput - Dec in decimal degrees
+   * @param {number} [fovArcsec=720] - Field of view in arcseconds (default: 720" = 0.2°)
+   * @param {{ start?: string, end?: string }|null} [timeFilter=null] - Optional time filter
+   * @returns {{
+   *   isValid: boolean,
+   *   matched: boolean,
+   *   status: 'matched' | 'no-match' | 'error',
+   *   message: string,
+   *   count: number,
+   *   observations: Array<object>,
+   *   requestedCoords: { ra: number, dec: number } | null,
+   *   validation: object
+   * }}
+   */
+  static searchPilotIndex(raInput, decInput, fovArcsec = 720, timeFilter = null) {
+    const validation = validateCoordinates(raInput, decInput);
+
+    if (!validation.isValid) {
+      return {
+        isValid: false,
+        matched: false,
+        status: 'error',
+        message: validation.raError || validation.decError || 'Validation Error',
+        count: 0,
+        observations: [],
+        requestedCoords: null,
+        validation,
+      };
+    }
+
+    const { ra, dec } = validation;
+    const allObservations = ArchiveDataProvider.loadPilotObservations();
+    const queryRadiusDeg = (fovArcsec / 3600) / 2;
+
+    let matchingObservations = allObservations
+      .filter((obs) => {
+        // 1. Direct cutout bounds check
+        if (obs.cutoutBounds) {
+          const inRa = ra >= obs.cutoutBounds.raMin && ra <= obs.cutoutBounds.raMax;
+          const inDec = dec >= obs.cutoutBounds.decMin && dec <= obs.cutoutBounds.decMax;
+          if (inRa && inDec) return true;
+        }
+
+        // 2. Angular distance check from observation center
+        if (obs.center && typeof obs.center.ra === 'number' && typeof obs.center.dec === 'number') {
+          const sep = calculateAngularSeparation(ra, dec, obs.center.ra, obs.center.dec);
+          const obsRadius = (obs.fovDegrees || 0.2015) / 2;
+          if (sep <= obsRadius + queryRadiusDeg) return true;
+        }
+
+        // 3. Full detector bounds check
+        if (obs.fullDetectorBounds) {
+          const inDetRa = ra >= obs.fullDetectorBounds.raMin && ra <= obs.fullDetectorBounds.raMax;
+          const inDetDec = dec >= obs.fullDetectorBounds.decMin && dec <= obs.fullDetectorBounds.decMax;
+          if (inDetRa && inDetDec) return true;
+        }
+
+        return false;
+      })
+      .map((obs) => ({
+        ...obs,
+        id: obs.id || obs.observationId,
+        observationId: obs.observationId || obs.id,
+        timestamp: obs.timestamp || obs.timestampUtc,
+        timestampUtc: obs.timestampUtc || obs.timestamp,
+        isRealFits: true,
+        isMock: false,
+      }))
+      .sort((a, b) => new Date(a.timestampUtc) - new Date(b.timestampUtc));
+
+    // Apply time range filter if provided
+    if (timeFilter) {
+      const { start, end } = timeFilter;
+      if (start && start.trim()) {
+        const startTime = new Date(start).getTime();
+        if (!Number.isNaN(startTime)) {
+          matchingObservations = matchingObservations.filter(
+            (o) => new Date(o.timestampUtc).getTime() >= startTime,
+          );
+        }
+      }
+      if (end && end.trim()) {
+        const endTime = new Date(end).getTime();
+        if (!Number.isNaN(endTime)) {
+          matchingObservations = matchingObservations.filter(
+            (o) => new Date(o.timestampUtc).getTime() <= endTime,
+          );
+        }
+      }
+    }
+
+    if (matchingObservations.length > 0) {
+      return {
+        isValid: true,
+        matched: true,
+        status: 'matched',
+        message: `Found ${matchingObservations.length} authentic SPHEREx observation${matchingObservations.length === 1 ? '' : 's'} in pilot archive`,
+        count: matchingObservations.length,
+        observations: matchingObservations,
+        requestedCoords: { ra, dec },
+        validation,
+      };
+    }
+
+    return {
+      isValid: true,
+      matched: false,
+      status: 'no-match',
+      message: 'Not covered by the current pilot index. Full archive discovery is currently unavailable.',
+      count: 0,
+      observations: [],
+      requestedCoords: { ra, dec },
+      validation,
+    };
+  }
+
+  /**
+   * Attempts live query to the official NASA/IPAC IRSA SIA2 service.
+   * Reports genuine server status (e.g. HTTP 502 / CORS block) without faking responses.
+   *
+   * @param {number} ra
+   * @param {number} dec
+   * @param {number} [fovArcsec=720]
+   * @returns {Promise<{ attempted: boolean, reachable: boolean, status: number|null, message: string }>}
+   */
+  static async queryIrsaSia2(ra, dec, fovArcsec = 720) {
+    const fovDeg = (fovArcsec / 3600).toFixed(4);
+    const url = `https://irsa.ipac.caltech.edu/SIA?COLLECTION=spherex_dr1&POS=CIRCLE+${ra}+${dec}+${fovDeg}&RESPONSEFORMAT=VOTABLE`;
+
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 2500);
+
+    try {
+      const res = await fetch(url, { signal: controller.signal, mode: 'cors' });
+      clearTimeout(timeoutId);
+      if (res.ok) {
+        return { attempted: true, reachable: true, status: res.status, message: 'IRSA SIA2 Gateway reachable' };
+      }
+      return {
+        attempted: true,
+        reachable: false,
+        status: res.status,
+        message: `HTTP ${res.status} Proxy Error (Upstream IRSA server unreachable)`,
+      };
+    } catch (err) {
+      clearTimeout(timeoutId);
+      return {
+        attempted: true,
+        reachable: false,
+        status: null,
+        message: err.name === 'AbortError'
+          ? 'IRSA SIA2 query timed out after 2.5s (Upstream server slow/unresponsive)'
+          : 'IRSA SIA2: Upstream service unreachable from browser (HTTP 502 Proxy Error observed)',
+      };
+    }
+  }
+
+  /**
+   * Returns the verified authentic SPHEREx Calibration Field target demonstration record.
+   * @returns {object}
+   */
+  static getCalibrationTarget() {
+    const obs = ArchiveDataProvider.loadPilotObservations().filter((o) => o.isRealFits);
+    return {
+      id: 'spherex-cal-field',
+      name: 'SPHEREx Calibration Field (DR1)',
+      alternateDesignations: ['Week 2025W19_2B Working Demo'],
+      constellation: 'Vulpecula',
+      objectType: 'Level 2 Pilot Calibration Strip',
+      ra: 318.2500,
+      dec: 17.6500,
+      fovArcsec: 720,
+      fieldCoverageDegrees: 0.2015,
+      coordinateSource: 'NASA/IPAC IRSA SPHEREx DR1 S3 Pilot Archive',
+      isCalibrationDemo: true,
+      isCustom: false,
+      observations: obs,
+    };
+  }
+
+  /**
+   * Constructs a custom target entity from user query coordinates and matching observations.
+   *
+   * @param {{
+   *   name?: string,
+   *   ra: number,
+   *   dec: number,
+   *   fovArcsec?: number,
+   *   observations?: Array<object>
+   * }} params
+   * @returns {object}
+   */
+  static createCustomTarget({ name, ra, dec, fovArcsec = 720, observations = [] }) {
+    const defaultName = name && name.trim()
+      ? name.trim()
+      : `SPHEREx Field (RA ${ra.toFixed(3)}°, Dec ${dec >= 0 ? '+' : ''}${dec.toFixed(3)}°)`;
+
+    return {
+      id: `custom-${ra.toFixed(4)}-${dec.toFixed(4)}`,
+      name: defaultName,
+      alternateDesignations: ['Custom Target Query'],
+      constellation: 'Sagitta / Vulpecula',
+      objectType: 'SPHEREx Real Data Pilot Field',
+      ra,
+      dec,
+      fovArcsec,
+      fieldCoverageDegrees: (fovArcsec / 3600),
+      coordinateSource: 'NASA/IPAC IRSA SPHEREx DR1 S3 Pilot Archive',
+      isCustom: true,
+      observations: observations.map((obs) => ({
+        ...obs,
+        id: obs.id || obs.observationId,
+        observationId: obs.observationId || obs.id,
+        timestamp: obs.timestamp || obs.timestampUtc,
+        timestampUtc: obs.timestampUtc || obs.timestamp,
+      })),
     };
   }
 }

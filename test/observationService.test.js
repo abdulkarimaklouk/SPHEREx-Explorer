@@ -147,4 +147,52 @@ describe('ObservationService — Coordinate Resolution & Exact Matching', () => 
       }
     });
   });
+
+  describe('6. Pilot Archive Spatial Index Discovery & Custom Target Creation', () => {
+    it('discovers authentic SPHEREx observations matching query coordinates (RA 318.25, Dec 17.65)', () => {
+      const res = ObservationService.searchPilotIndex(318.25, 17.65);
+      assert.strictEqual(res.isValid, true);
+      assert.strictEqual(res.matched, true);
+      assert.strictEqual(res.status, 'matched');
+      assert(res.count >= 2, 'Must match at least 2 observations in calibration strip');
+
+      const obsIds = res.observations.map((o) => o.id);
+      assert(obsIds.includes('2025W19_2B_0007_1'), 'Must include frame 1');
+      assert(obsIds.includes('2025W19_2B_0007_2'), 'Must include frame 2');
+      assert.strictEqual(res.observations[0].isRealFits, true);
+    });
+
+    it('returns matched: false with clear status when query is outside pilot coverage', () => {
+      const res = ObservationService.searchPilotIndex(10.0, 10.0);
+      assert.strictEqual(res.isValid, true);
+      assert.strictEqual(res.matched, false);
+      assert.strictEqual(res.status, 'no-match');
+      assert.strictEqual(res.count, 0);
+      assert.strictEqual(res.observations.length, 0);
+    });
+
+    it('returns validation error when coordinates are out of bounds', () => {
+      const res = ObservationService.searchPilotIndex(400.0, 10.0);
+      assert.strictEqual(res.isValid, false);
+      assert.strictEqual(res.matched, false);
+      assert.strictEqual(res.status, 'error');
+      assert(res.message.includes('Ascension'));
+    });
+
+    it('creates custom target entity with matching observations', () => {
+      const searchRes = ObservationService.searchPilotIndex(318.25, 17.65);
+      const customTarget = ObservationService.createCustomTarget({
+        name: 'My Custom Field',
+        ra: 318.25,
+        dec: 17.65,
+        observations: searchRes.observations,
+      });
+
+      assert.strictEqual(customTarget.name, 'My Custom Field');
+      assert.strictEqual(customTarget.isCustom, true);
+      assert.strictEqual(customTarget.ra, 318.25);
+      assert.strictEqual(customTarget.dec, 17.65);
+      assert(customTarget.observations.length >= 2);
+    });
+  });
 });

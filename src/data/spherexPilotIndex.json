@@ -1,0 +1,164 @@
+{
+  "catalogVersion": "1.0.0",
+  "provenance": "NASA/IPAC IRSA SPHEREx Early Release & S3 Archive",
+  "surveyWeek": "2025W19_2B",
+  "collection": "spherex_dr1",
+  "band": 1,
+  "bandWavelengthRangeUm": [0.75, 1.11],
+  "nominalPixelScaleArcsec": 6.2,
+  "coverageSummary": {
+    "raMin": 315.70,
+    "raMax": 320.51,
+    "decMin": 15.35,
+    "decMax": 20.57,
+    "calibrationFieldCenter": {
+      "ra": 318.25,
+      "dec": 17.65
+    }
+  },
+  "observations": [
+    {
+      "id": "2025W19_2B_0007_1",
+      "observationId": "2025W19_2B_0007_1",
+      "timestamp": "2025-05-08T12:32:42.507Z",
+      "timestampUtc": "2025-05-08T12:32:42.507Z",
+      "pointing": "0007_1",
+      "band": 1,
+      "wavelengthRange": "0.75 - 1.11 µm",
+      "center": {
+        "ra": 318.274556,
+        "dec": 17.589210
+      },
+      "ra": 318.274556,
+      "dec": 17.589210,
+      "dimensions": [117, 117],
+      "fovArcsec": 725.4,
+      "fovDegrees": 0.2015,
+      "cutoutBounds": {
+        "raMin": 318.17,
+        "raMax": 318.37,
+        "decMin": 17.48,
+        "decMax": 17.68
+      },
+      "fullDetectorBounds": {
+        "raMin": 316.01,
+        "raMax": 320.51,
+        "decMin": 15.35,
+        "decMax": 19.82
+      },
+      "footprint": [
+        [318.17, 17.48],
+        [318.37, 17.48],
+        [318.37, 17.68],
+        [318.17, 17.68]
+      ],
+      "bunit": "MJy / sr",
+      "fitsFile": "fits/spherex/spherex_l2_dr1_useful_cutout.fits",
+      "s3Uri": "s3://nasa-irsa-spherex/level2/dr1/2025W19_2B/spherex_l2_dr1_2025W19_2B_0007_1.fits",
+      "isMock": false,
+      "isRealFits": true,
+      "pixelStats": {
+        "min": -2.31,
+        "max": 174.99,
+        "mean": 0.35,
+        "validPixels": 13689
+      },
+      "dataQuality": {
+        "flaggedPixels": 0,
+        "meanVariance": 0.042,
+        "status": "Nominal Calibration Quality"
+      }
+    },
+    {
+      "id": "2025W19_2B_0007_2",
+      "observationId": "2025W19_2B_0007_2",
+      "timestamp": "2025-05-08T12:34:51.436Z",
+      "timestampUtc": "2025-05-08T12:34:51.436Z",
+      "pointing": "0007_2",
+      "band": 1,
+      "wavelengthRange": "0.75 - 1.11 µm",
+      "center": {
+        "ra": 318.212923,
+        "dec": 17.776854
+      },
+      "ra": 318.212923,
+      "dec": 17.776854,
+      "dimensions": [117, 117],
+      "fovArcsec": 725.4,
+      "fovDegrees": 0.2015,
+      "cutoutBounds": {
+        "raMin": 318.11,
+        "raMax": 318.31,
+        "decMin": 17.67,
+        "decMax": 17.87
+      },
+      "fullDetectorBounds": {
+        "raMin": 315.94,
+        "raMax": 320.46,
+        "decMin": 15.54,
+        "decMax": 20.00
+      },
+      "footprint": [
+        [318.11, 17.67],
+        [318.31, 17.67],
+        [318.31, 17.87],
+        [318.11, 17.87]
+      ],
+      "bunit": "MJy / sr",
+      "fitsFile": "fits/spherex/spherex_l2_dr1_useful_cutout_t2.fits",
+      "s3Uri": "s3://nasa-irsa-spherex/level2/dr1/2025W19_2B/spherex_l2_dr1_2025W19_2B_0007_2.fits",
+      "isMock": false,
+      "isRealFits": true,
+      "pixelStats": {
+        "min": -1.25,
+        "max": 69.17,
+        "mean": 0.33,
+        "validPixels": 13689
+      },
+      "dataQuality": {
+        "flaggedPixels": 0,
+        "meanVariance": 0.041,
+        "status": "Nominal Calibration Quality"
+      }
+    },
+    {
+      "id": "2025W19_2B_0008_1",
+      "observationId": "2025W19_2B_0008_1",
+      "timestamp": "2025-05-08T12:37:00.364Z",
+      "timestampUtc": "2025-05-08T12:37:00.364Z",
+      "pointing": "0008_1",
+      "band": 1,
+      "wavelengthRange": "0.75 - 1.11 µm",
+      "center": {
+        "ra": 318.13,
+        "dec": 17.96
+      },
+      "ra": 318.13,
+      "dec": 17.96,
+      "dimensions": [2040, 2040],
+      "fovDegrees": 3.5,
+      "cutoutBounds": null,
+      "fullDetectorBounds": {
+        "raMin": 315.86,
+        "raMax": 320.40,
+        "decMin": 15.73,
+        "decMax": 20.19
+      },
+      "footprint": [
+        [315.86, 15.73],
+        [320.40, 15.73],
+        [320.40, 20.19],
+        [315.86, 20.19]
+      ],
+      "bunit": "MJy / sr",
+      "fitsFile": null,
+      "s3Uri": "s3://nasa-irsa-spherex/level2/dr1/2025W19_2B/spherex_l2_dr1_2025W19_2B_0008_1.fits",
+      "isMock": false,
+      "isRealFits": true,
+      "pixelStats": null,
+      "dataQuality": {
+        "status": "Archived in AWS S3"
+      }
+    }
+  ]
+}

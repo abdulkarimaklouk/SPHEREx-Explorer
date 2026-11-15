@@ -9,13 +9,16 @@ import { TimelineControls } from './components/TimelineControls/TimelineControls
 export function App() {
   const {
     targets,
+    presetTargets,
+    customTargets,
     selectedTarget,
     selectedTargetId,
     currentFrameIndex,
     currentObservation,
     totalFrames,
     isPlaying,
-    cadenceMs,
+    blinkIntervalMs,
+    setBlinkIntervalMs,
     searchCoords,
     setSearchCoords,
     searchStatus,
@@ -23,18 +26,37 @@ export function App() {
     requestedCoords,
     angularOffset,
     nearestTarget,
+    activeFitsData,
+    allFitsData,
+    isFitsLoading,
+    fitsError,
+    viewMode,
+    setViewMode,
+    archiveSearchResults,
+    stretch,
+    setStretch,
+    invertColormap,
+    setInvertColormap,
+    minStretch,
+    maxStretch,
+    setStretchRange,
+    zoomLevel,
+    zoomIn,
+    zoomOut,
+    resetZoom,
     stepNext,
     stepPrev,
     jumpToFrame,
     togglePlay,
     selectTarget,
     executeSearch,
+    searchArchive,
     resetToCenter,
   } = useObservationExplorer();
 
   return (
     <div className="app-shell">
-      {/* 1. Header with branding and persistent mock data banner */}
+      {/* 1. Header with branding and persistent mission disclosure */}
       <Header />
 
       {/* 2. Main Asymmetric Workbench Workspace */}
@@ -42,14 +64,18 @@ export function App() {
         {/* Left Action Rail: Target Selection & Coordinate Search */}
         <SearchPanel
           targets={targets}
+          presetTargets={presetTargets}
+          customTargets={customTargets}
           selectedTargetId={selectedTargetId}
           onSelectTarget={selectTarget}
           searchCoords={searchCoords}
           onCoordsChange={setSearchCoords}
           onSearch={executeSearch}
+          onSearchArchive={searchArchive}
           onReset={resetToCenter}
           searchStatus={searchStatus}
           searchError={searchError}
+          archiveSearchResults={archiveSearchResults}
         />
 
         {/* Center Stage: Dominant Astronomical Sky Viewer */}
@@ -63,7 +89,31 @@ export function App() {
           angularOffset={angularOffset}
           nearestTarget={nearestTarget}
           onSelectTarget={selectTarget}
+          onSearchArchive={searchArchive}
           targets={targets}
+          activeFitsData={activeFitsData}
+          allFitsData={allFitsData}
+          isFitsLoading={isFitsLoading}
+          fitsError={fitsError}
+          viewMode={viewMode}
+          setViewMode={setViewMode}
+          stretch={stretch}
+          setStretch={setStretch}
+          invertColormap={invertColormap}
+          setInvertColormap={setInvertColormap}
+          minStretch={minStretch}
+          maxStretch={maxStretch}
+          setStretchRange={setStretchRange}
+          zoomLevel={zoomLevel}
+          zoomIn={zoomIn}
+          zoomOut={zoomOut}
+          resetZoom={resetZoom}
+          isPlaying={isPlaying}
+          onPrev={stepPrev}
+          onNext={stepNext}
+          onTogglePlay={togglePlay}
+          blinkIntervalMs={blinkIntervalMs}
+          setBlinkIntervalMs={setBlinkIntervalMs}
         />
 
         {/* Right Rail: Metadata & Provenance Inspector */}
@@ -74,10 +124,11 @@ export function App() {
           currentObservation={currentObservation}
           requestedCoords={requestedCoords}
           angularOffset={angularOffset}
+          activeFitsData={activeFitsData}
         />
       </div>
 
-      {/* 3. Bottom Console: Timeline Transport & 4-Step Scrubber */}
+      {/* 3. Bottom Console: Timeline Transport & Scrubber */}
       <TimelineControls
         currentFrameIndex={currentFrameIndex}
         totalFrames={totalFrames}
@@ -87,7 +138,7 @@ export function App() {
         onTogglePlay={togglePlay}
         onJumpToFrame={jumpToFrame}
         observations={selectedTarget?.observations || []}
-        cadenceMs={cadenceMs}
+        cadenceMs={blinkIntervalMs}
       />
     </div>
   );

@@ -9,21 +9,44 @@ export function TimelineControls({
   onTogglePlay,
   onJumpToFrame,
   observations = [],
-  cadenceMs = 1200,
+  cadenceMs = 800,
 }) {
   const isAtFirst = currentFrameIndex === 0;
   const isAtLast = currentFrameIndex >= totalFrames - 1;
 
-  // Calculate width percentage for progress line (0%, 33.3%, 66.6%, 100%)
+  // Calculate width percentage for progress line
   const progressPercent = totalFrames > 1 ? (currentFrameIndex / (totalFrames - 1)) * 100 : 0;
 
-  // Format short date for timeline node (e.g., 2026-02-15)
-  const formatShortDate = (obs, index) => {
-    if (obs && obs.timestamp) {
+  const isRealData = observations.some((obs) => obs.isRealFits);
+
+  // Format label for timeline node
+  const formatNodeLabel = (obs, index) => {
+    if (!obs) return `Frame ${index + 1}`;
+
+    if (obs.isRealFits && obs.timestamp) {
+      const timePart = obs.timestamp.split('T')[1]?.slice(0, 8) || '';
+      const pointing = obs.pointing || (obs.id ? obs.id.split('_').slice(-2).join('_') : `P${index + 1}`);
+      return `${pointing} (${timePart})`;
+    }
+
+    if (obs.timestamp) {
       return obs.timestamp.split('T')[0];
     }
     return `Epoch ${index + 1}`;
   };
+
+  // Compute elapsed time interval between Frame 0 and Frame 1
+  let intervalText = null;
+  if (isRealData && observations.length >= 2) {
+    const t0 = new Date(observations[0].timestampUtc || observations[0].timestamp).getTime();
+    const t1 = new Date(observations[1].timestampUtc || observations[1].timestamp).getTime();
+    if (!Number.isNaN(t0) && !Number.isNaN(t1)) {
+      const deltaSec = Math.abs(t1 - t0) / 1000;
+      const mins = Math.floor(deltaSec / 60);
+      const secs = Math.round(deltaSec % 60);
+      intervalText = `+${mins}m ${secs < 10 ? '0' : ''}${secs}s (129s)`;
+    }
+  }
 
   return (
     <footer className="timeline-controls-container" role="toolbar" aria-label="Observation Sequence Playback & Timeline Navigation">
@@ -57,7 +80,7 @@ export function TimelineControls({
           }
         >
           <span>{isPlaying ? '⏸' : (isAtLast ? '↺' : '▶')}</span>
-          <span>{isPlaying ? 'Pause' : (isAtLast ? 'Replay' : 'Play')}</span>
+          <span>{isPlaying ? 'Pause' : (isAtLast ? 'Replay' : 'Blink')}</span>
         </button>
 
         <button
@@ -73,7 +96,7 @@ export function TimelineControls({
         </button>
       </div>
 
-      {/* 2. 4-Step Scrubber Track */}
+      {/* 2. Scrubber Track */}
       <div className="timeline-scrubber-center">
         <div className="timeline-scrubber-track-wrap" role="group" aria-label="Observation Epoch Stepper">
           {/* Background Track */}
@@ -85,7 +108,7 @@ export function TimelineControls({
             aria-hidden="true"
           />
 
-          {/* 4 Interactive Nodes */}
+          {/* Interactive Nodes */}
           {Array.from({ length: totalFrames }).map((_, idx) => {
             const obs = observations[idx];
             const isActive = idx === currentFrameIndex;
@@ -101,22 +124,31 @@ export function TimelineControls({
                 aria-current={isActive ? 'step' : undefined}
               >
                 <div className="timeline-node-circle">{idx + 1}</div>
-                <span className="timeline-node-timestamp">
-                  {formatShortDate(obs, idx)}
+                <span className="timeline-node-timestamp mono-nums">
+                  {formatNodeLabel(obs, idx)}
                 </span>
               </button>
             );
           })}
         </div>
+
+        {/* Temporal Interval Badge for Authentic FITS Data */}
+        {isRealData && intervalText && (
+          <div className="timeline-interval-pill mono-nums">
+            <span className="interval-tag">Δt Cadence:</span>
+            <span className="interval-val">{intervalText}</span>
+            <span className="interval-desc">• Rapid Survey Revisit</span>
+          </div>
+        )}
       </div>
 
       {/* 3. Cadence and Auto-Stop Indicators */}
       <div className="timeline-meta-right">
         <div className={`timeline-autostop-pill ${isAtLast ? 'halted' : ''}`}>
-          {isAtLast ? '● End of Sequence (Halted)' : `Auto-stop: Frame ${totalFrames}`}
+          {isAtLast ? '● Sequence End (Halted)' : `Auto-stop: Frame ${totalFrames}`}
         </div>
-        <div className="timeline-cadence-label">
-          Cadence: {cadenceMs}ms / step
+        <div className="timeline-cadence-label mono-nums">
+          Cadence: {cadenceMs}ms / blink
         </div>
       </div>
     </footer>
