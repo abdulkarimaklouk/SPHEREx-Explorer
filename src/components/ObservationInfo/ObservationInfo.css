@@ -1,0 +1,155 @@
+.obs-info-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+  padding: var(--space-16);
+  background-color: var(--color-surface-deck);
+  border-left: 1px solid var(--color-border-subtle);
+  width: 320px;
+  min-width: 290px;
+  overflow-y: auto;
+  user-select: none;
+}
+
+.obs-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-8);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.obs-section-title {
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-secondary);
+}
+
+.badge-catalog-verified {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--color-accent-sage);
+  background-color: var(--color-accent-sage-bg);
+  border: 1px solid var(--color-accent-sage-border);
+  padding: 1px 6px;
+  border-radius: var(--radius-xs);
+  text-transform: uppercase;
+}
+
+.badge-mock-data {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--color-accent-amber);
+  background-color: var(--color-accent-amber-bg);
+  border: 1px solid var(--color-accent-amber-border);
+  padding: 1px 6px;
+  border-radius: var(--radius-xs);
+  text-transform: uppercase;
+}
+
+/* Fact Rows */
+.obs-fact-table {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.obs-fact-row {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.obs-fact-label {
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.obs-fact-value {
+  font-size: 0.84rem;
+  color: var(--color-text-primary);
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.obs-fact-subvalue {
+  font-size: 0.74rem;
+  color: var(--color-text-secondary);
+  margin-top: 1px;
+}
+
+/* Coordinate Transparency Card */
+.coord-transparency-card {
+  background-color: var(--color-surface-raised);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-xs);
+  padding: var(--space-12);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.transparency-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.76rem;
+}
+
+.transparency-label {
+  color: var(--color-text-secondary);
+}
+
+.transparency-val {
+  color: var(--color-text-primary);
+  font-weight: 600;
+}
+
+.transparency-offset-highlight {
+  color: var(--color-accent-amber);
+}
+
+.transparency-note {
+  font-size: 0.70rem;
+  color: var(--color-text-muted);
+  line-height: 1.3;
+  margin-top: 2px;
+  border-top: 1px dashed var(--color-border-subtle);
+  padding-top: var(--space-4);
+}
+
+/* Synthetic Observation Card */
+.mock-observation-card {
+  background-color: var(--color-surface-raised);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-xs);
+  padding: var(--space-12);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.mock-callout {
+  padding: var(--space-8);
+  background-color: rgba(229, 147, 36, 0.08);
+  border-left: 2px solid var(--color-accent-amber);
+  font-size: 0.72rem;
+  line-height: 1.35;
+  color: var(--color-text-secondary);
+  border-radius: 0 var(--radius-xs) var(--radius-xs) 0;
+}
+
+@media (max-width: 1024px) {
+  .obs-info-container {
+    width: 100%;
+    border-left: none;
+    border-top: 1px solid var(--color-border-subtle);
+  }
+}

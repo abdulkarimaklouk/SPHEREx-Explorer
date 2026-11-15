@@ -1,0 +1,237 @@
+{
+  "version": "1.0.0",
+  "challenge": "2026 NASA Space Apps Challenge — SPHEREx Explorer",
+  "disclaimer": "Target positions and identities are verified astronomical catalog entries. Observation epochs, timestamps, images, and field coverages are synthetic MOCK demonstration data.",
+  "targets": [
+    {
+      "id": "barnards-star",
+      "name": "Barnard's Star",
+      "alternateDesignations": ["GJ 699", "HIP 87937", "BD+04 3561a"],
+      "ra": 269.452,
+      "dec": 4.693,
+      "constellation": "Ophiuchus",
+      "objectType": "Red Dwarf (M4.0V) / High Proper Motion Star",
+      "description": "Second-closest known star system to the Sun. Famous for having the highest known proper motion of any star (~10.3 arcsec/year across the celestial sphere).",
+      "fieldCoverageDegrees": 1.0,
+      "coordinateSource": "SIMBAD / Gaia DR3 (ICRS, Epoch J2016.0)",
+      "observations": [
+        {
+          "id": "obs-barnard-01",
+          "targetId": "barnards-star",
+          "sequence": 1,
+          "timestamp": "2026-02-15T00:00:00Z",
+          "imageUrl": "/images/demo/barnards_star_ep01.png",
+          "isMock": true
+        },
+        {
+          "id": "obs-barnard-02",
+          "targetId": "barnards-star",
+          "sequence": 2,
+          "timestamp": "2026-05-15T00:00:00Z",
+          "imageUrl": "/images/demo/barnards_star_ep02.png",
+          "isMock": true
+        },
+        {
+          "id": "obs-barnard-03",
+          "targetId": "barnards-star",
+          "sequence": 3,
+          "timestamp": "2026-08-15T00:00:00Z",
+          "imageUrl": "/images/demo/barnards_star_ep03.png",
+          "isMock": true
+        },
+        {
+          "id": "obs-barnard-04",
+          "targetId": "barnards-star",
+          "sequence": 4,
+          "timestamp": "2026-11-15T00:00:00Z",
+          "imageUrl": "/images/demo/barnards_star_ep04.png",
+          "isMock": true
+        }
+      ]
+    },
+    {
+      "id": "epsilon-indi-b",
+      "name": "Epsilon Indi B",
+      "alternateDesignations": ["eps Ind B", "GJ 845 B"],
+      "ra": 330.84,
+      "dec": -56.79,
+      "constellation": "Indus",
+      "objectType": "Cold Brown Dwarf Binary System (T1 + T6)",
+      "description": "One of the closest known brown dwarf systems to Earth, exhibiting pronounced atmospheric water vapor and methane absorption bands.",
+      "fieldCoverageDegrees": 1.0,
+      "coordinateSource": "SIMBAD / IPAC (ICRS)",
+      "observations": [
+        {
+          "id": "obs-epsind-01",
+          "targetId": "epsilon-indi-b",
+          "sequence": 1,
+          "timestamp": "2026-02-20T00:00:00Z",
+          "imageUrl": "/images/demo/epsilon_indi_b_ep01.png",
+          "isMock": true
+        },
+        {
+          "id": "obs-epsind-02",
+          "targetId": "epsilon-indi-b",
+          "sequence": 2,
+          "timestamp": "2026-05-20T00:00:00Z",
+          "imageUrl": "/images/demo/epsilon_indi_b_ep02.png",
+          "isMock": true
+        },
+        {
+          "id": "obs-epsind-03",
+          "targetId": "epsilon-indi-b",
+          "sequence": 3,
+          "timestamp": "2026-08-20T00:00:00Z",
+          "imageUrl": "/images/demo/epsilon_indi_b_ep03.png",
+          "isMock": true
+        },
+        {
+          "id": "obs-epsind-04",
+          "targetId": "epsilon-indi-b",
+          "sequence": 4,
+          "timestamp": "2026-11-20T00:00:00Z",
+          "imageUrl": "/images/demo/epsilon_indi_b_ep04.png",
+          "isMock": true
+        }
+      ]
+    },
+    {
+      "id": "wise-0855",
+      "name": "WISE 0855",
+      "alternateDesignations": ["WISE J085510.83-071442.5"],
+      "ra": 133.7951,
+      "dec": -7.2451,
+      "constellation": "Hydra",
+      "objectType": "Sub-stellar Ultra-Cool Brown Dwarf (Y-type)",
+      "description": "The fourth closest system to the Sun and the coldest known sub-stellar brown dwarf outside the Solar System, with temperatures near the freezing point of water.",
+      "fieldCoverageDegrees": 1.0,
+      "coordinateSource": "NASA/IPAC WISE / Luhman (2014)",
+      "observations": [
+        {
+          "id": "obs-wise0855-01",
+          "targetId": "wise-0855",
+          "sequence": 1,
+          "timestamp": "2026-03-01T00:00:00Z",
+          "imageUrl": "/images/demo/wise_0855_ep01.png",
+          "isMock": true
+        },
+        {
+          "id": "obs-wise0855-02",
+          "targetId": "wise-0855",
+          "sequence": 2,
+          "timestamp": "2026-06-01T00:00:00Z",
+          "imageUrl": "/images/demo/wise_0855_ep02.png",
+          "isMock": true
+        },
+        {
+          "id": "obs-wise0855-03",
+          "targetId": "wise-0855",
+          "sequence": 3,
+          "timestamp": "2026-09-01T00:00:00Z",
+          "imageUrl": "/images/demo/wise_0855_ep03.png",
+          "isMock": true
+        },
+        {
+          "id": "obs-wise0855-04",
+          "targetId": "wise-0855",
+          "sequence": 4,
+          "timestamp": "2026-12-01T00:00:00Z",
+          "imageUrl": "/images/demo/wise_0855_ep04.png",
+          "isMock": true
+        }
+      ]
+    },
+    {
+      "id": "rw-aurigae",
+      "name": "RW Aurigae",
+      "alternateDesignations": ["RW Aur", "HD 283572"],
+      "ra": 77.46,
+      "dec": 30.4,
+      "constellation": "Auriga",
+      "objectType": "Young Binary T Tauri Variable Star",
+      "description": "Young pre-main-sequence binary star system exhibiting dramatic, multi-year dimming events caused by circumstellar dust occultations and tidal disruption.",
+      "fieldCoverageDegrees": 1.0,
+      "coordinateSource": "SIMBAD / Gaia DR3 (ICRS)",
+      "observations": [
+        {
+          "id": "obs-rwaur-01",
+          "targetId": "rw-aurigae",
+          "sequence": 1,
+          "timestamp": "2026-01-10T00:00:00Z",
+          "imageUrl": "/images/demo/rw_aurigae_ep01.png",
+          "isMock": true
+        },
+        {
+          "id": "obs-rwaur-02",
+          "targetId": "rw-aurigae",
+          "sequence": 2,
+          "timestamp": "2026-04-10T00:00:00Z",
+          "imageUrl": "/images/demo/rw_aurigae_ep02.png",
+          "isMock": true
+        },
+        {
+          "id": "obs-rwaur-03",
+          "targetId": "rw-aurigae",
+          "sequence": 3,
+          "timestamp": "2026-07-10T00:00:00Z",
+          "imageUrl": "/images/demo/rw_aurigae_ep03.png",
+          "isMock": true
+        },
+        {
+          "id": "obs-rwaur-04",
+          "targetId": "rw-aurigae",
+          "sequence": 4,
+          "timestamp": "2026-10-10T00:00:00Z",
+          "imageUrl": "/images/demo/rw_aurigae_ep04.png",
+          "isMock": true
+        }
+      ]
+    },
+    {
+      "id": "r-draconis",
+      "name": "R Draconis",
+      "alternateDesignations": ["R Dra", "HD 149214"],
+      "ra": 248.33,
+      "dec": 66.75,
+      "constellation": "Draco",
+      "objectType": "Mira-type Long-Period Pulsating Variable Star",
+      "description": "Classic oxygen-rich asymptotic giant branch Mira variable pulsating star undergoing extensive periodic visual brightness fluctuations over ~245 days.",
+      "fieldCoverageDegrees": 1.0,
+      "coordinateSource": "AAVSO / SIMBAD (ICRS)",
+      "observations": [
+        {
+          "id": "obs-rdra-01",
+          "targetId": "r-draconis",
+          "sequence": 1,
+          "timestamp": "2026-01-25T00:00:00Z",
+          "imageUrl": "/images/demo/r_draconis_ep01.png",
+          "isMock": true
+        },
+        {
+          "id": "obs-rdra-02",
+          "targetId": "r-draconis",
+          "sequence": 2,
+          "timestamp": "2026-04-25T00:00:00Z",
+          "imageUrl": "/images/demo/r_draconis_ep02.png",
+          "isMock": true
+        },
+        {
+          "id": "obs-rdra-03",
+          "targetId": "r-draconis",
+          "sequence": 3,
+          "timestamp": "2026-07-25T00:00:00Z",
+          "imageUrl": "/images/demo/r_draconis_ep03.png",
+          "isMock": true
+        },
+        {
+          "id": "obs-rdra-04",
+          "targetId": "r-draconis",
+          "sequence": 4,
+          "timestamp": "2026-10-25T00:00:00Z",
+          "imageUrl": "/images/demo/r_draconis_ep04.png",
+          "isMock": true
+        }
+      ]
+    }
+  ]
+}

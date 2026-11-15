@@ -1,27 +1,152 @@
+/* ==========================================================================
+   SPHEREx Explorer — Design System & Global Stylesheet
+   Direction: "Observatory Field Desk"
+   2026 NASA Space Apps Challenge
+   ========================================================================== */
+
 :root {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-  color-scheme: dark;
-  color: #f1f5f9;
-  background-color: #0b0f19;
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  /* Surface & Background Hierarchy */
+  --color-bg-base: #11141a;
+  --color-surface-deck: #191d24;
+  --color-surface-raised: #222832;
+  --color-surface-inset: #0c0e12;
+
+  /* Typography Colors */
+  --color-text-primary: #f5f4ef;
+  --color-text-secondary: #b2b1a8;
+  --color-text-muted: #787e87;
+
+  /* Accent & Provenance Signals */
+  --color-accent-amber: #e59324;
+  --color-accent-amber-hover: #f0a238;
+  --color-accent-amber-bg: rgba(229, 147, 36, 0.12);
+  --color-accent-amber-border: rgba(229, 147, 36, 0.35);
+
+  --color-accent-sage: #739481;
+  --color-accent-sage-bg: rgba(115, 148, 129, 0.15);
+  --color-accent-sage-border: rgba(115, 148, 129, 0.4);
+
+  --color-error: #e05252;
+  --color-error-bg: rgba(224, 82, 82, 0.15);
+  --color-error-border: rgba(224, 82, 82, 0.4);
+
+  /* Borders & Dividers */
+  --color-border-subtle: #2a323d;
+  --color-border-strong: #3f4a59;
+  --color-focus-ring: #f0a238;
+
+  /* Typography Stacks */
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "Roboto Mono", "Cascadia Code", "Courier New", monospace;
+
+  /* Radii (Strict 2px - 4px for machined instrument look) */
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+
+  /* Spacing Grid */
+  --space-2: 2px;
+  --space-4: 4px;
+  --space-8: 8px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-20: 20px;
+  --space-24: 24px;
+  --space-32: 32px;
+
+  /* Standard Transitions */
+  --transition-fast: 100ms ease-out;
 }
 
+/* Base Resets */
 *, *::before, *::after {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-body {
-  margin: 0;
-  min-width: 320px;
-  min-height: 100vh;
+html, body {
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-bg-base);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color-scheme: dark;
+  overflow-x: hidden;
 }
 
 #root {
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Accessibility Focus States */
+:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 2px;
+}
+
+/* Tabular Numerals for Numerical Technical Stability */
+.mono-nums {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+/* Buttons Base Reset */
+button {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+/* Input Fields Base */
+input {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-surface-inset);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border-subtle);
+  border-radius: var(--radius-xs);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-border-strong);
+}
+
+/* Reduced Motion Preference */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
