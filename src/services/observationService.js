@@ -275,11 +275,21 @@ export class ObservationService {
       }))
       .sort((a, b) => new Date(a.timestampUtc) - new Date(b.timestampUtc));
 
+    // Helper for robust UTC date parsing (treating naive ISO strings as UTC)
+    const parseUtcTimestamp = (dateStr) => {
+      if (!dateStr || typeof dateStr !== 'string') return NaN;
+      const s = dateStr.trim();
+      if (s.endsWith('Z') || /[+-]\d{2}(:\d{2})?$/.test(s)) {
+        return new Date(s).getTime();
+      }
+      return new Date(`${s}Z`).getTime();
+    };
+
     // Apply time range filter if provided
     if (timeFilter) {
       const { start, end } = timeFilter;
       if (start && start.trim()) {
-        const startTime = new Date(start).getTime();
+        const startTime = parseUtcTimestamp(start);
         if (!Number.isNaN(startTime)) {
           matchingObservations = matchingObservations.filter(
             (o) => new Date(o.timestampUtc).getTime() >= startTime,
@@ -287,7 +297,7 @@ export class ObservationService {
         }
       }
       if (end && end.trim()) {
-        const endTime = new Date(end).getTime();
+        const endTime = parseUtcTimestamp(end);
         if (!Number.isNaN(endTime)) {
           matchingObservations = matchingObservations.filter(
             (o) => new Date(o.timestampUtc).getTime() <= endTime,
