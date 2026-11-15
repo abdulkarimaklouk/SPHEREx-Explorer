@@ -30,7 +30,6 @@ export function App() {
     searchError,
     requestedCoords,
     angularOffset,
-    nearestTarget,
     activeFitsData,
     allFitsData,
     isFitsLoading,
@@ -98,11 +97,7 @@ export function App() {
           currentObservation={currentObservation}
           searchStatus={searchStatus}
           requestedCoords={requestedCoords}
-          angularOffset={angularOffset}
-          nearestTarget={nearestTarget}
           onSelectTarget={selectTarget}
-          onSearchArchive={searchArchive}
-          targets={targets}
           activeFitsData={activeFitsData}
           allFitsData={allFitsData}
           isFitsLoading={isFitsLoading}
