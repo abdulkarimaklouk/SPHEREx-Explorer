@@ -255,7 +255,7 @@ export function SkyViewer({
               </p>
               {nearestTarget && angularOffset !== null && (
                 <div className="no-match-distance mono-nums">
-                  Closest available target: <strong style={{ color: 'var(--color-text-primary)' }}>{nearestTarget.name}</strong> (~{angularOffset.toFixed(2)}° away)
+                  Suggested nearest catalog target: <strong style={{ color: 'var(--color-text-primary)' }}>{nearestTarget.name}</strong> (~{angularOffset.toFixed(2)}° away)
                 </div>
               )}
               <div className="no-match-pills-label">Jump to a Challenge Target:</div>

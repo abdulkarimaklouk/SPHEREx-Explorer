@@ -5,6 +5,12 @@
  * - Target resolution & preset access
  * - Spherical coordinate matching against challenge targets
  * - Chronological observation sorting verification
+ *
+ * COORDINATE COVERAGE POLICY (TASK-304.1):
+ * - A valid mock field match strictly requires an explicitly configured coverage boundary.
+ * - If coverage is unconfigured (null), field matching remains unavailable (matched: false).
+ * - No universal or arbitrary fallback radius is permitted.
+ * - Closest target is returned solely as a suggestion (nearestTarget).
  */
 
 import { MockDataProvider } from './providers/MockDataProvider.js';
@@ -16,15 +22,26 @@ import {
 export class ObservationService {
   /**
    * Retrieves all verified preset challenge targets with chronologically sorted observations.
+   * Normalizes observation fields to support both observationId and id, timestampUtc and timestamp.
    * @returns {Array<object>}
    */
   static getPresetTargets() {
     const targets = MockDataProvider.loadTargets();
     return targets.map((target) => ({
       ...target,
-      observations: [...(target.observations || [])].sort(
-        (a, b) => new Date(a.timestamp) - new Date(b.timestamp),
-      ),
+      observations: [...(target.observations || [])]
+        .map((obs) => ({
+          ...obs,
+          id: obs.id || obs.observationId,
+          observationId: obs.observationId || obs.id,
+          timestamp: obs.timestamp || obs.timestampUtc,
+          timestampUtc: obs.timestampUtc || obs.timestamp,
+          imageUrl: obs.imageUrl || obs.imagePath,
+          imagePath: obs.imagePath || obs.imageUrl,
+        }))
+        .sort(
+          (a, b) => new Date(a.timestampUtc) - new Date(b.timestampUtc),
+        ),
     }));
   }
 
@@ -39,7 +56,9 @@ export class ObservationService {
   }
 
   /**
-   * Finds the closest target field matching the requested coordinates.
+   * Evaluates requested celestial coordinates against challenge targets.
+   * Enforces strict coverage policy: matches only when an explicit coverage
+   * boundary is configured on the target.
    *
    * @param {number|string} raInput - RA in decimal degrees
    * @param {number|string} decInput - Dec in decimal degrees
@@ -89,15 +108,18 @@ export class ObservationService {
     }
 
     const coverage = closestTarget ? closestTarget.fieldCoverageDegrees : null;
-    const coverageConfigured = coverage !== null && coverage !== undefined;
-    // When coverage is not configured in demonstration mock data, matches within catalog field proximity (0.5°)
-    const maxMatchRadius = coverageConfigured ? coverage : 0.5;
-    const isWithinCoverage = minSeparation <= maxMatchRadius;
+    const coverageConfigured =
+      coverage !== null && coverage !== undefined && typeof coverage === 'number';
+
+    // Strict coverage matching:
+    // Only match if coverage is explicitly configured AND angular separation is within that coverage.
+    // Unconfigured coverage remains unavailable (matched = false).
+    const isWithinCoverage = coverageConfigured && minSeparation <= coverage;
 
     return {
       matched: isWithinCoverage,
       target: isWithinCoverage ? closestTarget : null,
-      nearestTarget: closestTarget,
+      nearestTarget: closestTarget, // Returned only as a suggestion
       requestedCoords: { ra, dec },
       angularOffsetDegrees: minSeparation,
       coverageConfigured,
