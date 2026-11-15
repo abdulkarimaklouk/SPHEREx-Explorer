@@ -1,0 +1,155 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 390 844" width="390" height="844" style="background:#11141a; font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;">
+  <style>
+    .text-title { font-size: 14px; font-weight: 700; fill: #f5f4ef; }
+    .text-sub { font-size: 10px; fill: #b2b1a8; }
+    .text-mono { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size: 10px; fill: #f5f4ef; }
+    .text-mono-dim { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size: 9px; fill: #8c8b82; }
+    .text-mono-accent { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size: 10px; fill: #e59324; font-weight: 600; }
+    .panel { fill: #191d24; stroke: #2a323d; stroke-width: 1; }
+    .panel-sub { fill: #15181e; stroke: #2a323d; stroke-width: 1; }
+    .btn { fill: #222731; stroke: #394250; stroke-width: 1; rx: 4; }
+    .btn-active { fill: #332717; stroke: #e59324; stroke-width: 1.5; rx: 4; }
+    .btn-text { font-size: 11px; font-weight: 600; fill: #f5f4ef; text-anchor: middle; dominant-baseline: middle; }
+    .btn-text-active { font-size: 11px; font-weight: 600; fill: #f5f4ef; text-anchor: middle; dominant-baseline: middle; }
+    .badge-mock { fill: #33200a; stroke: #e59324; stroke-width: 1; rx: 2; }
+    .reticle { stroke: #3a4454; stroke-width: 1; stroke-dasharray: 3 3; }
+  </style>
+
+  <!-- Mobile Header (Height: 44px) -->
+  <rect x="0" y="0" width="390" height="44" fill="#15181e" stroke="#2a323d" stroke-width="1"/>
+  <circle cx="20" cy="22" r="7" fill="#e59324"/>
+  <text x="34" y="26" class="text-title">SPHEREx</text>
+  <text x="96" y="26" class="text-sub">| NASA Space Apps</text>
+
+  <!-- Compact Mock Warning Tag -->
+  <rect x="254" y="10" width="122" height="24" class="badge-mock"/>
+  <text x="315" y="25" font-size="9" font-weight="700" fill="#e59324" text-anchor="middle">⚠️ MOCK DATA</text>
+
+  <!-- Horizontal Target Ribbon (Swipeable Carousel) -->
+  <rect x="0" y="48" width="390" height="46" fill="#14171d"/>
+
+  <!-- Pill 1: Barnard's Star (Active) -->
+  <rect x="12" y="55" width="120" height="32" class="btn-active"/>
+  <circle cx="24" cy="71" r="3" fill="#e59324"/>
+  <text x="74" y="72" class="btn-text-active">Barnard's Star ★</text>
+
+  <!-- Pill 2: Epsilon Indi B -->
+  <rect x="138" y="55" width="104" height="32" class="btn"/>
+  <text x="190" y="72" class="btn-text">Epsilon Indi B</text>
+
+  <!-- Pill 3: WISE 0855 -->
+  <rect x="248" y="55" width="88" height="32" class="btn"/>
+  <text x="292" y="72" class="btn-text">WISE 0855</text>
+
+  <!-- Pill 4 (Affords Horizontal Scroll) -->
+  <rect x="342" y="55" width="88" height="32" class="btn"/>
+  <text x="382" y="72" class="btn-text">RW Aurigae</text>
+
+  <!-- Discoverable Quick Coordinate Bar -->
+  <rect x="12" y="98" width="366" height="34" class="panel-sub" rx="4"/>
+  <text x="22" y="119" font-size="10" font-weight="700" fill="#ced4da">COORDINATES:</text>
+  <text x="106" y="119" class="text-mono">RA 269.452° Dec +4.693°</text>
+  <rect x="312" y="102" width="58" height="26" class="btn"/>
+  <text x="341" y="116" class="btn-text">Search 🔍</text>
+
+  <!-- PRIMARY FOCUS: Sky Observation Viewport (Width: 366px, Height: 290px) -->
+  <rect x="12" y="136" width="366" height="290" class="panel" rx="4"/>
+  <rect x="12" y="136" width="366" height="26" fill="#1f242d" rx="4"/>
+  <text x="22" y="153" font-size="10" font-weight="700" fill="#e59324" letter-spacing="0.5">SKY VIEWPORT (BARNARD'S STAR)</text>
+  <text x="368" y="153" font-size="9" class="text-mono-dim" text-anchor="end">Demonstration Mock</text>
+
+  <!-- Sky Canvas Background -->
+  <rect x="18" y="166" width="354" height="254" fill="#0b0d12" stroke="#1f242d" stroke-width="1"/>
+
+  <!-- Reticle -->
+  <line x1="18" y1="293" x2="372" y2="293" class="reticle"/>
+  <line x1="195" y1="166" x2="195" y2="420" class="reticle"/>
+  <circle cx="195" cy="293" r="14" fill="none" stroke="#e59324" stroke-width="1" stroke-dasharray="2 2"/>
+  <circle cx="195" cy="293" r="4" fill="#e59324"/>
+  <text x="206" y="286" font-size="10" font-weight="700" fill="#e59324">Target Center</text>
+
+  <!-- Context Stars -->
+  <circle cx="80" cy="216" r="2" fill="#f5f4ef"/>
+  <circle cx="310" cy="206" r="1.5" fill="#adb5bd"/>
+  <circle cx="130" cy="366" r="1.5" fill="#adb5bd"/>
+  <circle cx="320" cy="356" r="2" fill="#f5f4ef"/>
+  <circle cx="260" cy="236" r="1" fill="#6c757d"/>
+
+  <!-- Viewport Overlay: Sequence Badge -->
+  <rect x="26" y="174" width="160" height="22" fill="rgba(17, 20, 26, 0.88)" stroke="#394250" stroke-width="1" rx="2"/>
+  <circle cx="36" cy="185" r="3" fill="#e59324"/>
+  <text x="44" y="189" class="text-mono-accent">Obs 1 of 4</text>
+  <text x="135" y="189" class="text-mono-dim">2026-02-15</text>
+
+  <!-- Viewport Overlay: Watermark Tag -->
+  <rect x="216" y="392" width="150" height="20" fill="rgba(17, 20, 26, 0.88)" stroke="#e59324" stroke-width="1" rx="2"/>
+  <text x="291" y="405" font-size="9" font-weight="700" fill="#e59324" text-anchor="middle">SIMULATED DEMO GRAPHIC</text>
+
+  <!-- DOCKED TIMELINE & TRANSPORT (Immediately Underneath Viewport) -->
+  <rect x="12" y="432" width="366" height="82" class="panel" rx="4"/>
+
+  <!-- Touch-friendly Transport Buttons (Height: 38px, Visual Tap Zone: 44px+) -->
+  <rect x="20" y="440" width="76" height="38" class="btn" opacity="0.6"/>
+  <text x="58" y="461" class="btn-text" fill="#8c8b82">◀ Prev</text>
+
+  <rect x="104" y="440" width="84" height="38" class="btn-active"/>
+  <text x="146" y="461" class="btn-text-active">▶ Play</text>
+
+  <rect x="196" y="440" width="76" height="38" class="btn"/>
+  <text x="234" y="461" class="btn-text">Next ▶</text>
+
+  <text x="286" y="456" font-size="9" font-weight="700" fill="#739481">1200ms</text>
+  <text x="286" y="468" font-size="8" fill="#e59324">Auto-stops</text>
+
+  <!-- Mobile Scrubber Track -->
+  <line x1="28" y1="494" x2="350" y2="494" stroke="#394250" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Step 1 (Active) -->
+  <circle cx="28" cy="494" r="6" fill="#e59324" stroke="#ffffff" stroke-width="1.5"/>
+  <text x="28" y="508" class="text-mono-accent" font-size="8" text-anchor="middle">02-15</text>
+
+  <!-- Step 2 -->
+  <circle cx="135" cy="494" r="4" fill="#394250"/>
+  <text x="135" y="508" class="text-mono-dim" font-size="8" text-anchor="middle">05-15</text>
+
+  <!-- Step 3 -->
+  <circle cx="242" cy="494" r="4" fill="#394250"/>
+  <text x="242" y="508" class="text-mono-dim" font-size="8" text-anchor="middle">08-15</text>
+
+  <!-- Step 4 -->
+  <circle cx="350" cy="494" r="4" fill="#394250"/>
+  <text x="350" y="508" class="text-mono-dim" font-size="8" text-anchor="middle">11-15</text>
+
+  <!-- METADATA & OBSERVATION INSPECTOR (Natural Vertical Scroll) -->
+  <rect x="12" y="520" width="366" height="312" class="panel" rx="4"/>
+  <rect x="12" y="520" width="366" height="26" fill="#1f242d" rx="4"/>
+  <text x="22" y="537" font-size="10" font-weight="700" fill="#739481" letter-spacing="1">OBSERVATION INSPECTION DETAILS</text>
+
+  <!-- 1. Verified Target Facts -->
+  <text x="22" y="561" font-size="10" font-weight="700" fill="#f5f4ef">Target Identity (Catalog):</text>
+  <text x="22" y="576" font-size="12" font-weight="700" fill="#e59324">Barnard's Star (GJ 699)</text>
+  <text x="22" y="592" class="text-sub">Constellation: Ophiuchus | Red Dwarf (M4.0V)</text>
+  <text x="22" y="608" class="text-mono">Catalog: RA 269.4520° | Dec +4.6933°</text>
+  <text x="22" y="622" font-size="9" fill="#739481">Authority: SIMBAD / Gaia DR3 (ICRS J2016.0)</text>
+
+  <line x1="22" y1="630" x2="368" y2="630" stroke="#252b35" stroke-width="1"/>
+
+  <!-- 2. Coordinate Transparency -->
+  <text x="22" y="648" font-size="10" font-weight="700" fill="#f5f4ef">Coordinate Transparency:</text>
+  <text x="22" y="664" class="text-mono-dim">Requested: RA 269.4520°, Dec +4.6933°</text>
+  <text x="22" y="678" class="text-mono-dim">Field Center: RA 269.4520°, Dec +4.6933°</text>
+  <text x="22" y="692" font-size="9" fill="#739481">Offset: 0.000° (Exact Target Center Match)</text>
+
+  <line x1="22" y1="702" x2="368" y2="702" stroke="#252b35" stroke-width="1"/>
+
+  <!-- 3. Synthetic Observation Metadata -->
+  <text x="22" y="720" font-size="10" font-weight="700" fill="#f5f4ef">Synthetic Observation Metadata:</text>
+  <text x="22" y="736" class="text-mono-accent">Observation 1 of 4 | 2026-02-15 00:00:00 UTC</text>
+  <text x="22" y="752" font-size="9" font-weight="600" fill="#e59324">⚠️ Synthetic Demonstration Asset (Mock)</text>
+
+  <!-- Educational Note -->
+  <rect x="22" y="764" width="346" height="56" fill="#14181f" stroke="#252b35" stroke-width="1" rx="3"/>
+  <text x="32" y="781" font-size="9" font-weight="700" fill="#f5f4ef">Scientific Context:</text>
+  <text x="32" y="795" font-size="9" fill="#b2b1a8">Second closest star system. Exhibits highest</text>
+  <text x="32" y="807" font-size="9" fill="#b2b1a8">known proper motion (10.3 arcsec/year).</text>
+</svg>

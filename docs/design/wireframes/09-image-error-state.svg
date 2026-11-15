@@ -1,0 +1,233 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 900" width="1440" height="900" style="background:#11141a; font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;">
+  <style>
+    .text-title { font-size: 16px; font-weight: 700; fill: #f5f4ef; }
+    .text-sub { font-size: 12px; fill: #b2b1a8; }
+    .text-mono { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size: 12px; fill: #f5f4ef; }
+    .text-mono-dim { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size: 11px; fill: #8c8b82; }
+    .text-mono-accent { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size: 12px; fill: #e59324; font-weight: 600; }
+    .text-mono-error { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size: 12px; fill: #e06c75; font-weight: 600; }
+    .panel { fill: #191d24; stroke: #2a323d; stroke-width: 1; }
+    .panel-sub { fill: #15181e; stroke: #2a323d; stroke-width: 1; }
+    .btn { fill: #222731; stroke: #394250; stroke-width: 1; rx: 3; }
+    .btn-active { fill: #332717; stroke: #e59324; stroke-width: 1.5; rx: 3; }
+    .btn-retry { fill: #2c1a1b; stroke: #e06c75; stroke-width: 1.5; rx: 3; }
+    .btn-text { font-size: 12px; font-weight: 600; fill: #f5f4ef; text-anchor: middle; dominant-baseline: middle; }
+    .badge-mock { fill: #33200a; stroke: #e59324; stroke-width: 1; rx: 2; }
+    .badge-error { fill: #2b1718; stroke: #e06c75; stroke-width: 1; rx: 3; }
+    .divider { stroke: #2a323d; stroke-width: 1; }
+    .reticle { stroke: #252b35; stroke-width: 1; stroke-dasharray: 4 4; }
+  </style>
+
+  <!-- Header -->
+  <rect x="0" y="0" width="1440" height="54" fill="#15181e" stroke="#2a323d" stroke-width="1"/>
+  <circle cx="32" cy="27" r="10" fill="#e59324"/>
+  <text x="52" y="32" class="text-title">SPHEREx Explorer</text>
+  <text x="220" y="32" class="text-sub">| 2026 NASA Space Apps Challenge (Screen 06: Image Loading Failure State)</text>
+
+  <!-- Persistent Mock Data Badge -->
+  <rect x="1140" y="14" width="280" height="26" class="badge-mock"/>
+  <text x="1280" y="31" font-size="11" font-weight="700" fill="#e59324" text-anchor="middle">⚠️ MOCK OBSERVATION DATA — DEMO MODE</text>
+
+  <!-- LEFT RAIL: Target Selection & Coordinate Search (Width: 280px) -->
+  <rect x="18" y="70" width="280" height="720" class="panel" rx="4"/>
+  <rect x="18" y="70" width="280" height="36" fill="#1f242d" rx="4"/>
+  <text x="34" y="93" font-size="11" font-weight="700" fill="#e59324" letter-spacing="1">CHALLENGE TARGETS</text>
+
+  <!-- Target 1: Barnard's Star (Active) -->
+  <rect x="30" y="118" width="256" height="44" class="btn-active"/>
+  <circle cx="48" cy="140" r="4" fill="#e59324"/>
+  <text x="60" y="135" font-size="12" font-weight="700" fill="#f5f4ef">Barnard's Star ★</text>
+  <text x="60" y="150" class="text-mono-dim">RA 269.452° | Dec +4.693°</text>
+
+  <!-- Target 2: Epsilon Indi B -->
+  <rect x="30" y="168" width="256" height="44" class="btn"/>
+  <circle cx="48" cy="190" r="3" fill="#6c757d"/>
+  <text x="60" y="185" font-size="12" font-weight="600" fill="#ced4da">Epsilon Indi B</text>
+  <text x="60" y="200" class="text-mono-dim">RA 330.840° | Dec -56.790°</text>
+
+  <!-- Target 3: WISE 0855 -->
+  <rect x="30" y="218" width="256" height="44" class="btn"/>
+  <circle cx="48" cy="240" r="3" fill="#6c757d"/>
+  <text x="60" y="235" font-size="12" font-weight="600" fill="#ced4da">WISE 0855</text>
+  <text x="60" y="250" class="text-mono-dim">RA 133.795° | Dec -7.245°</text>
+
+  <!-- Target 4: RW Aurigae -->
+  <rect x="30" y="268" width="256" height="44" class="btn"/>
+  <circle cx="48" cy="290" r="3" fill="#6c757d"/>
+  <text x="60" y="285" font-size="12" font-weight="600" fill="#ced4da">RW Aurigae</text>
+  <text x="60" y="300" class="text-mono-dim">RA 77.460° | Dec +30.400°</text>
+
+  <!-- Target 5: R Draconis -->
+  <rect x="30" y="318" width="256" height="44" class="btn"/>
+  <circle cx="48" cy="340" r="3" fill="#6c757d"/>
+  <text x="60" y="335" font-size="12" font-weight="600" fill="#ced4da">R Draconis</text>
+  <text x="60" y="350" class="text-mono-dim">RA 248.330° | Dec +66.750°</text>
+
+  <line x1="30" y1="374" x2="286" y2="374" class="divider"/>
+
+  <!-- Coordinate Search Sub-panel -->
+  <text x="34" y="398" font-size="11" font-weight="700" fill="#e59324" letter-spacing="1">COORDINATE SEARCH</text>
+  <text x="34" y="418" class="text-sub">Current active target coordinates</text>
+
+  <text x="34" y="444" font-size="11" font-weight="600" fill="#ced4da">Right Ascension (0° to 359.99°)</text>
+  <rect x="30" y="452" width="256" height="34" class="panel-sub" rx="3"/>
+  <text x="42" y="474" class="text-mono">269.452</text>
+  <text x="274" y="474" class="text-mono-dim" text-anchor="end">deg</text>
+
+  <text x="34" y="504" font-size="11" font-weight="600" fill="#ced4da">Declination (-90° to +90°)</text>
+  <rect x="30" y="512" width="256" height="34" class="panel-sub" rx="3"/>
+  <text x="42" y="534" class="text-mono">+4.693</text>
+  <text x="274" y="534" class="text-mono-dim" text-anchor="end">deg</text>
+
+  <rect x="30" y="560" width="256" height="36" class="btn"/>
+  <text x="158" y="582" class="btn-text">Search Sky Field</text>
+
+  <!-- Health & Decoupling Notice Card -->
+  <rect x="30" y="612" width="256" height="158" class="badge-error"/>
+  <text x="42" y="634" font-size="11" font-weight="700" fill="#e06c75">ASSET LOAD WARNING</text>
+  <text x="42" y="654" font-size="11" fill="#f5f4ef">Obs 2 image failed to load.</text>
+  <text x="42" y="674" class="text-mono-dim">URI: /images/demo/... (404)</text>
+  <text x="42" y="694" font-size="11" fill="#b2b1a8">Observation metadata remains fully intact.</text>
+  <text x="42" y="714" font-size="11" fill="#739481">Timeline remains interactive.</text>
+  <text x="42" y="744" font-size="10" fill="#739481">Status: Non-Fatal Fault</text>
+
+  <!-- CENTER STAGE: Sky Observation Viewport (Asset Error State, Width: 768px) -->
+  <rect x="316" y="70" width="768" height="720" class="panel" rx="4"/>
+  <rect x="316" y="70" width="768" height="36" fill="#1f242d" rx="4"/>
+  <text x="334" y="93" font-size="11" font-weight="700" fill="#e59324" letter-spacing="1">SKY OBSERVATION VIEWPORT</text>
+  <text x="1068" y="93" font-size="11" class="text-mono-error" text-anchor="end">⚠️ Image Asset Load Failure</text>
+
+  <!-- Canvas Image Viewport Area (Broken Asset Presentation) -->
+  <rect x="332" y="118" width="736" height="656" fill="#0b0d12" stroke="#e06c75" stroke-width="1.5"/>
+
+  <!-- Faint Reticle Grid -->
+  <line x1="332" y1="446" x2="1068" y2="446" class="reticle"/>
+  <line x1="700" y1="118" x2="700" y2="774" class="reticle"/>
+  <circle cx="700" cy="446" r="100" fill="none" stroke="#252b35" stroke-width="1" stroke-dasharray="4 4"/>
+
+  <!-- Centered Error Fallback Card -->
+  <rect x="440" y="270" width="520" height="290" fill="#151921" stroke="#e06c75" stroke-width="1.5" rx="6"/>
+  <rect x="440" y="270" width="520" height="40" fill="#24191c" rx="6"/>
+
+  <circle cx="468" cy="290" r="10" fill="#e06c75"/>
+  <text x="468" y="294" font-size="12" font-weight="900" fill="#ffffff" text-anchor="middle">!</text>
+  <text x="490" y="295" font-size="13" font-weight="700" fill="#e06c75">DEMONSTRATION IMAGE ASSET UNAVAILABLE</text>
+
+  <text x="468" y="338" font-size="13" font-weight="600" fill="#f5f4ef">Could not load the synthetic image file for this epoch.</text>
+  <text x="468" y="362" class="text-mono-dim">Target: Barnard's Star (Observation 2 of 4)</text>
+  <text x="468" y="382" class="text-mono-error">URI: /images/demo/barnards-star/obs-02.png (HTTP 404)</text>
+
+  <rect x="468" y="402" width="464" height="64" fill="#12161d" stroke="#252b35" stroke-width="1" rx="3"/>
+  <text x="480" y="422" font-size="11" fill="#b2b1a8">Astronomical catalog information and observation timestamps</text>
+  <text x="480" y="440" font-size="11" fill="#b2b1a8">remain completely accessible in the inspector panel.</text>
+  <text x="480" y="456" font-size="11" fill="#739481">You can freely navigate to other epochs via timeline below.</text>
+
+  <!-- Interactive Action Buttons -->
+  <rect x="468" y="484" width="210" height="38" class="btn-retry"/>
+  <text x="573" y="507" class="btn-text" fill="#e06c75">⟳ Retry Image Load</text>
+
+  <rect x="702" y="484" width="210" height="38" class="btn"/>
+  <text x="807" y="507" class="btn-text">◀ Return to Obs 1</text>
+
+  <!-- Watermark Tag -->
+  <rect x="886" y="732" width="170" height="28" fill="rgba(17, 20, 26, 0.88)" stroke="#e59324" stroke-width="1" rx="2"/>
+  <text x="971" y="750" font-size="10" font-weight="700" fill="#e59324" text-anchor="middle">SIMULATED DEMO GRAPHIC</text>
+
+  <!-- RIGHT RAIL: Observation Inspector Deck (FULLY PRESERVED & FUNCTIONAL) -->
+  <rect x="1102" y="70" width="320" height="720" class="panel" rx="4"/>
+  <rect x="1102" y="70" width="320" height="36" fill="#1f242d" rx="4"/>
+  <text x="1118" y="93" font-size="11" font-weight="700" fill="#e59324" letter-spacing="1">OBSERVATION INSPECTOR</text>
+
+  <!-- 1. Verified Astronomical Facts (Fully Intact) -->
+  <text x="1118" y="128" font-size="11" font-weight="700" fill="#739481">VERIFIED TARGET FACTS (CATALOG)</text>
+
+  <text x="1118" y="152" class="text-sub">Target Designation:</text>
+  <text x="1118" y="170" font-size="13" font-weight="700" fill="#f5f4ef">Barnard's Star (GJ 699)</text>
+
+  <text x="1118" y="194" class="text-sub">Constellation / Type:</text>
+  <text x="1118" y="212" font-size="12" fill="#ced4da">Ophiuchus | Red Dwarf (M4.0V)</text>
+
+  <text x="1118" y="236" class="text-sub">Catalog Reference Center:</text>
+  <text x="1118" y="254" class="text-mono">RA 269.4520° | Dec +4.6933°</text>
+
+  <text x="1118" y="278" class="text-sub">Provenance Authority:</text>
+  <text x="1118" y="296" font-size="11" fill="#739481">SIMBAD / Gaia DR3 (ICRS J2016.0)</text>
+
+  <line x1="1118" y1="316" x2="1406" y2="316" class="divider"/>
+
+  <!-- 2. Coordinate Transparency Panel -->
+  <text x="1118" y="340" font-size="11" font-weight="700" fill="#e59324">COORDINATE TRANSPARENCY</text>
+
+  <rect x="1118" y="352" width="288" height="106" fill="#14181f" stroke="#252b35" stroke-width="1" rx="3"/>
+  <text x="1130" y="372" class="text-sub">Requested Coordinates:</text>
+  <text x="1130" y="390" class="text-mono">RA 269.4520° | Dec +4.6933°</text>
+
+  <text x="1130" y="412" class="text-sub">Catalog Target Center:</text>
+  <text x="1130" y="430" class="text-mono">RA 269.4520° | Dec +4.6933°</text>
+
+  <text x="1130" y="446" font-size="10" fill="#739481">Offset: 0.000° (Exact Catalog Position)</text>
+
+  <line x1="1118" y1="472" x2="1406" y2="472" class="divider"/>
+
+  <!-- 3. Synthetic Observation Details (Accurate to Epoch 2) -->
+  <text x="1118" y="496" font-size="11" font-weight="700" fill="#e59324">SYNTHETIC OBSERVATION INFO</text>
+
+  <text x="1118" y="520" class="text-sub">Observation Sequence Index:</text>
+  <text x="1118" y="538" class="text-mono-accent">Observation 2 of 4 (Epoch 2)</text>
+
+  <text x="1118" y="562" class="text-sub">Observation Timestamp (UTC):</text>
+  <text x="1118" y="580" class="text-mono">2026-05-15 00:00:00 UTC</text>
+
+  <text x="1118" y="604" class="text-sub">Data Integrity Nature:</text>
+  <text x="1118" y="622" font-size="11" font-weight="600" fill="#e59324">⚠️ Simulated Demonstration Asset</text>
+
+  <!-- Educational Summary -->
+  <rect x="1118" y="642" width="288" height="132" fill="#151921" stroke="#222834" stroke-width="1" rx="3"/>
+  <text x="1130" y="664" font-size="11" font-weight="700" fill="#f5f4ef">Data Decoupling Principle:</text>
+  <text x="1130" y="682" font-size="11" fill="#b2b1a8">Observation metadata is parsed</text>
+  <text x="1130" y="698" font-size="11" fill="#b2b1a8">independently from pixel assets.</text>
+  <text x="1130" y="714" font-size="11" fill="#b2b1a8">Missing image does not corrupt data.</text>
+  <text x="1130" y="746" font-size="10" fill="#739481">Architectural Rule 7 &amp; 14 Preserved</text>
+
+  <!-- BOTTOM CONSOLE: Timeline Controls (ACTIVE ON EPOCH 2) -->
+  <rect x="18" y="804" width="1404" height="80" class="panel" rx="4"/>
+
+  <!-- Transport Buttons (Fully Functional) -->
+  <rect x="34" y="824" width="92" height="40" class="btn"/>
+  <text x="80" y="849" class="btn-text">◀ Prev</text>
+
+  <rect x="136" y="824" width="102" height="40" class="btn"/>
+  <text x="187" y="849" class="btn-text">▶ Play</text>
+
+  <rect x="248" y="824" width="92" height="40" class="btn"/>
+  <text x="294" y="849" class="btn-text">Next ▶</text>
+
+  <line x1="358" y1="816" x2="358" y2="872" class="divider"/>
+
+  <!-- Timeline Scrubber Track -->
+  <text x="378" y="834" font-size="11" font-weight="700" fill="#e59324">TIMELINE PROGRESSION (UTC EPOCHS)</text>
+
+  <line x1="378" y1="854" x2="1080" y2="854" stroke="#394250" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Step 1 (Visited) -->
+  <circle cx="378" cy="854" r="6" fill="#739481"/>
+  <text x="378" y="878" class="text-mono-dim" text-anchor="middle">1: 2026-02-15</text>
+
+  <!-- Step 2 (Active with Error Indicator) -->
+  <circle cx="612" cy="854" r="9" fill="#e06c75" stroke="#ffffff" stroke-width="2"/>
+  <text x="612" y="878" class="text-mono-error" text-anchor="middle">2: 2026-05-15 (Error)</text>
+
+  <!-- Step 3 -->
+  <circle cx="846" cy="854" r="6" fill="#394250"/>
+  <text x="846" y="878" class="text-mono-dim" text-anchor="middle">3: 2026-08-15</text>
+
+  <!-- Step 4 -->
+  <circle cx="1080" cy="854" r="6" fill="#394250"/>
+  <text x="1080" y="878" class="text-mono-dim" text-anchor="middle">4: 2026-11-15</text>
+
+  <!-- Playback Cadence -->
+  <line x1="1106" y1="816" x2="1106" y2="872" class="divider"/>
+  <text x="1126" y="834" font-size="11" font-weight="700" fill="#739481">PLAYBACK CADENCE</text>
+  <text x="1126" y="852" class="text-mono-dim">Interval: 1200ms / frame</text>
+  <text x="1126" y="868" font-size="10" fill="#e59324">Auto-stops at Observation 4</text>
+</svg>

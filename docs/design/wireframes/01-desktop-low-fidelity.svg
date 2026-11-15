@@ -1,0 +1,239 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 900" width="1440" height="900" style="background:#f8fafc; font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;">
+  <style>
+    .wf-box { fill: #ffffff; stroke: #94a3b8; stroke-width: 1.5; }
+    .wf-subbox { fill: #f1f5f9; stroke: #cbd5e1; stroke-width: 1; }
+    .wf-placeholder { fill: #f8fafc; stroke: #cbd5e1; stroke-width: 1.5; stroke-dasharray: 4 4; }
+    .wf-text-title { font-size: 16px; font-weight: 700; fill: #0f172a; }
+    .wf-text-section { font-size: 11px; font-weight: 700; fill: #475569; letter-spacing: 1px; }
+    .wf-text-body { font-size: 12px; fill: #334155; }
+    .wf-text-dim { font-size: 11px; fill: #64748b; }
+    .wf-text-mono { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size: 11px; fill: #0f172a; }
+    .wf-btn { fill: #e2e8f0; stroke: #94a3b8; stroke-width: 1; rx: 3; }
+    .wf-btn-active { fill: #cbd5e1; stroke: #475569; stroke-width: 2; rx: 3; }
+    .wf-badge { fill: #f1f5f9; stroke: #64748b; stroke-width: 1; rx: 2; }
+    .wf-divider { stroke: #cbd5e1; stroke-width: 1; }
+    .wf-reticle { stroke: #94a3b8; stroke-width: 1; stroke-dasharray: 4 4; }
+    .wf-annotation { font-size: 10px; font-weight: 600; fill: #475569; }
+  </style>
+
+  <!-- Top Masthead / Navigation Bar -->
+  <rect x="0" y="0" width="1440" height="56" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+  <circle cx="32" cy="28" r="10" fill="#94a3b8"/>
+  <text x="52" y="33" class="wf-text-title">[LOGO] SPHEREx Explorer</text>
+  <text x="240" y="33" class="wf-text-dim">| 2026 NASA Space Apps Challenge</text>
+
+  <!-- Persistent Mock Data Indicator -->
+  <rect x="1140" y="14" width="276" height="28" class="wf-badge"/>
+  <text x="1278" y="32" font-size="11" font-weight="700" fill="#334155" text-anchor="middle">[ ⚠️ MOCK OBSERVATION DATA ONLY ]</text>
+
+  <!-- Three-Column Workstation Layout (Variant A: Asymmetric Workbench) -->
+
+  <!-- LEFT RAIL: Target Selection & Coordinate Search (Width: 280px) -->
+  <rect x="20" y="74" width="280" height="716" class="wf-box" rx="4"/>
+
+  <!-- Left Rail Header -->
+  <rect x="20" y="74" width="280" height="36" fill="#f1f5f9" rx="4"/>
+  <text x="36" y="97" class="wf-text-section">1. CHALLENGE TARGETS (PRESETS)</text>
+
+  <!-- 5 Challenge Targets List -->
+  <!-- Target 1: Barnard's Star (Active) -->
+  <rect x="34" y="122" width="252" height="42" class="wf-btn-active"/>
+  <circle cx="50" cy="143" r="4" fill="#0f172a"/>
+  <text x="64" y="139" font-size="12" font-weight="700" fill="#0f172a">Barnard's Star [Active]</text>
+  <text x="64" y="153" class="wf-text-mono">RA 269.452° | Dec +4.693°</text>
+
+  <!-- Target 2: Epsilon Indi B -->
+  <rect x="34" y="172" width="252" height="42" class="wf-btn"/>
+  <circle cx="50" cy="193" r="3" fill="#64748b"/>
+  <text x="64" y="189" font-size="12" font-weight="600" fill="#334155">Epsilon Indi B</text>
+  <text x="64" y="203" class="wf-text-mono">RA 330.840° | Dec -56.790°</text>
+
+  <!-- Target 3: WISE 0855 -->
+  <rect x="34" y="222" width="252" height="42" class="wf-btn"/>
+  <circle cx="50" cy="243" r="3" fill="#64748b"/>
+  <text x="64" y="239" font-size="12" font-weight="600" fill="#334155">WISE 0855</text>
+  <text x="64" y="253" class="wf-text-mono">RA 133.795° | Dec -7.245°</text>
+
+  <!-- Target 4: RW Aurigae -->
+  <rect x="34" y="272" width="252" height="42" class="wf-btn"/>
+  <circle cx="50" cy="293" r="3" fill="#64748b"/>
+  <text x="64" y="289" font-size="12" font-weight="600" fill="#334155">RW Aurigae</text>
+  <text x="64" y="303" class="wf-text-mono">RA 77.460° | Dec +30.400°</text>
+
+  <!-- Target 5: R Draconis -->
+  <rect x="34" y="322" width="252" height="42" class="wf-btn"/>
+  <circle cx="50" cy="343" r="3" fill="#64748b"/>
+  <text x="64" y="339" font-size="12" font-weight="600" fill="#334155">R Draconis</text>
+  <text x="64" y="353" class="wf-text-mono">RA 248.330° | Dec +66.750°</text>
+
+  <line x1="34" y1="378" x2="286" y2="378" class="wf-divider"/>
+
+  <!-- Coordinate Search Sub-panel -->
+  <text x="36" y="404" class="wf-text-section">2. COORDINATE SEARCH (RA / DEC)</text>
+  <text x="36" y="422" class="wf-text-dim">Search celestial fields in decimal degrees</text>
+
+  <!-- RA Input -->
+  <text x="36" y="448" font-size="11" font-weight="600" fill="#334155">Right Ascension [0.0° to 359.99°]</text>
+  <rect x="34" y="456" width="252" height="34" class="wf-subbox" rx="3"/>
+  <text x="46" y="478" class="wf-text-mono">269.452</text>
+  <text x="270" y="478" class="wf-text-dim" text-anchor="end">deg</text>
+
+  <!-- Dec Input -->
+  <text x="36" y="508" font-size="11" font-weight="600" fill="#334155">Declination [-90.0° to +90.0°]</text>
+  <rect x="34" y="516" width="252" height="34" class="wf-subbox" rx="3"/>
+  <text x="46" y="538" class="wf-text-mono">+4.693</text>
+  <text x="270" y="538" class="wf-text-dim" text-anchor="end">deg</text>
+
+  <!-- Search Button -->
+  <rect x="34" y="562" width="252" height="36" fill="#334155" rx="3"/>
+  <text x="160" y="584" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">[ Search Sky Field ]</text>
+
+  <!-- Coverage Policy Card -->
+  <rect x="34" y="614" width="252" height="156" class="wf-subbox" rx="3"/>
+  <text x="46" y="636" class="wf-text-section">COVERAGE POLICY</text>
+  <text x="46" y="656" class="wf-text-dim">• Field coverage is defined</text>
+  <text x="46" y="674" class="wf-text-dim">  per-target in mock data.</text>
+  <text x="46" y="692" class="wf-text-dim">• Search uses great-circle</text>
+  <text x="46" y="708" class="wf-text-dim">  angular separation.</text>
+  <text x="46" y="730" class="wf-text-dim">• Unmapped fields show empty state.</text>
+  <text x="46" y="750" class="wf-text-mono" font-size="10">Demo coverage: Per-target config</text>
+
+  <!-- CENTER STAGE: Astronomical Image Viewport (Width: ~760px, Dominant Focus) -->
+  <rect x="320" y="74" width="760" height="716" class="wf-box" rx="4"/>
+
+  <!-- Viewport Top Status Strip -->
+  <rect x="320" y="74" width="760" height="36" fill="#f1f5f9" rx="4"/>
+  <text x="338" y="97" class="wf-text-section">3. ASTRONOMICAL SKY OBSERVATION VIEWPORT (PRIMARY FOCUS)</text>
+  <text x="1064" y="97" class="wf-text-mono" font-size="10" text-anchor="end">Demonstration Field Framing (Mock)</text>
+
+  <!-- Viewport Canvas Placeholder Area -->
+  <rect x="336" y="122" width="728" height="652" class="wf-placeholder"/>
+
+  <!-- Reticle & Center Representation -->
+  <line x1="336" y1="448" x2="1064" y2="448" class="wf-reticle"/>
+  <line x1="700" y1="122" x2="700" y2="774" class="wf-reticle"/>
+  <circle cx="700" cy="448" r="80" fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4 4"/>
+  <circle cx="700" cy="448" r="16" fill="none" stroke="#475569" stroke-width="2"/>
+  <circle cx="700" cy="448" r="4" fill="#0f172a"/>
+  <text x="714" y="440" font-size="11" font-weight="700" fill="#0f172a">Target Catalog Center (RA 269.452°, Dec +4.693°)</text>
+
+  <!-- Simulated Observation Image Context Stars -->
+  <circle cx="480" cy="260" r="3" fill="#64748b"/>
+  <circle cx="890" cy="240" r="2" fill="#94a3b8"/>
+  <circle cx="560" cy="620" r="2.5" fill="#64748b"/>
+  <circle cx="920" cy="590" r="3" fill="#64748b"/>
+  <circle cx="440" cy="680" r="2" fill="#94a3b8"/>
+  <circle cx="820" cy="340" r="2.5" fill="#475569"/>
+
+  <!-- Viewport Overlays -->
+  <rect x="352" y="138" width="240" height="30" fill="#ffffff" stroke="#94a3b8" stroke-width="1.5" rx="3"/>
+  <text x="366" y="158" class="wf-text-mono" font-weight="700">Observation 1 of 4 | 2026-02-15</text>
+
+  <rect x="880" y="730" width="170" height="28" fill="#ffffff" stroke="#94a3b8" stroke-width="1.5" rx="2"/>
+  <text x="965" y="748" font-size="10" font-weight="700" fill="#475569" text-anchor="middle">SIMULATED DEMO GRAPHIC</text>
+
+  <!-- RIGHT RAIL: Observation Inspector & Metadata Deck (Width: 320px) -->
+  <rect x="1100" y="74" width="320" height="716" class="wf-box" rx="4"/>
+
+  <!-- Right Rail Header -->
+  <rect x="1100" y="74" width="320" height="36" fill="#f1f5f9" rx="4"/>
+  <text x="1116" y="97" class="wf-text-section">4. OBSERVATION INSPECTOR</text>
+
+  <!-- Group A: Verified Target Facts (Catalog) -->
+  <text x="1116" y="132" class="wf-text-section">A. VERIFIED TARGET FACTS (CATALOG)</text>
+
+  <text x="1116" y="154" class="wf-text-dim">Target Designation:</text>
+  <text x="1116" y="172" font-size="13" font-weight="700" fill="#0f172a">Barnard's Star (GJ 699)</text>
+
+  <text x="1116" y="196" class="wf-text-dim">Constellation / Type:</text>
+  <text x="1116" y="214" class="wf-text-body">Ophiuchus | Red Dwarf (M4.0V)</text>
+
+  <text x="1116" y="238" class="wf-text-dim">Catalog Reference Coordinates:</text>
+  <text x="1116" y="256" class="wf-text-mono">RA 269.4520° | Dec +4.6933°</text>
+
+  <text x="1116" y="280" class="wf-text-dim">Provenance Authority:</text>
+  <text x="1116" y="298" font-size="11" font-weight="600" fill="#334155">SIMBAD / Gaia DR3 (ICRS J2016.0)</text>
+
+  <line x1="1116" y1="316" x2="1404" y2="316" class="wf-divider"/>
+
+  <!-- Group B: Coordinate Transparency -->
+  <text x="1116" y="340" class="wf-text-section">B. COORDINATE TRANSPARENCY</text>
+
+  <rect x="1116" y="352" width="288" height="106" class="wf-subbox" rx="3"/>
+  <text x="1128" y="372" class="wf-text-dim">Requested Position:</text>
+  <text x="1128" y="390" class="wf-text-mono">RA 269.4520° | Dec +4.6933°</text>
+
+  <text x="1128" y="412" class="wf-text-dim">Catalog Target Center:</text>
+  <text x="1128" y="430" class="wf-text-mono">RA 269.4520° | Dec +4.6933°</text>
+  <text x="1128" y="446" font-size="10" font-weight="600" fill="#475569">Offset: 0.000° (Exact Catalog Center)</text>
+
+  <line x1="1116" y1="472" x2="1404" y2="472" class="wf-divider"/>
+
+  <!-- Group C: Synthetic Observation Metadata -->
+  <text x="1116" y="496" class="wf-text-section">C. SYNTHETIC OBSERVATION INFO</text>
+
+  <text x="1116" y="520" class="wf-text-dim">Observation Sequence Index:</text>
+  <text x="1116" y="538" class="wf-text-mono" font-weight="700">Observation 1 of 4 (Epoch 1)</text>
+
+  <text x="1116" y="562" class="wf-text-dim">Observation Timestamp (UTC):</text>
+  <text x="1116" y="580" class="wf-text-mono">2026-02-15 00:00:00 UTC</text>
+
+  <text x="1116" y="604" class="wf-text-dim">Data Provenance Nature:</text>
+  <text x="1116" y="622" font-size="11" font-weight="600" fill="#334155">[⚠️ Synthetic Demonstration Asset]</text>
+
+  <!-- Educational Context Box -->
+  <rect x="1116" y="642" width="288" height="132" class="wf-subbox" rx="3"/>
+  <text x="1128" y="664" class="wf-text-section">SCIENTIFIC CONTEXT</text>
+  <text x="1128" y="684" class="wf-text-body">Second closest star system to the</text>
+  <text x="1128" y="700" class="wf-text-body">Sun. Notable for having the highest</text>
+  <text x="1128" y="716" class="wf-text-body">known stellar proper motion</text>
+  <text x="1128" y="732" class="wf-text-body">(~10.3 arcsec/year) across the sky.</text>
+  <text x="1128" y="756" class="wf-text-mono" font-size="10">Target Category: Proper Motion</text>
+
+  <!-- BOTTOM CONSOLE: Timeline Controls & Playback Deck (Height: 88px) -->
+  <rect x="20" y="802" width="1400" height="82" class="wf-box" rx="4"/>
+
+  <!-- Transport Controls -->
+  <!-- Previous Button (Disabled at Index 0) -->
+  <rect x="36" y="822" width="90" height="42" class="wf-btn" opacity="0.6"/>
+  <text x="81" y="848" font-size="12" font-weight="600" fill="#94a3b8" text-anchor="middle">◀ Previous</text>
+
+  <!-- Play/Pause Button (Active) -->
+  <rect x="136" y="822" width="100" height="42" class="wf-btn-active"/>
+  <text x="186" y="848" font-size="12" font-weight="700" fill="#0f172a" text-anchor="middle">▶ Play</text>
+
+  <!-- Next Button (Enabled) -->
+  <rect x="246" y="822" width="90" height="42" class="wf-btn"/>
+  <text x="291" y="848" font-size="12" font-weight="600" fill="#0f172a" text-anchor="middle">Next ▶</text>
+
+  <line x1="356" y1="812" x2="356" y2="874" class="wf-divider"/>
+
+  <!-- Timeline Scrubber & Epoch Steps -->
+  <text x="376" y="830" class="wf-text-section">TIMELINE PROGRESSION (UTC CHRONOLOGICAL EPOCHS)</text>
+
+  <!-- Scrubber Base Line -->
+  <line x1="376" y1="850" x2="1080" y2="850" stroke="#cbd5e1" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Step 1 (Active) -->
+  <circle cx="376" cy="850" r="9" fill="#0f172a" stroke="#ffffff" stroke-width="2"/>
+  <text x="376" y="874" class="wf-text-mono" font-weight="700" text-anchor="middle">1: 2026-02-15</text>
+
+  <!-- Step 2 -->
+  <circle cx="610" cy="850" r="6" fill="#94a3b8"/>
+  <text x="610" y="874" class="wf-text-mono" text-anchor="middle">2: 2026-05-15</text>
+
+  <!-- Step 3 -->
+  <circle cx="845" cy="850" r="6" fill="#94a3b8"/>
+  <text x="845" y="874" class="wf-text-mono" text-anchor="middle">3: 2026-08-15</text>
+
+  <!-- Step 4 -->
+  <circle cx="1080" cy="850" r="6" fill="#94a3b8"/>
+  <text x="1080" y="874" class="wf-text-mono" text-anchor="middle">4: 2026-11-15</text>
+
+  <line x1="1106" y1="812" x2="1106" y2="874" class="wf-divider"/>
+
+  <!-- Playback Cadence & Termination Note -->
+  <text x="1126" y="830" class="wf-text-section">PLAYBACK CADENCE RULES</text>
+  <text x="1126" y="848" class="wf-text-mono">Pace: 1200ms / frame</text>
+  <text x="1126" y="866" class="wf-text-dim">• Auto-stops at Observation 4 (No infinite loop)</text>
+</svg>

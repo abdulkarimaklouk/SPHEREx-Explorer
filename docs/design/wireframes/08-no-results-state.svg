@@ -1,0 +1,210 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 900" width="1440" height="900" style="background:#11141a; font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;">
+  <style>
+    .text-title { font-size: 16px; font-weight: 700; fill: #f5f4ef; }
+    .text-sub { font-size: 12px; fill: #b2b1a8; }
+    .text-mono { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size: 12px; fill: #f5f4ef; }
+    .text-mono-dim { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size: 11px; fill: #8c8b82; }
+    .text-mono-accent { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size: 12px; fill: #e59324; font-weight: 600; }
+    .text-mono-warning { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size: 12px; fill: #e06c75; font-weight: 600; }
+    .panel { fill: #191d24; stroke: #2a323d; stroke-width: 1; }
+    .panel-sub { fill: #15181e; stroke: #2a323d; stroke-width: 1; }
+    .btn { fill: #222731; stroke: #394250; stroke-width: 1; rx: 3; }
+    .btn-target-pill { fill: #1f2530; stroke: #3d4756; stroke-width: 1; rx: 14; }
+    .btn-disabled { fill: #15181e; stroke: #262c35; stroke-width: 1; rx: 3; opacity: 0.6; }
+    .btn-text { font-size: 12px; font-weight: 600; fill: #f5f4ef; text-anchor: middle; dominant-baseline: middle; }
+    .btn-text-disabled { font-size: 12px; font-weight: 600; fill: #6c757d; text-anchor: middle; dominant-baseline: middle; }
+    .badge-mock { fill: #33200a; stroke: #e59324; stroke-width: 1; rx: 2; }
+    .badge-alert { fill: #2c1819; stroke: #e06c75; stroke-width: 1; rx: 3; }
+    .divider { stroke: #2a323d; stroke-width: 1; }
+    .reticle { stroke: #252b35; stroke-width: 1; stroke-dasharray: 4 4; }
+  </style>
+
+  <!-- Header -->
+  <rect x="0" y="0" width="1440" height="54" fill="#15181e" stroke="#2a323d" stroke-width="1"/>
+  <circle cx="32" cy="27" r="10" fill="#e59324"/>
+  <text x="52" y="32" class="text-title">SPHEREx Explorer</text>
+  <text x="220" y="32" class="text-sub">| 2026 NASA Space Apps Challenge (Screen 04: No Matching Field)</text>
+
+  <!-- Persistent Mock Data Badge -->
+  <rect x="1140" y="14" width="280" height="26" class="badge-mock"/>
+  <text x="1280" y="31" font-size="11" font-weight="700" fill="#e59324" text-anchor="middle">⚠️ MOCK OBSERVATION DATA — DEMO MODE</text>
+
+  <!-- LEFT RAIL: Target Selection & Coordinate Search (Width: 280px) -->
+  <rect x="18" y="70" width="280" height="720" class="panel" rx="4"/>
+  <rect x="18" y="70" width="280" height="36" fill="#1f242d" rx="4"/>
+  <text x="34" y="93" font-size="11" font-weight="700" fill="#e59324" letter-spacing="1">CHALLENGE TARGETS</text>
+
+  <!-- Target List Items (None active because custom unmapped coordinate was entered) -->
+  <rect x="30" y="118" width="256" height="44" class="btn"/>
+  <circle cx="48" cy="140" r="3" fill="#6c757d"/>
+  <text x="60" y="135" font-size="12" font-weight="600" fill="#ced4da">Barnard's Star</text>
+  <text x="60" y="150" class="text-mono-dim">RA 269.452° | Dec +4.693°</text>
+
+  <rect x="30" y="168" width="256" height="44" class="btn"/>
+  <circle cx="48" cy="190" r="3" fill="#6c757d"/>
+  <text x="60" y="185" font-size="12" font-weight="600" fill="#ced4da">Epsilon Indi B</text>
+  <text x="60" y="200" class="text-mono-dim">RA 330.840° | Dec -56.790°</text>
+
+  <rect x="30" y="218" width="256" height="44" class="btn"/>
+  <circle cx="48" cy="240" r="3" fill="#6c757d"/>
+  <text x="60" y="235" font-size="12" font-weight="600" fill="#ced4da">WISE 0855</text>
+  <text x="60" y="250" class="text-mono-dim">RA 133.795° | Dec -7.245°</text>
+
+  <rect x="30" y="268" width="256" height="44" class="btn"/>
+  <circle cx="48" cy="290" r="3" fill="#6c757d"/>
+  <text x="60" y="285" font-size="12" font-weight="600" fill="#ced4da">RW Aurigae</text>
+  <text x="60" y="300" class="text-mono-dim">RA 77.460° | Dec +30.400°</text>
+
+  <rect x="30" y="318" width="256" height="44" class="btn"/>
+  <circle cx="48" cy="340" r="3" fill="#6c757d"/>
+  <text x="60" y="335" font-size="12" font-weight="600" fill="#ced4da">R Draconis</text>
+  <text x="60" y="350" class="text-mono-dim">RA 248.330° | Dec +66.750°</text>
+
+  <line x1="30" y1="374" x2="286" y2="374" class="divider"/>
+
+  <!-- Coordinate Search Sub-panel (Unmapped Coordinates Entered) -->
+  <text x="34" y="398" font-size="11" font-weight="700" fill="#e59324" letter-spacing="1">COORDINATE SEARCH</text>
+  <text x="34" y="418" class="text-sub">Manual coordinates searched</text>
+
+  <!-- RA Input -->
+  <text x="34" y="444" font-size="11" font-weight="600" fill="#ced4da">Right Ascension (0° to 359.99°)</text>
+  <rect x="30" y="452" width="256" height="34" fill="#15181e" stroke="#e06c75" stroke-width="1.5" rx="3"/>
+  <text x="42" y="474" class="text-mono" font-weight="700">100.000</text>
+  <text x="274" y="474" class="text-mono-dim" text-anchor="end">deg</text>
+
+  <!-- Dec Input -->
+  <text x="34" y="504" font-size="11" font-weight="600" fill="#ced4da">Declination (-90° to +90°)</text>
+  <rect x="30" y="512" width="256" height="34" fill="#15181e" stroke="#e06c75" stroke-width="1.5" rx="3"/>
+  <text x="42" y="534" class="text-mono" font-weight="700">+20.000</text>
+  <text x="274" y="534" class="text-mono-dim" text-anchor="end">deg</text>
+
+  <!-- Search Button -->
+  <rect x="30" y="560" width="256" height="36" class="btn"/>
+  <text x="158" y="582" class="btn-text">Search Sky Field</text>
+
+  <!-- Outside Mock Coverage Card -->
+  <rect x="30" y="612" width="256" height="158" class="badge-alert"/>
+  <text x="42" y="634" font-size="11" font-weight="700" fill="#e06c75">OUTSIDE DEMO COVERAGE</text>
+  <text x="42" y="654" font-size="11" fill="#f5f4ef">No mock field configured</text>
+  <text x="42" y="670" font-size="11" fill="#f5f4ef">at requested coordinates.</text>
+  <text x="42" y="694" class="text-mono-dim">Demo coverage: Not configured</text>
+  <text x="42" y="714" class="text-mono-dim">Requested: RA 100.0°, Dec +20.0°</text>
+  <text x="42" y="744" font-size="10" font-weight="600" fill="#e06c75">Select a challenge target to explore.</text>
+
+  <!-- CENTER STAGE: Sky Observation Viewport (Empty Field State, Width: 768px) -->
+  <rect x="316" y="70" width="768" height="720" class="panel" rx="4"/>
+  <rect x="316" y="70" width="768" height="36" fill="#1f242d" rx="4"/>
+  <text x="334" y="93" font-size="11" font-weight="700" fill="#e59324" letter-spacing="1">SKY OBSERVATION VIEWPORT</text>
+  <text x="1068" y="93" font-size="11" class="text-mono-warning" text-anchor="end">Status: Outside Demonstration Coverage</text>
+
+  <!-- Canvas Image Viewport Area -->
+  <rect x="332" y="118" width="736" height="656" fill="#0b0d12" stroke="#1f242d" stroke-width="1"/>
+
+  <!-- Unobserved Reticle Crosshair -->
+  <line x1="332" y1="446" x2="1068" y2="446" class="reticle"/>
+  <line x1="700" y1="118" x2="700" y2="774" class="reticle"/>
+  <circle cx="700" cy="446" r="60" fill="none" stroke="#e06c75" stroke-width="1" stroke-dasharray="3 3"/>
+  <circle cx="700" cy="446" r="4" fill="#e06c75"/>
+  <text x="714" y="438" font-size="11" font-weight="600" fill="#e06c75">Unmapped Celestial Position (RA 100.000°, Dec +20.000°)</text>
+
+  <!-- Recovery Dialog Box Centered in Viewport -->
+  <rect x="420" y="270" width="560" height="280" fill="#151921" stroke="#333c4a" stroke-width="1.5" rx="6"/>
+  <rect x="420" y="270" width="560" height="38" fill="#1e2430" rx="6"/>
+  <text x="440" y="295" font-size="13" font-weight="700" fill="#e06c75">NO DEMONSTRATION FIELD AVAILABLE</text>
+
+  <text x="440" y="336" font-size="13" font-weight="600" fill="#f5f4ef">No demonstration field is currently available for these coordinates.</text>
+  <text x="440" y="360" font-size="11" fill="#b2b1a8">Requested Position: RA 100.0000°, Dec +20.0000°</text>
+  <text x="440" y="378" font-size="11" fill="#b2b1a8">Demonstration observations are configured for the 5 challenge targets.</text>
+
+  <text x="440" y="414" font-size="12" font-weight="700" fill="#e59324">Explore an available challenge target:</text>
+
+  <!-- 5 Target Recovery Quick-Jump Pills -->
+  <rect x="440" y="432" width="156" height="32" class="btn-target-pill"/>
+  <text x="518" y="452" font-size="11" font-weight="600" fill="#f5f4ef" text-anchor="middle">★ Barnard's Star</text>
+
+  <rect x="606" y="432" width="156" height="32" class="btn-target-pill"/>
+  <text x="684" y="452" font-size="11" font-weight="600" fill="#f5f4ef" text-anchor="middle">★ Epsilon Indi B</text>
+
+  <rect x="772" y="432" width="156" height="32" class="btn-target-pill"/>
+  <text x="850" y="452" font-size="11" font-weight="600" fill="#f5f4ef" text-anchor="middle">★ WISE 0855</text>
+
+  <rect x="520" y="474" width="156" height="32" class="btn-target-pill"/>
+  <text x="598" y="494" font-size="11" font-weight="600" fill="#f5f4ef" text-anchor="middle">★ RW Aurigae</text>
+
+  <rect x="686" y="474" width="156" height="32" class="btn-target-pill"/>
+  <text x="764" y="494" font-size="11" font-weight="600" fill="#f5f4ef" text-anchor="middle">★ R Draconis</text>
+
+  <text x="700" y="530" font-size="10" fill="#8c8b82" text-anchor="middle">Clicking any target button immediately loads observation imagery &amp; timeline</text>
+
+  <!-- RIGHT RAIL: Observation Inspector Deck (Unmapped Status) -->
+  <rect x="1102" y="70" width="320" height="720" class="panel" rx="4"/>
+  <rect x="1102" y="70" width="320" height="36" fill="#1f242d" rx="4"/>
+  <text x="1118" y="93" font-size="11" font-weight="700" fill="#e59324" letter-spacing="1">OBSERVATION INSPECTOR</text>
+
+  <!-- 1. Coordinate Transparency Panel -->
+  <text x="1118" y="128" font-size="11" font-weight="700" fill="#e06c75">COORDINATE TRANSPARENCY</text>
+
+  <rect x="1118" y="138" width="288" height="152" fill="#201416" stroke="#e06c75" stroke-width="1" rx="3"/>
+
+  <text x="1130" y="160" class="text-sub">Requested Celestial Position:</text>
+  <text x="1130" y="178" class="text-mono" font-weight="700">RA 100.0000° | Dec +20.0000°</text>
+
+  <text x="1130" y="200" class="text-sub">Matched Target Catalog Center:</text>
+  <text x="1130" y="218" class="text-mono-warning">None (Outside Coverage)</text>
+
+  <line x1="1130" y1="232" x2="1394" y2="232" stroke="#3b1d21" stroke-width="1"/>
+
+  <text x="1130" y="250" font-size="11" class="text-sub">Field Coverage Status:</text>
+  <text x="1130" y="268" class="text-mono-warning">Demo field coverage: Not configured</text>
+  <text x="1130" y="282" font-size="10" fill="#e06c75">Status: Out-of-Coverage Coordinate</text>
+
+  <line x1="1118" y1="304" x2="1406" y2="304" class="divider"/>
+
+  <!-- 2. Supported Challenge Targets Overview -->
+  <text x="1118" y="328" font-size="11" font-weight="700" fill="#739481">SUPPORTED CHALLENGE TARGETS</text>
+
+  <text x="1118" y="348" class="text-sub">Available Mock Observation Fields:</text>
+  <text x="1118" y="366" font-size="12" fill="#ced4da">• Barnard's Star (GJ 699)</text>
+  <text x="1118" y="384" font-size="12" fill="#ced4da">• Epsilon Indi B</text>
+  <text x="1118" y="402" font-size="12" fill="#ced4da">• WISE 0855-0714</text>
+  <text x="1118" y="420" font-size="12" fill="#ced4da">• RW Aurigae</text>
+  <text x="1118" y="438" font-size="12" fill="#ced4da">• R Draconis</text>
+  <text x="1118" y="456" font-size="10" fill="#739481">Field coverage configured per target</text>
+
+  <line x1="1118" y1="466" x2="1406" y2="466" class="divider"/>
+
+  <!-- 3. Guidance Note -->
+  <text x="1118" y="490" font-size="11" font-weight="700" fill="#e59324">DEMONSTRATION SCOPE NOTE</text>
+
+  <rect x="1118" y="502" width="288" height="126" fill="#151921" stroke="#222834" stroke-width="1" rx="3"/>
+  <text x="1130" y="524" font-size="11" font-weight="700" fill="#f5f4ef">Why is this field empty?</text>
+  <text x="1130" y="542" font-size="11" fill="#b2b1a8">The MVP application provides</text>
+  <text x="1130" y="558" font-size="11" fill="#b2b1a8">simulated imagery exclusively for</text>
+  <text x="1130" y="574" font-size="11" fill="#b2b1a8">the 5 Space Apps challenge targets.</text>
+  <text x="1130" y="596" font-size="11" fill="#e59324">Unmapped positions have no demo data.</text>
+
+  <!-- BOTTOM CONSOLE: Timeline Controls (Disabled) -->
+  <rect x="18" y="804" width="1404" height="80" class="panel" rx="4"/>
+
+  <!-- Transport Buttons (Disabled) -->
+  <rect x="34" y="824" width="92" height="40" class="btn-disabled"/>
+  <text x="80" y="849" class="btn-text-disabled">◀ Prev</text>
+
+  <rect x="136" y="824" width="102" height="40" class="btn-disabled"/>
+  <text x="187" y="849" class="btn-text-disabled">▶ Play</text>
+
+  <rect x="248" y="824" width="92" height="40" class="btn-disabled"/>
+  <text x="294" y="849" class="btn-text-disabled">Next ▶</text>
+
+  <line x1="358" y1="816" x2="358" y2="872" class="divider"/>
+
+  <!-- Timeline Inactive Notice -->
+  <text x="378" y="834" font-size="11" font-weight="700" fill="#e06c75">TIMELINE DISABLED — NO OBSERVATION EPOCHS AVAILABLE FOR UNMAPPED COORDINATES</text>
+
+  <line x1="378" y1="854" x2="1080" y2="854" stroke="#222731" stroke-width="4" stroke-linecap="round"/>
+
+  <line x1="1106" y1="816" x2="1106" y2="872" class="divider"/>
+  <text x="1126" y="834" font-size="11" font-weight="700" fill="#8c8b82">PLAYBACK CADENCE</text>
+  <text x="1126" y="852" class="text-mono-dim">Interval: 1200ms default</text>
+  <text x="1126" y="868" class="text-mono-dim">Requires valid target field</text>
+</svg>

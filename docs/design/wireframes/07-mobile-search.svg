@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 390 844" width="390" height="844" style="background:#11141a; font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;">
+  <style>
+    .text-title { font-size: 14px; font-weight: 700; fill: #f5f4ef; }
+    .text-sub { font-size: 10px; fill: #b2b1a8; }
+    .text-mono { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size: 11px; fill: #f5f4ef; }
+    .text-mono-dim { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size: 9px; fill: #8c8b82; }
+    .text-mono-success { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size: 11px; fill: #739481; font-weight: 600; }
+    .panel { fill: #191d24; stroke: #2a323d; stroke-width: 1; }
+    .panel-sub { fill: #15181e; stroke: #2a323d; stroke-width: 1; }
+    .btn { fill: #222731; stroke: #394250; stroke-width: 1; rx: 4; }
+    .btn-active { fill: #332717; stroke: #e59324; stroke-width: 1.5; rx: 4; }
+    .btn-action { fill: #1b2e23; stroke: #739481; stroke-width: 1.5; rx: 4; }
+    .btn-text { font-size: 12px; font-weight: 600; fill: #f5f4ef; text-anchor: middle; dominant-baseline: middle; }
+    .badge-mock { fill: #33200a; stroke: #e59324; stroke-width: 1; rx: 2; }
+    .badge-matched { fill: #10261c; stroke: #739481; stroke-width: 1; rx: 4; }
+    .divider { stroke: #2a323d; stroke-width: 1; }
+  </style>
+
+  <!-- Mobile Header (Height: 44px) -->
+  <rect x="0" y="0" width="390" height="44" fill="#15181e" stroke="#2a323d" stroke-width="1"/>
+  <circle cx="20" cy="22" r="7" fill="#e59324"/>
+  <text x="34" y="26" class="text-title">SPHEREx</text>
+  <text x="96" y="26" class="text-sub">| Coordinate Search</text>
+
+  <!-- Compact Mock Warning Tag -->
+  <rect x="254" y="10" width="122" height="24" class="badge-mock"/>
+  <text x="315" y="25" font-size="9" font-weight="700" fill="#e59324" text-anchor="middle">⚠️ MOCK DATA</text>
+
+  <!-- Screen Title & Mode Switch -->
+  <rect x="12" y="52" width="366" height="34" class="panel-sub" rx="4"/>
+  <text x="24" y="73" font-size="11" font-weight="700" fill="#e59324">COORDINATE SEARCH (RA / DEC)</text>
+  <rect x="296" y="56" width="74" height="26" class="btn"/>
+  <text x="333" y="70" class="btn-text" font-size="10">◀ Viewer</text>
+
+  <!-- Section 1: Coordinate Input Card (Width: 366px, Height: 260px) -->
+  <rect x="12" y="94" width="366" height="260" class="panel" rx="4"/>
+  <rect x="12" y="94" width="366" height="26" fill="#1f242d" rx="4"/>
+  <text x="22" y="111" font-size="10" font-weight="700" fill="#e59324" letter-spacing="0.5">MANUAL CELESTIAL POSITION INPUT</text>
+
+  <!-- RA Field -->
+  <text x="24" y="136" font-size="11" font-weight="600" fill="#ced4da">Right Ascension (0.0° to 359.9999°)</text>
+  <rect x="24" y="144" width="342" height="42" fill="#15181e" stroke="#739481" stroke-width="1.5" rx="3"/>
+  <text x="36" y="170" class="text-mono" font-size="13">269.450</text>
+  <text x="350" y="170" class="text-mono-dim" text-anchor="end">deg (J2000)</text>
+
+  <!-- Dec Field -->
+  <text x="24" y="204" font-size="11" font-weight="600" fill="#ced4da">Declination (-90.0° to +90.0°)</text>
+  <rect x="24" y="212" width="342" height="42" fill="#15181e" stroke="#739481" stroke-width="1.5" rx="3"/>
+  <text x="36" y="238" class="text-mono" font-size="13">+4.690</text>
+  <text x="350" y="238" class="text-mono-dim" text-anchor="end">deg (J2000)</text>
+
+  <!-- Action Button (Touch target 44px) -->
+  <rect x="24" y="266" width="342" height="44" fill="#332717" stroke="#e59324" stroke-width="1.5" rx="4"/>
+  <text x="195" y="292" font-size="12" font-weight="700" fill="#f5f4ef" text-anchor="middle">Search Sky Field 🔍</text>
+
+  <text x="195" y="328" font-size="9" fill="#739481" text-anchor="middle">✓ Valid decimal degree coordinates entered</text>
+  <text x="195" y="342" font-size="9" fill="#8c8b82" text-anchor="middle">Search matches coordinates against target demonstration coverage</text>
+
+  <!-- Section 2: Search Result & Coordinate Transparency Card (Width: 366px, Height: 240px) -->
+  <rect x="12" y="364" width="366" height="240" class="badge-matched"/>
+  <rect x="12" y="364" width="366" height="26" fill="#162e22" rx="4"/>
+  <text x="22" y="381" font-size="10" font-weight="700" fill="#739481" letter-spacing="0.5">SEARCH RESULT: FIELD MATCHED</text>
+
+  <text x="24" y="408" font-size="13" font-weight="700" fill="#f5f4ef">Target: Barnard's Star (GJ 699)</text>
+  <text x="24" y="424" font-size="10" fill="#b2b1a8">Matched Field: Target Demonstration Field Coverage</text>
+
+  <line x1="24" y1="432" x2="366" y2="432" stroke="#1f3b2d" stroke-width="1"/>
+
+  <!-- Coordinate Comparison Block -->
+  <text x="24" y="448" class="text-sub">Requested Coordinates:</text>
+  <text x="24" y="464" class="text-mono">RA 269.4500° | Dec +4.6900°</text>
+
+  <text x="24" y="482" class="text-sub">Target Catalog Center:</text>
+  <text x="24" y="498" class="text-mono">RA 269.4520° | Dec +4.6933°</text>
+
+  <text x="24" y="516" font-size="10" class="text-mono-success">Angular Offset: 0.0040° (Great-circle separation)</text>
+
+  <rect x="24" y="524" width="342" height="34" fill="#0d1f17" rx="3"/>
+  <text x="34" y="540" font-size="9" fill="#739481">Transparency Notice: Matched observation images are centered on the</text>
+  <text x="34" y="552" font-size="9" fill="#739481">catalog coordinates (RA 269.452°, Dec +4.693°), not requested point.</text>
+
+  <!-- Button to View Result in Viewport -->
+  <rect x="24" y="566" width="342" height="32" class="btn-action"/>
+  <text x="195" y="583" class="btn-text" fill="#739481">Load Observation Sequence in Viewer ▶</text>
+
+  <!-- Section 3: Preset Target Quick Jumps -->
+  <rect x="12" y="614" width="366" height="218" class="panel" rx="4"/>
+  <rect x="12" y="614" width="366" height="26" fill="#1f242d" rx="4"/>
+  <text x="22" y="631" font-size="10" font-weight="700" fill="#e59324" letter-spacing="0.5">OR EXPLORE PRESET CHALLENGE TARGETS</text>
+
+  <rect x="24" y="648" width="166" height="36" class="btn"/>
+  <text x="107" y="668" class="btn-text" font-size="10">Barnard's Star ★</text>
+
+  <rect x="198" y="648" width="166" height="36" class="btn"/>
+  <text x="281" y="668" class="btn-text" font-size="10">Epsilon Indi B</text>
+
+  <rect x="24" y="692" width="166" height="36" class="btn"/>
+  <text x="107" y="712" class="btn-text" font-size="10">WISE 0855</text>
+
+  <rect x="198" y="692" width="166" height="36" class="btn"/>
+  <text x="281" y="712" class="btn-text" font-size="10">RW Aurigae</text>
+
+  <rect x="24" y="736" width="340" height="36" class="btn"/>
+  <text x="194" y="756" class="btn-text" font-size="10">R Draconis (Mira Variable)</text>
+
+  <text x="195" y="794" font-size="9" fill="#8c8b82" text-anchor="middle">Demonstrator provides mock observation fields for the 5 challenge objects.</text>
+  <text x="195" y="808" font-size="9" fill="#8c8b82" text-anchor="middle">All other sky coordinates report out of coverage.</text>
+</svg>

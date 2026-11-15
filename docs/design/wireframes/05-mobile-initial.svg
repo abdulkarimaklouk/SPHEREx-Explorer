@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 390 844" width="390" height="844" style="background:#11141a; font-family:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;">
+  <style>
+    .text-title { font-size: 14px; font-weight: 700; fill: #f5f4ef; }
+    .text-sub { font-size: 10px; fill: #b2b1a8; }
+    .text-mono { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size: 10px; fill: #f5f4ef; }
+    .text-mono-dim { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size: 9px; fill: #8c8b82; }
+    .panel { fill: #191d24; stroke: #2a323d; stroke-width: 1; }
+    .panel-sub { fill: #15181e; stroke: #2a323d; stroke-width: 1; }
+    .btn { fill: #222731; stroke: #394250; stroke-width: 1; rx: 4; }
+    .btn-active { fill: #332717; stroke: #e59324; stroke-width: 1.5; rx: 4; }
+    .btn-text { font-size: 11px; font-weight: 600; fill: #f5f4ef; text-anchor: middle; dominant-baseline: middle; }
+    .badge-mock { fill: #33200a; stroke: #e59324; stroke-width: 1; rx: 2; }
+    .reticle { stroke: #2a323d; stroke-width: 1; stroke-dasharray: 3 3; }
+  </style>
+
+  <!-- Mobile Header (Height: 44px) -->
+  <rect x="0" y="0" width="390" height="44" fill="#15181e" stroke="#2a323d" stroke-width="1"/>
+  <circle cx="20" cy="22" r="7" fill="#e59324"/>
+  <text x="34" y="26" class="text-title">SPHEREx</text>
+  <text x="96" y="26" class="text-sub">| NASA Space Apps</text>
+
+  <!-- Compact Mock Badge -->
+  <rect x="254" y="10" width="122" height="24" class="badge-mock"/>
+  <text x="315" y="25" font-size="9" font-weight="700" fill="#e59324" text-anchor="middle">⚠️ MOCK DATA</text>
+
+  <!-- Section 1: Initial Sky Viewport Prompt Card (Width: 366px, Height: 210px) -->
+  <rect x="12" y="54" width="366" height="210" class="panel" rx="4"/>
+  <rect x="12" y="54" width="366" height="26" fill="#1f242d" rx="4"/>
+  <text x="22" y="71" font-size="10" font-weight="700" fill="#e59324" letter-spacing="0.5">SKY OBSERVATION VIEWPORT (IDLE)</text>
+  <text x="368" y="71" font-size="9" class="text-mono-dim" text-anchor="end">Status: Ready</text>
+
+  <!-- Canvas Background & Reticle -->
+  <rect x="18" y="84" width="354" height="170" fill="#0b0d12" stroke="#1f242d" stroke-width="1"/>
+  <line x1="18" y1="169" x2="372" y2="169" class="reticle"/>
+  <line x1="195" y1="84" x2="195" y2="254" class="reticle"/>
+  <circle cx="195" cy="169" r="40" fill="none" stroke="#252b35" stroke-width="1" stroke-dasharray="3 3"/>
+  <circle cx="195" cy="169" r="4" fill="#394250"/>
+
+  <!-- Centered Welcome Prompt in Viewport -->
+  <rect x="55" y="125" width="280" height="88" fill="#151921" stroke="#2a323d" stroke-width="1" rx="4"/>
+  <text x="195" y="148" font-size="11" font-weight="700" fill="#f5f4ef" text-anchor="middle">Field Desk Ready</text>
+  <text x="195" y="166" font-size="10" fill="#b2b1a8" text-anchor="middle">Select a target below or search</text>
+  <text x="195" y="180" font-size="10" fill="#b2b1a8" text-anchor="middle">celestial coordinates to inspect.</text>
+  <text x="195" y="198" font-size="9" font-weight="700" fill="#e59324" text-anchor="middle">Tap Barnard's Star to start demo</text>
+
+  <!-- Section 2: Discoverable Coordinate Search Banner -->
+  <rect x="12" y="272" width="366" height="42" class="btn"/>
+  <text x="195" y="297" class="btn-text">🔍 Enter Celestial Coordinates (RA / Dec) ▾</text>
+
+  <!-- Section 3: Prominent Challenge Targets List (Screen 01 Core Discovery) -->
+  <text x="16" y="334" font-size="11" font-weight="700" fill="#e59324" letter-spacing="0.5">CHALLENGE OBJECTS (5 PRESETS)</text>
+  <text x="16" y="348" font-size="10" fill="#b2b1a8">Tap any target to load 4 demonstration observation epochs</text>
+
+  <!-- Target Card 1: Barnard's Star -->
+  <rect x="12" y="360" width="366" height="64" class="panel" rx="4"/>
+  <circle cx="28" cy="384" r="5" fill="#e59324"/>
+  <text x="42" y="380" font-size="12" font-weight="700" fill="#f5f4ef">Barnard's Star (GJ 699)</text>
+  <text x="42" y="396" font-size="10" fill="#ced4da">Ophiuchus | High Proper Motion Star (10.3"/yr)</text>
+  <text x="42" y="412" class="text-mono-dim">RA 269.4520° | Dec +4.6933° • SIMBAD / Gaia DR3</text>
+  <rect x="306" y="374" width="60" height="32" class="btn-active"/>
+  <text x="336" y="393" class="btn-text-active">Select</text>
+
+  <!-- Target Card 2: Epsilon Indi B -->
+  <rect x="12" y="432" width="366" height="64" class="panel" rx="4"/>
+  <circle cx="28" cy="456" r="4" fill="#6c757d"/>
+  <text x="42" y="452" font-size="12" font-weight="600" fill="#ced4da">Epsilon Indi B</text>
+  <text x="42" y="468" font-size="10" fill="#b2b1a8">Indus | T1 + T6 Binary Brown Dwarf System</text>
+  <text x="42" y="484" class="text-mono-dim">RA 330.8400° | Dec -56.7900° • SIMBAD / Gaia DR3</text>
+  <rect x="306" y="446" width="60" height="32" class="btn"/>
+  <text x="336" y="465" class="btn-text">Select</text>
+
+  <!-- Target Card 3: WISE 0855 -->
+  <rect x="12" y="504" width="366" height="64" class="panel" rx="4"/>
+  <circle cx="28" cy="528" r="4" fill="#6c757d"/>
+  <text x="42" y="524" font-size="12" font-weight="600" fill="#ced4da">WISE 0855-0714</text>
+  <text x="42" y="540" font-size="10" fill="#b2b1a8">Hydra | Cold Sub-stellar Brown Dwarf (Y Dwarf)</text>
+  <text x="42" y="556" class="text-mono-dim">RA 133.7950° | Dec -7.2450° • WISE Catalog</text>
+  <rect x="306" y="518" width="60" height="32" class="btn"/>
+  <text x="336" y="537" class="btn-text">Select</text>
+
+  <!-- Target Card 4: RW Aurigae -->
+  <rect x="12" y="576" width="366" height="64" class="panel" rx="4"/>
+  <circle cx="28" cy="600" r="4" fill="#6c757d"/>
+  <text x="42" y="596" font-size="12" font-weight="600" fill="#ced4da">RW Aurigae</text>
+  <text x="42" y="612" font-size="10" fill="#b2b1a8">Auriga | T Tauri Young Variable Star Binary</text>
+  <text x="42" y="628" class="text-mono-dim">RA 77.4600° | Dec +30.4000° • SIMBAD</text>
+  <rect x="306" y="590" width="60" height="32" class="btn"/>
+  <text x="336" y="609" class="btn-text">Select</text>
+
+  <!-- Target Card 5: R Draconis -->
+  <rect x="12" y="648" width="366" height="64" class="panel" rx="4"/>
+  <circle cx="28" cy="672" r="4" fill="#6c757d"/>
+  <text x="42" y="668" font-size="12" font-weight="600" fill="#ced4da">R Draconis</text>
+  <text x="42" y="684" font-size="10" fill="#b2b1a8">Draco | Mira-type Long-Period Variable Giant</text>
+  <text x="42" y="700" class="text-mono-dim">RA 248.3300° | Dec +66.7500° • AAVSO / SIMBAD</text>
+  <rect x="306" y="662" width="60" height="32" class="btn"/>
+  <text x="336" y="681" class="btn-text">Select</text>
+
+  <!-- Section 4: Mobile Footer / Natural Scroll Indicator -->
+  <rect x="12" y="722" width="366" height="106" class="panel-sub" rx="4"/>
+  <text x="24" y="744" font-size="10" font-weight="700" fill="#739481">DATA INTEGRITY DISCLOSURE</text>
+  <text x="24" y="762" font-size="10" fill="#b2b1a8">All target names and coordinates originate from verified</text>
+  <text x="24" y="776" font-size="10" fill="#b2b1a8">astronomical catalogs (SIMBAD, Gaia DR3, WISE).</text>
+  <text x="24" y="794" font-size="9" fill="#e59324">Observation imagery and epochs are synthetic demonstration data.</text>
+  <text x="24" y="812" class="text-mono-dim">SPHEREx Explorer • Space Apps Challenge 2026</text>
+</svg>
